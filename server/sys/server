@@ -18,6 +18,8 @@ public class server {
 	    PrintStream p = new PrintStream(ss.getOutputStream());
 	    p.println(value);
 	    
+	    
+	    //s.close();   for button to close connect
 	 }
 }
 	    
