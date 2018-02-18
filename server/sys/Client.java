@@ -2,7 +2,7 @@ import java.net.*;
 import java.util.Scanner;
 import java.io.*;
 
-public class client {
+public class Client {
 	public static void main(String[] args) throws UnknownHostException, IOException{
 		
 	 int temp;
