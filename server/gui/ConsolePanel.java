@@ -1,3 +1,7 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -16,6 +20,10 @@ import javax.swing.JPanel;
 public class ConsolePanel extends JPanel{
 	
 	private JLabel nameLabel,messageLabel;
+	private Color grey;
+	private Dimension dim;
+	private Font font;
+	private int alignment;
 	
 	public ConsolePanel(String message) {
 		
