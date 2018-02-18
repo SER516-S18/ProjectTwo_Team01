@@ -23,8 +23,8 @@ public class Server implements Runnable {
 	private static String ip = "localhost";
 	private static int port = 8001;
 	private static int frequency = 5;
-	private static int max = 5;
-	private static int min = 5;
+	private static int max = 1024;
+	private static int min = 0;
 
 	private static Socket socket;
 	private static ServerSocket sSocket;		
