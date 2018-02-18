@@ -26,12 +26,14 @@ public class Test extends JFrame {
 	private JPanel contentPane;
 	private Server server;
 	private Thread serverThread;
+	private static String arrArgs [];
 	private final JPanel panel = new JPanel();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		arrArgs = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -110,7 +112,7 @@ public class Test extends JFrame {
 	}
 	
 	private void startServer () {
-		server = new Server(null);
+		server = new Server(arrArgs);
 		serverThread = new Thread (server);
 		serverThread.start();
 	}
