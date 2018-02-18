@@ -35,7 +35,7 @@ public class ClientWindow {
 	private void initialize() {
 		frmClient = new JFrame();
 		frmClient.setTitle("Client");
-		frmClient.setBounds(100, 100, 750, 500);
+		frmClient.setBounds(100, 100, 750, 600);
 		frmClient.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
