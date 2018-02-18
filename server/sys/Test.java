@@ -61,7 +61,7 @@ public class Test extends JFrame {
 		panel.setBackground(new Color(238, 238, 238));
 		panel.setForeground(new Color(0, 0, 0));
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), null));
-		panel.setBounds(100, 10, 100, 25);
+		panel.setBounds(335, 10, 100, 25);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(1, 2));
 		
@@ -115,6 +115,7 @@ public class Test extends JFrame {
 		server = new Server(arrArgs);
 		serverThread = new Thread (server);
 		serverThread.start();
+		arrArgs = null;
 	}
 	
 	private void stopServer () {
