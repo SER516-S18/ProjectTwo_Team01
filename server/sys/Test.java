@@ -18,6 +18,16 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 public class Test extends JFrame {
 
@@ -27,7 +37,10 @@ public class Test extends JFrame {
 	private Server server;
 	private Thread serverThread;
 	private static String arrArgs [];
-	private final JPanel panel = new JPanel();
+	private final JPanel pnlStatusButton = new JPanel();
+	private JTextField txtFrequency;
+	private JTextField txtLowest;
+	private JTextField txtHighest;
 
 	/**
 	 * Launch the application.
@@ -50,65 +63,144 @@ public class Test extends JFrame {
 	 * Create the frame.
 	 */
 	public Test() {
+		setTitle("Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 500);
 		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		panel.setBackground(new Color(238, 238, 238));
-		panel.setForeground(new Color(0, 0, 0));
-		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), null));
-		panel.setBounds(335, 10, 100, 25);
-		contentPane.add(panel);
-		panel.setLayout(new GridLayout(1, 2));
+		pnlStatusButton.setBackground(new Color(238, 238, 238));
+		pnlStatusButton.setForeground(new Color(0, 0, 0));
+		pnlStatusButton.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), null));
+		pnlStatusButton.setBounds(374, 11, 100, 25);
+		contentPane.add(pnlStatusButton);
+		pnlStatusButton.setLayout(new GridLayout(1, 2));
 		
 		JLabel lblToggle = new JLabel("Start");
-		JButton toggleStart = new JButton("");
+		JButton btnToggle = new JButton("");
 		
 		lblToggle.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		lblToggle.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				removeComponents(panel);
+				removeComponents(pnlStatusButton);
 				if (e.getButton() == 1 && lblToggle.getText() == "Stop") {
-					addComponents (panel, toggleStart, lblToggle);
-					toggleStart.setBackground(RED);					
+					addComponents (pnlStatusButton, btnToggle, lblToggle);
+					btnToggle.setBackground(RED);					
 					lblToggle.setText("Start");
 					stopServer();
 				} else if (e.getButton() == 1 && lblToggle.getText() == "Start") {
-					addComponents (panel, lblToggle, toggleStart);
-					toggleStart.setBackground(GREEN);
+					addComponents (pnlStatusButton, lblToggle, btnToggle);
+					btnToggle.setBackground(GREEN);
 					lblToggle.setText("Stop");
 					startServer();				
 				}
 			}
 		});		
 		
-		toggleStart.addActionListener(new ActionListener() {
+		btnToggle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				removeComponents(panel);
+				removeComponents(pnlStatusButton);
 				if (e.getID() == 1001 && lblToggle.getText() == "Stop") {
-					addComponents (panel, toggleStart, lblToggle);
-					toggleStart.setBackground(RED);					
+					addComponents (pnlStatusButton, btnToggle, lblToggle);
+					btnToggle.setBackground(RED);					
 					lblToggle.setText("Start");	
 					stopServer();	
 				} else if (e.getID() == 1001 && lblToggle.getText() == "Start") {
-					addComponents (panel, lblToggle, toggleStart);
-					toggleStart.setBackground(GREEN);
+					addComponents (pnlStatusButton, lblToggle, btnToggle);
+					btnToggle.setBackground(GREEN);
 					lblToggle.setText("Stop");		
 					startServer();	
 				}				
 			}			
 		});
 		
-		panel.add(toggleStart);
-		panel.add(lblToggle);		
-		toggleStart.setBackground(RED);		
+		pnlStatusButton.add(btnToggle);
+		pnlStatusButton.add(lblToggle);		
+		btnToggle.setBackground(RED);		
+		pnlStatusButton.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnToggle, lblToggle}));
+		
+		JPanel pnlDisplay = new JPanel();
+		pnlDisplay.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlDisplay.setBounds(10, 44, 464, 284);
+		contentPane.add(pnlDisplay);
+		pnlDisplay.setLayout(null);
+		
+		JPanel pnlStatusIndicator = new JPanel();
+		pnlStatusIndicator.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		pnlStatusIndicator.setBounds(10, 7, 242, 266);
+		pnlDisplay.add(pnlStatusIndicator);
+		
+		JPanel pnlValues = new JPanel();
+		pnlValues.setBorder(null);
+		pnlValues.setBounds(262, 7, 192, 266);
+		pnlDisplay.add(pnlValues);
+		pnlValues.setLayout(null);
+		
+		JLabel lblHighest = new JLabel("<html>Highest<br>value:</html>");
+		lblHighest.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblHighest.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblHighest.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblHighest.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHighest.setBounds(10, 10, 75, 45);
+		pnlValues.add(lblHighest);
+		
+		JLabel lblLowest = new JLabel("<html>Lowest<br>value:</html>");
+		lblLowest.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblLowest.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblLowest.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLowest.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblLowest.setBounds(10, 70, 75, 45);
+		pnlValues.add(lblLowest);
+		
+		JLabel lblFrequency = new JLabel("<html>Frequency<br>(Hz):</html>");
+		lblFrequency.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblFrequency.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFrequency.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblFrequency.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblFrequency.setBounds(10, 130, 75, 45);
+		pnlValues.add(lblFrequency);
+		
+		txtFrequency = new JTextField();
+		txtFrequency.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		txtFrequency.setHorizontalAlignment(SwingConstants.CENTER);
+		txtFrequency.setBounds(99, 130, 80, 45);
+		pnlValues.add(txtFrequency);
+		txtFrequency.setColumns(10);
+		
+		txtLowest = new JTextField();
+		txtLowest.setHorizontalAlignment(SwingConstants.CENTER);
+		txtLowest.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		txtLowest.setColumns(10);
+		txtLowest.setBounds(99, 70, 80, 45);
+		pnlValues.add(txtLowest);
+		
+		txtHighest = new JTextField();
+		txtHighest.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		txtHighest.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHighest.setText("1024");
+		txtHighest.setColumns(10);
+		txtHighest.setBounds(99, 10, 80, 45);
+		pnlValues.add(txtHighest);
+		
+		JPanel pnlTextPanel = new JPanel();
+		pnlTextPanel.setBounds(10, 339, 464, 111);
+		contentPane.add(pnlTextPanel);
+		pnlTextPanel.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 0, 464, 111);
+		pnlTextPanel.add(scrollPane);
+		
+		JTextArea txtConsole = new JTextArea();
+		txtConsole.setTabSize(2);
+		scrollPane.setViewportView(txtConsole);
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnToggle, lblToggle, lblHighest, txtHighest, lblLowest, txtLowest, lblFrequency, txtFrequency, txtConsole}));
 	}
 	
 	private void startServer () {
