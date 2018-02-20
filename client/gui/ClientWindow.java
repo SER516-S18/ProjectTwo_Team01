@@ -81,7 +81,10 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.SOUTH, centerPanel, 623, SpringLayout.SOUTH, btnNewButton);
 		springLayout.putConstraint(SpringLayout.EAST, centerPanel, 0, SpringLayout.EAST, btnNewButton);
 		frmClient.getContentPane().add(centerPanel);
-		centerPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		centerPanel.setLayout(new GridLayout(5, 2, 0, 0));
+		addComponentsToCenterPanel(centerPanel);
+		
+		
 		
 		JPanel consolePanel = new JPanel();
 		springLayout.putConstraint(SpringLayout.WEST, graphPanel, 0, SpringLayout.WEST, consolePanel);
@@ -95,7 +98,42 @@ public class ClientWindow {
 
 	}
 	
-	
+	/**
+	 * adds labels to show highest,lowest and average values
+	 * to center panel
+	 */
+	private void addComponentsToCenterPanel(JPanel centerPanel) {
+		JLabel highestValueLabel = new JLabel("<html>Highest<br>Value</html>");
+		highestValueLabel.setBackground(SystemColor.activeCaption);
+		highestValueLabel.setOpaque(true);
+		centerPanel.add(highestValueLabel);
+		
+		JLabel actualHighValueLabel = new JLabel("");
+		actualHighValueLabel.setBackground(Color.PINK);
+		centerPanel.add(actualHighValueLabel);
+		actualHighValueLabel.setOpaque(true);
+		
+		JLabel lowestValueLabel = new JLabel("<html>Lowest<br>Value</html>");
+		lowestValueLabel.setBackground(Color.PINK);
+		centerPanel.add(lowestValueLabel);
+		lowestValueLabel.setOpaque(true);
+		
+		JLabel actualLowestValueLabel = new JLabel("");
+		actualLowestValueLabel.setBackground(SystemColor.activeCaption);
+		centerPanel.add(actualLowestValueLabel);
+		actualLowestValueLabel.setOpaque(true);
+		
+		JLabel averageLabel= new JLabel("Average");
+		averageLabel.setBackground(SystemColor.activeCaption);
+		centerPanel.add(averageLabel);
+		averageLabel.setOpaque(true);
+		
+		JLabel actualAverageLabel = new JLabel("");
+		actualAverageLabel.setBackground(Color.PINK);
+		centerPanel.add(actualAverageLabel);
+		actualAverageLabel.setOpaque(true);
+		
+	}
 	}
 
 
