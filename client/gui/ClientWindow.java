@@ -83,7 +83,40 @@ public class ClientWindow {
 	 */
 	private void addComponentsToFrame(SpringLayout springLayout)
 	{
-		JButton btnNewButton = new JButton("Start/Stop");
+		JToggleButton btnNewButton = new JToggleButton("Start/Stop");
+		frame.getContentPane().add(btnNewButton, BorderLayout.CENTER);
+		JLabel lblToggle = new JLabel("Start");
+                lblToggle.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	        	if (e.getButton() == 1 && lblToggle.getText() == "Stop") {
+	        		btnNewButton.setBackground(RED);
+	            		lblToggle.setText("Start");
+	            		//closeConnection(); 
+	        	} 
+			else if (e.getButton() == 1 && lblToggle.getText() == "Start") {
+	        		btnNewButton.setBackground(GREEN);
+	            		lblToggle.setText("Stop");
+	            		//createSocket();
+	        	}
+	      	}
+	        });	    
+		
+	        btnNewButton.addActionListener(new ActionListener() {
+	        @Override
+	        	public void actionPerformed(ActionEvent e) {
+	        		if (e.getID() == 1001 && lblToggle.getText() == "Stop") {
+	        			btnNewButton.setBackground(RED);
+	            			lblToggle.setText("Start");
+	            			//closeConnection();    
+	        		} 
+				else if (e.getID() == 1001 && lblToggle.getText() == "Start") {
+	        			btnNewButton.setBackground(GREEN);
+	            			lblToggle.setText("Stop");
+	            			//createSocket();
+	        		}
+	      		}
+	    	});
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 10, SpringLayout.NORTH, frmClient.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, -231, SpringLayout.EAST, frmClient.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, 56, SpringLayout.NORTH, frmClient.getContentPane());
