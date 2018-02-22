@@ -1,16 +1,39 @@
-
+package sample;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.border.Border;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.LineBorder;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+class DisplayGraph{
+	JFreeChart displayGraph;
+	
+	   public DisplayGraph() {
+			 this.displayGraph= ChartFactory.createLineChart(
+			         "Display",
+			         "Number","Value",
+			         createDataset(),
+			         PlotOrientation.VERTICAL,
+			         true,true,false);
+	}
+
+	private DefaultCategoryDataset createDataset( ) {
+		      DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+		      dataset.addValue( 15 , "values" , "1" );
+		      dataset.addValue( 30 , "values" , "2" );
+		      dataset.addValue( 60 , "values" ,  "3" );
+		      dataset.addValue( 120 , "values" , "4" );
+		      dataset.addValue( 240 , "values" , "5" );
+		      dataset.addValue( 300 , "values" , "6" );
+		      return dataset;
+		   }
+}
 
 public class ClientWindow {
 
@@ -67,11 +90,18 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton, -10, SpringLayout.EAST, frmClient.getContentPane());
 		frmClient.getContentPane().add(btnNewButton);
 		
+		DisplayGraph DG= new DisplayGraph();
+		ChartPanel chartPanel= new ChartPanel(DG.displayGraph);
+		chartPanel.setLocation(12, 26);
+		chartPanel.setSize(new Dimension(478, 567));
 		JPanel graphPanel = new JPanel();
 		graphPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		springLayout.putConstraint(SpringLayout.NORTH, graphPanel, 17, SpringLayout.SOUTH, btnNewButton);
 		springLayout.putConstraint(SpringLayout.SOUTH, graphPanel, 623, SpringLayout.SOUTH, btnNewButton);
 		frmClient.getContentPane().add(graphPanel);
+		graphPanel.setLayout(null);
+		
+		graphPanel.add(chartPanel);
 		
 		JPanel centerPanel = new JPanel();
 		springLayout.putConstraint(SpringLayout.EAST, graphPanel, -26, SpringLayout.WEST, centerPanel);
