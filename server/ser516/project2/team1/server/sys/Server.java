@@ -25,15 +25,15 @@ import javax.swing.JTextArea;
 public class Server implements Runnable {
   
 	private static int port = 8001;
-	private static int frequency = 5;
-	private static int max = 1024;
-	private static int min = 0;	
-	private static boolean isRunning = false;
+	static int frequency = 5;
+	static int max = 1024;
+	static int min = 0;	
+	static boolean isRunning = false;
 	private static JTextArea txtConsole;
 	private static Socket socket;
 	private static ServerSocket sSocket;
 	private static String ip = "localhost";
-	private static int random = 0;
+	static int random = 0;
 		
 	public static List<Socket> clientsArray = new ArrayList<Socket>();
 	
@@ -140,7 +140,7 @@ public class Server implements Runnable {
 			
 		}
 	}
-	
+	/*
 	private class ValuesThread implements Runnable {
     Random r = new Random(System.currentTimeMillis());
     
@@ -149,7 +149,8 @@ public class Server implements Runnable {
      * 
      * @param lblCounter JLabel used for displaying counter
      * @param counter Initial counter value either 0 or 9
-     */
+     
+		
     public ValuesThread() {
       
     }
@@ -166,5 +167,5 @@ public class Server implements Runnable {
         }
       }
     }
-  }
+  }*/
 }
