@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.swing.JTextArea;
 
 /**
  * 
@@ -20,14 +23,16 @@ import java.util.List;
  *
  */
 public class Server implements Runnable {
-	private static String ip = "localhost";
 	private static int port = 8001;
 	private static int frequency = 5;
 	private static int max = 1024;
-	private static int min = 0;
-
+	private static int min = 0;	
+	private static boolean isRunning = false;
+	private static JTextArea txtConsole;
 	private static Socket socket;
-	private static ServerSocket sSocket;		
+	private static ServerSocket sSocket;
+	private static String ip = "localhost";
+	private static int random = 0;
 		
 	public static List<Socket> clientsArray = new ArrayList<Socket>();
 	
@@ -37,9 +42,19 @@ public class Server implements Runnable {
 		}
 	}
 	
-	@Override
+	public Server (String args [], JTextArea console) {
+    if (args != null && args.length > 1) {
+      this.parseArguments(args);
+    }
+    txtConsole = console;
+    isRunning = true;
+    ValuesThread vt = new ValuesThread();
+    new Thread(vt).start();
+  }
+  
+  @Override
 	public void run() {
-		try {
+    try {
 			sSocket = new ServerSocket (port);
 			System.out.println ("Server is up on port: (" + port + ") and ready for client connections!\nWaiting for clients...");	
 		
@@ -47,6 +62,7 @@ public class Server implements Runnable {
 				socket = sSocket.accept();
 				clientsArray.add(socket);
 				System.out.println ("Client connected from: " + socket.getLocalAddress().getHostName());
+				setConsoleInfo ("Client connected from " + socket.getLocalAddress().getHostName());
 				ServerThread server = new ServerThread(socket);			
 				new Thread (server).start();
 			}
@@ -57,11 +73,11 @@ public class Server implements Runnable {
 			e1.printStackTrace();
 		}
 	}
-	
-	
+		
 	public void closeConnection () {
 		try {
 			sSocket.close();
+			isRunning = false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -73,12 +89,29 @@ public class Server implements Runnable {
 		}
 	}
 	
-	/**
+	public String getConsoleInfo() {	  
+	  return "\nConsole: ";
+	}
+	
+
+  public void setConsoleInfo(String info) {    
+    while (true) {
+      txtConsole.append("\nConsole:\t" + info);
+      try {
+        Thread.sleep(1000);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }    
+  }
+  
+  /**
 	 * 
 	 * @param args arguments passed at the command line
 	 */
 	private void parseArguments (String args[]) {
-		for (int i = 0; i < args.length; i++) {
+	  for (int i = 0; i < args.length; i++) {
 			switch (args[i]) {
 			case "--port":
 			case "--p":
@@ -114,4 +147,31 @@ public class Server implements Runnable {
 			
 		}
 	}
+	
+	private class ValuesThread implements Runnable {
+    Random r = new Random(System.currentTimeMillis());
+    
+    /**
+     * Counter constructor to spin off a new thread
+     * 
+     * @param lblCounter JLabel used for displaying counter
+     * @param counter Initial counter value either 0 or 9
+     */
+    public ValuesThread() {
+      
+    }
+
+    @Override
+    public void run() {
+      while (isRunning) {
+        random = r.nextInt(max - min) + min;
+        try {
+          Thread.sleep((int) max / 1000);
+          setConsoleInfo ("Sending: " + random);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
 }

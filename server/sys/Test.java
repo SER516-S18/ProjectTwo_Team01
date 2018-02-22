@@ -27,14 +27,19 @@ public class Test extends JFrame {
 
   private final static Color RED = new Color(220, 20, 60);
   private final static Color GREEN = new Color(0, 128, 0);
+  
   private JPanel contentPane;
   private Server server;
   private Thread serverThread;
   private static String arrArgs[];
   private final JPanel pnlStatusButton = new JPanel();
+  
   private JTextField txtFrequency;
   private JTextField txtLowest;
   private JTextField txtHighest;
+  private static JTextArea txtConsole;
+  
+  private static String strConsole;
 
   /**
    * Launch the application.
@@ -86,11 +91,13 @@ public class Test extends JFrame {
           addComponents(pnlStatusButton, btnToggle, lblToggle);
           btnToggle.setBackground(RED);
           lblToggle.setText("Start");
+          setInputFields (true);
           stopServer();
         } else if (e.getButton() == 1 && lblToggle.getText() == "Start") {
           addComponents(pnlStatusButton, lblToggle, btnToggle);
           btnToggle.setBackground(GREEN);
           lblToggle.setText("Stop");
+          setInputFields (false);
           startServer();
         }
       }
@@ -104,11 +111,13 @@ public class Test extends JFrame {
           addComponents(pnlStatusButton, btnToggle, lblToggle);
           btnToggle.setBackground(RED);
           lblToggle.setText("Start");
+          setInputFields (true);
           stopServer();
         } else if (e.getID() == 1001 && lblToggle.getText() == "Start") {
           addComponents(pnlStatusButton, lblToggle, btnToggle);
           btnToggle.setBackground(GREEN);
           lblToggle.setText("Stop");
+          setInputFields (false);
           startServer();
         }
       }
@@ -191,15 +200,16 @@ public class Test extends JFrame {
     scrollPane.setBounds(0, 0, 464, 111);
     pnlTextPanel.add(scrollPane);
 
-    JTextArea txtConsole = new JTextArea();
+    txtConsole = new JTextArea();
     txtConsole.setTabSize(2);
     scrollPane.setViewportView(txtConsole);
+    txtConsole.setText(strConsole);
     setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { btnToggle, lblToggle, lblHighest, txtHighest,
         lblLowest, txtLowest, lblFrequency, txtFrequency, txtConsole }));
-  }
+    }
 
   private void startServer() {
-    server = new Server(arrArgs);
+    server = new Server(arrArgs, txtConsole);
     serverThread = new Thread(server);
     serverThread.start();
     arrArgs = null;
@@ -218,5 +228,15 @@ public class Test extends JFrame {
   private void addComponents(JPanel panel, Component one, Component two) {
     panel.add(one);
     panel.add(two);
+  }
+  
+  public void setConsole (String output) {
+    txtConsole.setText("\n" + output);
+  }
+  
+  private void setInputFields(boolean isEnabled) {
+    this.txtHighest.setEditable(isEnabled);
+    this.txtLowest.setEditable(isEnabled);
+    this.txtFrequency.setEditable(isEnabled);
   }
 }

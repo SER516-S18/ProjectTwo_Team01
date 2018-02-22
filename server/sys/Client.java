@@ -14,7 +14,7 @@ public class Client {
 	 Scanner sc1 = new Scanner(s.getInputStream());
 	 temp = sc1.nextInt();
 	 
-     	System.out.println(temp); // print the value which is from server
+   System.out.println(temp); // print the value which is from server
 		
 	//s.close();   for button to close connect
 	}
