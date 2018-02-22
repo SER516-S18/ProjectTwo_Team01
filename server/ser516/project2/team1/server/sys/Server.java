@@ -91,20 +91,12 @@ public class Server implements Runnable {
 	}
 	
 	public String getConsoleInfo() {	  
-	  return "\nConsole: ";
+	  return "Console: ";
 	}
 	
 
   public void setConsoleInfo(String info) {    
-    //while (true) {
-      txtConsole.append("\nConsole:\t" + info);
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-     // }
-    }    
+    txtConsole.append("\nConsole:\t" + info);
   }
   
   /**
@@ -167,7 +159,7 @@ public class Server implements Runnable {
       while (isRunning) {
         random = r.nextInt(max - min) + min;
         try {
-          Thread.sleep((int) frequency / 1000);
+          Thread.sleep((int) (1000 / frequency));
           setConsoleInfo ("Sending: " + random);
         } catch (InterruptedException e) {
           e.printStackTrace();
