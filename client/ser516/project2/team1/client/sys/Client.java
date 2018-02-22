@@ -1,4 +1,4 @@
-package sys;
+package ser516.project2.team1.client.sys;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,15 +11,14 @@ import java.util.*;
 
 /**
  * 
- * @author Shilpa Bhat
- * @author Group 1 #001 - #013
- * @since FEB 2018
- * @version 1.0
+ * @author 	Shilpa Bhat
+ * @author 	Group 1 #001 - #013
+ * @since 	FEB 2018
+ * @version	1.0
  * 
- *          Client class used to connect to server, receive numbers on given
- *          number of channels.
+ * Client class used to connect to server, receive 
+ * numbers on given number of channels.
  */
-
 public class Client {
   private static Socket socket;
   private final String ipAddress = "127.0.0.1";
@@ -29,45 +28,46 @@ public class Client {
   public static ArrayList<ArrayList<String>> numberList = new ArrayList<ArrayList<String>>();
 
   /**
-   * Constructor accepts the number of channels through which data has to be
+   * Constructor accepts the number of 
+   * channels through which data has to be 
    * received from the server.
    * 
    * Create lists to store number for each channel.
    * 
-   * @param numChannels
-   *          - number of channels to receive numbers from server
+   * @param numChannels - number of channels to receive numbers
+   * from server
    */
   public Client(int numChannels) {
     channels = numChannels;
-    for (int channel = 0; channel < channels; channel++) {
+    for(int channel=0;channel<channels;channel++) {
       ArrayList<String> channelNumbers = new ArrayList<String>();
       numberList.add(channelNumbers);
     }
   }
-
   /**
-   * Creates socket and opens connection with the server at ip 'ipAddress' and
-   * port number 'port'.
+   * Creates socket and opens connection with the server
+   * at ip 'ipAddress' and port number 'port'.
    */
   public void createSocket() {
     try {
-      socket = new Socket(ipAddress, port);
+      socket = new Socket(ipAddress,port);
 
       OutputStream os = socket.getOutputStream();
       OutputStreamWriter osw = new OutputStreamWriter(os);
       BufferedWriter bw = new BufferedWriter(osw);
 
-      bw.write("" + channels);
+      bw.write(""+channels);
       bw.flush();
 
-      while (true) {
-        InputStream inputStream = socket.getInputStream();
+      while(true) {
+        InputStream inputStream =  socket.getInputStream();
         InputStreamReader reader = new InputStreamReader(inputStream);
         BufferedReader bufferReader = new BufferedReader(reader);
         String message = bufferReader.readLine();
 
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       exception.printStackTrace();
     }
   }
@@ -78,9 +78,8 @@ public class Client {
   public void closeConnection() {
     try {
       socket.close();
-    } catch (Exception e) {
+    } catch(Exception e) {
       e.printStackTrace();
     }
   }
-
 }

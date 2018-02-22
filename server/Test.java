@@ -21,24 +21,28 @@ import javax.swing.border.LineBorder;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import ser516.project2.team1.sys.Server;
+import ser516.project2.team1.server.sys.Server;
 
 public class Test extends JFrame {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private final static Color RED = new Color(220, 20, 60);
   private final static Color GREEN = new Color(0, 128, 0);
-  
+
   private JPanel contentPane;
   private Server server;
   private Thread serverThread;
   private static String arrArgs[];
   private final JPanel pnlStatusButton = new JPanel();
-  
+
   private JTextField txtFrequency;
   private JTextField txtLowest;
   private JTextField txtHighest;
   private static JTextArea txtConsole;
-  
+
   private static String strConsole;
 
   /**
@@ -206,7 +210,7 @@ public class Test extends JFrame {
     txtConsole.setText(strConsole);
     setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { btnToggle, lblToggle, lblHighest, txtHighest,
         lblLowest, txtLowest, lblFrequency, txtFrequency, txtConsole }));
-    }
+  }
 
   private void startServer() {
     server = new Server(arrArgs, txtConsole);
@@ -229,11 +233,11 @@ public class Test extends JFrame {
     panel.add(one);
     panel.add(two);
   }
-  
+
   public void setConsole (String output) {
     txtConsole.setText("\n" + output);
   }
-  
+
   private void setInputFields(boolean isEnabled) {
     this.txtHighest.setEditable(isEnabled);
     this.txtLowest.setEditable(isEnabled);

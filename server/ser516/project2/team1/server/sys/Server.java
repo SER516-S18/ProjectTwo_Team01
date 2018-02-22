@@ -1,4 +1,4 @@
-package ser516.project2.team1.sys;
+package ser516.project2.team1.server.sys;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
  *
  */
 public class Server implements Runnable {
+  
 	private static int port = 8001;
 	private static int frequency = 5;
 	private static int max = 1024;
@@ -166,7 +167,7 @@ public class Server implements Runnable {
       while (isRunning) {
         random = r.nextInt(max - min) + min;
         try {
-          Thread.sleep((int) max / 1000);
+          Thread.sleep((int) frequency / 1000);
           setConsoleInfo ("Sending: " + random);
         } catch (InterruptedException e) {
           e.printStackTrace();

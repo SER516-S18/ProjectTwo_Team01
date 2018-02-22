@@ -1,4 +1,4 @@
-package ser516.project2.team1.sys;
+package ser516.project2.team1.server.sys;
 
 import java.io.IOException;
 import java.io.PrintWriter;
