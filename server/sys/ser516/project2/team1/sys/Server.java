@@ -95,14 +95,14 @@ public class Server implements Runnable {
 	
 
   public void setConsoleInfo(String info) {    
-    while (true) {
+    //while (true) {
       txtConsole.append("\nConsole:\t" + info);
       try {
         Thread.sleep(1000);
       } catch (InterruptedException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
-      }
+     // }
     }    
   }
   
