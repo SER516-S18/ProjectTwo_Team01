@@ -24,13 +24,6 @@ public class ClientWindow {
 	 * Create the application.
 	 */
 	public ClientWindow() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
 		frmClient = new JFrame();
 		frmClient.setTitle("Client");
 		frmClient.setBounds(100, 100, 1000, 1000);
