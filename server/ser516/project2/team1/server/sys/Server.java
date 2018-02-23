@@ -11,16 +11,15 @@ import java.util.Random;
 import javax.swing.JTextArea;
 
 /**
- * 
- * @author 	Zelin Bao
- * @author 	Cephas Armstrong-Mensah
- * @author 	Group 1 #001 - #013
- * @since 	FEB 2018
- * @version	1.0
- * 
  * Server class used to bind, listen and accept
  * connections which are then sent onto a separate thread
- *
+ * @author 	Zelin Bao
+ * @author 	Cephas Armstrong-Mensah
+ * @author      Vihar Bhatt
+ * @author 	Group 1 #001 - #013
+ * @since 	02-22-2018
+ * @version	1.00
+ * 
  */
 public class Server implements Runnable {
   
