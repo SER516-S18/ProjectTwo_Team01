@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 import org.jfree.chart.ChartPanel;
 
-public class ClientWindow {
+public class ClientMainWindow {
 
   private JFrame frmClient;
 
@@ -16,14 +16,14 @@ public class ClientWindow {
    * Launch the application.
    */
   public static void main(String[] args) {		
-    ClientWindow window = new ClientWindow();
+    ClientMainWindow window = new ClientMainWindow();
     window.frmClient.setVisible(true);
   }
 
   /**
    * Create the application.
    */
-  public ClientWindow() {
+  public ClientMainWindow() {
     frmClient = new JFrame();
     frmClient.setTitle("Client");
     frmClient.setBounds(100, 100, 1000, 1000);

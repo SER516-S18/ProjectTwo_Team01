@@ -1,3 +1,5 @@
+package util;
+
 import java.awt.GridLayout;
 import java.awt.Point;
 import javax.swing.JLabel;
@@ -60,7 +62,7 @@ public class ConsolePanel extends JPanel{
 	 * @param message. This is the message that needs to be displayed on the console.
 	 * @return void.
 	 */
-	public static void updatetext(String message) {
+	public static void updateText(String message) {
 		completeMessage = completeMessage + message + "<br/>" ;
 		messageDisplay = completeMessage + "</html>";
 		consoleMessageLabel.setText(messageDisplay);

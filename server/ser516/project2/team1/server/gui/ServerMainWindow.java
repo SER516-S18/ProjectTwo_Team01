@@ -129,7 +129,7 @@ public class ServerMainWindow extends JFrame {
     highestValue.setHorizontalTextPosition(SwingConstants.CENTER);
     highestValue.setHorizontalAlignment(SwingConstants.CENTER);
     highestValue.setBounds(15, 15, 100, 55);
-    highestValue.setText(max + "");
+    highestValue.setText("<html>Highest<br>value:</html>");
     maxMinFrequencyPanel.add(highestValue);
     highestValue.setBackground(Color.LIGHT_GRAY);
 

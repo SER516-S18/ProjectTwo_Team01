@@ -1,3 +1,5 @@
+package util;
+
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 
@@ -34,7 +36,7 @@ public class SER516Test extends JFrame {
 	    this.add(console);
 	    console.setBorder(raisedetched);
 	    
-	    ConsolePanel.updatetext("Client connected");
-	    ConsolePanel.updatetext("Server error!");
+	    ConsolePanel.updateText("Client connected");
+	    ConsolePanel.updateText("Server error!");
 	}
 }
