@@ -1,3 +1,5 @@
+package util;
+
 import java.awt.Point;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

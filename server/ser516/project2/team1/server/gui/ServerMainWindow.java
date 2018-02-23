@@ -1,36 +1,19 @@
-import java.awt.BorderLayout;
-
-import java.awt.EventQueue;
-import java.awt.Graphics;
+package ser516.project2.team1.server.gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import javax.swing.JSplitPane;
-import java.awt.Insets;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.JToggleButton;
 import javax.swing.JTextField;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.font.ShapeGraphicAttribute;
-
-import javax.swing.UIManager;
 import java.awt.Color;
-import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
+
+import util.ToggleButton;
+
 import javax.swing.SwingConstants;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
+import java.awt.Rectangle;
+import java.awt.Component;
+import java.awt.Font;
 
-import javafx.scene.text.Font;
-
-import javax.swing.JRadioButton;
 /**
  * The Server Main Window is the complete User Interface of the server. 
  * 
@@ -41,124 +24,133 @@ import javax.swing.JRadioButton;
  */
 public class ServerMainWindow extends JFrame {
 
-	private JPanel contentPane;
-	private JTextField highestInput;
-	private JTextField textField;
-	private JTextField textField_1;
+  private static final Color GREEN = new Color(50, 205, 50);
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainWindow frame = new MainWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+  private JPanel contentPane;
+  private JTextField highestValueTextBox;
+  private JTextField lowestValueTextBox;
+  private JTextField frequencyValueTextBox;
 
-	/**
-	 * Create the frame.
-	 */
-	public ServerMainWindow() {
-		setTitle("SERVER");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
-		contentPane = new JPanel();
-		contentPane.setForeground(new Color(50, 205, 50));
-		contentPane.setBackground(new Color(135, 206, 250));
-		contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JToggleButton startStopButton = new JToggleButton("Start/Stop");
-		startStopButton.setBackground(new Color(255, 228, 225));
-		startStopButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		startStopButton.setBounds(333, 6, 161, 29);
-		contentPane.add(startStopButton);
-		
-		JPanel statusPanel = new JPanel();
-		statusPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		statusPanel.setBounds(16, 42, 249, 292);
-		contentPane.add(statusPanel);
-		statusPanel.setLayout(null);
-		
-		JLabel statusIndicator = new JLabel("•", SwingConstants.CENTER);
-		statusIndicator.setForeground(new Color(50, 205, 50));
-		statusIndicator.setFont(statusIndicator.getFont().deriveFont(350f));
-		
-		statusIndicator.setBounds(6, 6, 237, 201);
-		statusPanel.add(statusIndicator);
-		
-		JPanel consolePanel = new JPanel();
-		consolePanel.setBackground(new Color(0, 0, 0));
-		consolePanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		consolePanel.setBounds(6, 358, 488, 114);
-		contentPane.add(consolePanel);
-		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBackground(new Color(238, 238, 238));
-		panel_5.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panel_5.setBounds(6, 32, 488, 314);
-		contentPane.add(panel_5);
-		panel_5.setLayout(null);
-		
-		JPanel lowPanel = new JPanel();
-		lowPanel.setBounds(270, 105, 100, 50);
-		panel_5.add(lowPanel);
-		lowPanel.setBackground(new Color(255, 228, 225));
-		lowPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		
-		JLabel lowestValue = new JLabel("<html>Lowest<br>Value:</html>",JLabel.CENTER);
-		lowPanel.add(lowestValue);
-		
-		highestInput = new JTextField();
-		highestInput.setBounds(384, 18, 100, 56);
-		panel_5.add(highestInput);
-		highestInput.setBackground(new Color(255, 228, 225));
-		highestInput.setColumns(10);
-		
-		JPanel highPanel = new JPanel();
-		highPanel.setBounds(270, 21, 100, 50);
-		panel_5.add(highPanel);
-		highPanel.setBackground(new Color(135, 206, 250));
-		highPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		
-		JLabel highestValue = new JLabel("<html>Highest<br>Value:</html>");
-		highPanel.add(highestValue);
-		highestValue.setBackground(Color.LIGHT_GRAY);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBackground(new Color(135, 206, 250));
-		textField.setBounds(382, 102, 100, 56);
-		panel_5.add(textField);
-		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panel.setBackground(new Color(135, 206, 250));
-		panel.setBounds(270, 189, 100, 50);
-		panel_5.add(panel);
-		
-		JLabel lblFrequency = new JLabel("<html>Frequency<br>(Hz):</html>", SwingConstants.CENTER);
-		panel.add(lblFrequency);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBackground(new Color(255, 228, 225));
-		textField_1.setBounds(384, 186, 100, 56);
-		panel_5.add(textField_1);
-		
-		
-		
-	}
+  public static void main(String[] args) {
+    ServerMainWindow frame = new ServerMainWindow();
+    frame.setVisible(true);
+  }
+
+  /**
+   * Create the frame.
+   */
+  public ServerMainWindow() {
+    setBounds(new Rectangle(0, 700, 700, 0));
+    setTitle("SERVER");
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 500, 500);
+    contentPane = new JPanel();
+    contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
+    contentPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+    contentPane.setBounds(new Rectangle(0, 650, 650, 0));
+    contentPane.setForeground(new Color(50, 205, 50));
+    contentPane.setBackground(new Color(135, 206, 250));
+    contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+    setContentPane(contentPane);
+    contentPane.setLayout(null);
+    
+    ToggleButton startStopButton = new ToggleButton ();
+    startStopButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    startStopButton.setBackground(new Color(255, 228, 225));
+    startStopButton.setBounds(325, 10, 100, 25);
+    contentPane.add(startStopButton);
+    
+    
+    
+
+    contentPane.add(startStopButton);
+
+    JPanel consolePanel = new JPanel();
+    consolePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+    consolePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    consolePanel.setBackground(new Color(0, 0, 0));
+    consolePanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+    consolePanel.setBounds(6, 346, 488, 114);
+    contentPane.add(consolePanel);
+
+    JPanel maxMinFrequencyPanel = new JPanel();
+    maxMinFrequencyPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    maxMinFrequencyPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+    maxMinFrequencyPanel.setBackground(new Color(238, 238, 238));
+    maxMinFrequencyPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+    maxMinFrequencyPanel.setBounds(230, 50, 250, 250);
+    contentPane.add(maxMinFrequencyPanel);
+    maxMinFrequencyPanel.setLayout(null);
+
+    highestValueTextBox = new JTextField();
+    highestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+    highestValueTextBox.setAlignmentY(Component.TOP_ALIGNMENT);
+    highestValueTextBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+    highestValueTextBox.setText("1024");
+    highestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
+    highestValueTextBox.setBounds(140, 15, 100, 56);
+    maxMinFrequencyPanel.add(highestValueTextBox);
+    highestValueTextBox.setBackground(new Color(255, 228, 225));
+    highestValueTextBox.setColumns(10);
+
+    lowestValueTextBox = new JTextField();
+    lowestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+    lowestValueTextBox.setAlignmentY(Component.TOP_ALIGNMENT);
+    lowestValueTextBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+    lowestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
+    lowestValueTextBox.setColumns(10);
+    lowestValueTextBox.setBackground(new Color(135, 206, 250));
+    lowestValueTextBox.setBounds(140, 85, 100, 55);
+    maxMinFrequencyPanel.add(lowestValueTextBox);
+
+    frequencyValueTextBox = new JTextField();
+    frequencyValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+    frequencyValueTextBox.setAlignmentY(Component.TOP_ALIGNMENT);
+    frequencyValueTextBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+    frequencyValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
+    frequencyValueTextBox.setColumns(10);
+    frequencyValueTextBox.setBackground(new Color(255, 228, 225));
+    frequencyValueTextBox.setBounds(140, 155, 100, 55);
+    maxMinFrequencyPanel.add(frequencyValueTextBox);
+
+    JLabel lowestValue = new JLabel("<html>Lowest<br>Value:</html>",JLabel.CENTER);
+    lowestValue.setAlignmentY(Component.TOP_ALIGNMENT);
+    lowestValue.setFont(new Font("Dialog", Font.BOLD, 16));
+    lowestValue.setHorizontalTextPosition(SwingConstants.CENTER);
+    lowestValue.setBounds(15, 85, 100, 55);
+    maxMinFrequencyPanel.add(lowestValue);
+
+    JLabel highestValue = new JLabel("<html>Highest<br>Value:</html>");
+    highestValue.setFont(new Font("Dialog", Font.BOLD, 16));
+    highestValue.setAlignmentY(Component.TOP_ALIGNMENT);
+    highestValue.setHorizontalTextPosition(SwingConstants.CENTER);
+    highestValue.setHorizontalAlignment(SwingConstants.CENTER);
+    highestValue.setBounds(15, 15, 100, 55);
+    maxMinFrequencyPanel.add(highestValue);
+    highestValue.setBackground(Color.LIGHT_GRAY);
+
+    JLabel lblFrequency = new JLabel("<html>Frequency<br>(Hz):</html>", SwingConstants.CENTER);
+    lblFrequency.setAlignmentY(Component.TOP_ALIGNMENT);
+    lblFrequency.setFont(new Font("Dialog", Font.BOLD, 16));
+    lblFrequency.setHorizontalTextPosition(SwingConstants.CENTER);
+    lblFrequency.setBounds(15, 155, 100, 55);
+    maxMinFrequencyPanel.add(lblFrequency);
+
+    JPanel statusIndicatorPanel = new JPanel();
+    statusIndicatorPanel.setBounds(10, 50, 215, 250);
+    contentPane.add(statusIndicatorPanel);
+    statusIndicatorPanel.setLayout(null);
+
+    JLabel indicatorLabel = new JLabel("•", SwingConstants.CENTER);
+    indicatorLabel.setBounds(10, 20, 200, 200);
+    indicatorLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+    statusIndicatorPanel.add(indicatorLabel);
+    indicatorLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+    indicatorLabel.setForeground(GREEN);
+    indicatorLabel.setFont(indicatorLabel.getFont().deriveFont(250f));
+  }
+  
+  private void controlInputValues() {
+    //if ()
+  }
 }
