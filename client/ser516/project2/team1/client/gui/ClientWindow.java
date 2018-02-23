@@ -151,7 +151,7 @@ public class ClientWindow {
 		centerPanel.add(actualAverageLabel);
 		actualAverageLabel.setOpaque(true);
 		
-		JLabel numOfChannelsLabel = new JLabel("Channels");
+		JLabel numOfChannelsLabel = new JLabel("Channels:");
 		numOfChannelsLabel.setBackground(Color.PINK);
 		centerPanel.add(numOfChannelsLabel);
 		numOfChannelsLabel.setOpaque(true);
