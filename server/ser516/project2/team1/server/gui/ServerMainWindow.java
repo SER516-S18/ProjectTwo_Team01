@@ -75,7 +75,6 @@ public class ServerMainWindow extends JFrame {
     contentPane.setLayout(null);
 
     startStopButton = new ToggleButton (this);
-    startStopButton.setBackground(new Color(255, 228, 225));
     startStopButton.setBounds(380, 12, 100, 25);
     contentPane.add(startStopButton);
 
@@ -146,7 +145,7 @@ public class ServerMainWindow extends JFrame {
     contentPane.add(statusIndicatorPanel);
     statusIndicatorPanel.setLayout(null);
 
-    indicatorLabel = new JLabel("•", SwingConstants.CENTER);
+    indicatorLabel = new JLabel(Character.toString((char) 0x2022), SwingConstants.CENTER);
     indicatorLabel.setBounds(10, 20, 200, 200);
     statusIndicatorPanel.add(indicatorLabel);
     indicatorLabel.setHorizontalTextPosition(SwingConstants.CENTER);
