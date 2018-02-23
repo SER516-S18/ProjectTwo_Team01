@@ -151,5 +151,15 @@ public class ClientWindow {
 		centerPanel.add(actualAverageLabel);
 		actualAverageLabel.setOpaque(true);
 		
+		JLabel frequencyLabel= new JLabel("Frequency(Hz):");
+		frequencyLabel.setBackground(SystemColor.activeCaption);
+		centerPanel.add(frequencyLabel);
+		frequencyLabel.setOpaque(true);
+		
+		JLabel actualFrequencyLabel = new JLabel("");
+		actualFrequencyLabel.setBackground(Color.PINK);
+		centerPanel.add(actualFrequencyLabel);
+		actualFrequencyLabel.setOpaque(true);
+		
 	}
 	}
