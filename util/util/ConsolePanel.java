@@ -1,5 +1,4 @@
-package util;
-
+import java.awt.GridLayout;
 import java.awt.Point;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,6 +26,7 @@ public class ConsolePanel extends JPanel{
 	private int horizontalScrollValue = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
 	private int verticalScrollValue = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 	private int labelVerticalAlignment = SwingConstants.TOP;
+	private GridLayout layout = new GridLayout(1,1);
 	
 	
 	/**
@@ -49,18 +49,9 @@ public class ConsolePanel extends JPanel{
 		consoleScrollPane.setViewportView(consoleMessageLabel);
 		
 		this.add(consoleScrollPane);
-		this.setLayout(null);
+		this.setLayout(layout);
 	}
 	
-	/**
-	 * This function is used to update the bound of the ConsolePanel.
-	 * 
-	 * @param x, y, width, height
-	 * @return void.
-	 */
-	public static void updateBound(int x, int y, int width, int height) {
-		consoleScrollPane.setBounds(x, y, width, height);
-	}
 	
 	/**
 	 * This function is used to add new message in the console and update the 
@@ -69,8 +60,7 @@ public class ConsolePanel extends JPanel{
 	 * @param message. This is the message that needs to be displayed on the console.
 	 * @return void.
 	 */
-	public static void updateText (String message) {
-	  System.out.println("Message received: " + message);
+	public static void updatetext(String message) {
 		completeMessage = completeMessage + message + "<br/>" ;
 		messageDisplay = completeMessage + "</html>";
 		consoleMessageLabel.setText(messageDisplay);
