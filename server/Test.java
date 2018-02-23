@@ -24,8 +24,8 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import ser516.project2.team1.server.sys.Server;
 /**
  * This class is used to implement the GUI for server.
- * @author TeamOne
- * @version 1.0
+ * @author SER516-TeamOne
+ * @version 1.00
  * @since 02-22-2018
  */
 
@@ -174,6 +174,7 @@ public class Test extends JFrame {
     txtLowest = new JTextField();
     txtLowest.setHorizontalAlignment(SwingConstants.CENTER);
     txtLowest.setFont(new Font("Tahoma", Font.PLAIN, 26));
+
     txtLowest.setColumns(10);
     txtLowest.setBounds(99, 70, 80, 45);
     pnlValues.add(txtLowest);
@@ -202,29 +203,47 @@ public class Test extends JFrame {
     setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { btnToggle, lblToggle, lblHighest, txtHighest,
         lblLowest, txtLowest, lblFrequency, txtFrequency, txtConsole }));
   }
-
+/**
+ * Used to start the server.
+ */
   private void startServer() {
     server = new Server(arrArgs, txtConsole);
     serverThread = new Thread(server);
     serverThread.start();
     arrArgs = null;
   }
-
+/**
+ * Used to stop the server and remove connection to the client.
+ */
   private void stopServer() {
     server.closeConnection();
   }
-
+/**
+ * 
+ * @param panel
+ * Used to remove components from the panel.
+ */
   private void removeComponents(JPanel panel) {
     for (Component item : panel.getComponents()) {
       panel.remove(item);
     }
   }
-
+/**
+ * 
+ * @param panel
+ * @param one
+ * @param two
+ * Used to add components to the panel.
+ */
   private void addComponents(JPanel panel, Component one, Component two) {
     panel.add(one);
     panel.add(two);
   }
-
+/**
+ * 
+ * @param output
+ * Used to make the console display a message.
+ */
   public void setConsole (String output) {
     txtConsole.setText("\n" + output);
   }
