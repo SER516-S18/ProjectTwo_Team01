@@ -6,16 +6,14 @@ import java.net.Socket;
 import java.util.Scanner;
 
 /**
- * 
+ * Server class used to bind, listen and accept
+ * connections which are then sent onto a separate thread
  * @author 	Zelin Bao
  * @author 	Cephas Armstrong-Mensah
  * @author 	Group 1 #001 - #013
- * @since 	FEB 2018
+ * @since 	02-22-2018
  * @version	1.0
  * 
- * Server class used to bind, listen and accept
- * connections which are then sent onto a separate thread
- *
  */
 public class ServerThread implements Runnable {
 	private Socket socket;
