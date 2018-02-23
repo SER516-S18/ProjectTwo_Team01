@@ -1,18 +1,13 @@
-package ser516.project2.team1.server.gui;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-
+import java.awt.Point;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 /**
- * The ConsolePanel implements a JPanel which consists of 
- * two JLabels. One displays a fixed label name and other displays any input to the 
- * ConsolePanel.
+ * The ConsolePanel implements a JPanel to create a console. The console will
+ * be able to display any message passed to it.
  * 
  * @author bhangal
  * @version 1.0
@@ -20,47 +15,56 @@ import javax.swing.SwingConstants;
  *
  */
 public class ConsolePanel extends JPanel{
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 6231879087335815863L;
-  private JLabel nameLabel,messageLabel;
-  private Color lightGrey = Color.LIGHT_GRAY;
-  private Color grey = Color.GRAY;
-  private Color black = Color.BLACK;
-  private Dimension dim = new Dimension(300,100);
-  private GridLayout layout = new GridLayout(2,1);
-  private Font font = new Font("Papyrus", Font.PLAIN, 15);
-  private int alignment = SwingConstants.LEFT;
-  private String ConsoleHeader = "Console: ";
-
-  public ConsolePanel(String message) {
-    ConsoleSettings();
-    DisplayMessage(message);
-  }
-
-  public void DisplayMessage(String message) {
-    nameLabel = new JLabel("nameLabel");
-    nameLabel.setText(ConsoleHeader);
-    nameLabel.setFont(font);
-    nameLabel.setForeground(black);
-    nameLabel.setBackground(black);
-    this.add(nameLabel);
-    nameLabel.setHorizontalAlignment(alignment);
-    messageLabel = new JLabel("messageLabel");
-    messageLabel.setText(message);
-    messageLabel.setFont(font);
-    messageLabel.setBackground(black);
-    messageLabel.setForeground(grey);
-    this.add(messageLabel);
-    messageLabel.setHorizontalAlignment(alignment);
-  }
-
-  public void ConsoleSettings() {
-    this.setBackground(lightGrey);		
-    this.setPreferredSize(dim);		
-    this.setLayout(layout);	
-  }
+	
+	private JScrollPane consoleScrollPane;
+	private JLabel consoleHeaderLabel;
+	private JLabel consoleMessageLabel;
+	
+	private String completeMessage = "<html>";
+	private String messageDisplay;
+	private int horizontalScrollValue = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
+	private int verticalScrollValue = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+	private int labelVerticalAlignment = SwingConstants.TOP;
+	
+	
+	/**
+	 * This function is the constructor of the console. It generates the 
+	 * header and message label of the JScrollPane. It also sets the 
+	 * properties of the JScrollPane.
+	 * 
+	 */
+	public ConsolePanel() {
+		
+		consoleScrollPane = new JScrollPane();
+		consoleScrollPane.setHorizontalScrollBarPolicy(horizontalScrollValue);
+		consoleScrollPane.setVerticalScrollBarPolicy(verticalScrollValue);
+		consoleScrollPane.setBounds(0, 0, 464, 111);
+		
+		consoleHeaderLabel = new JLabel("Console :");
+		consoleScrollPane.setColumnHeaderView(consoleHeaderLabel);
+		
+		consoleMessageLabel = new JLabel("");
+		consoleMessageLabel.setVerticalAlignment(labelVerticalAlignment);
+		consoleScrollPane.setViewportView(consoleMessageLabel);
+		
+		this.add(consoleScrollPane);
+		this.setLayout(null);
+	}
+	
+	/**
+	 * This function is used to add new message in the console and update the 
+	 * position of vertical scroll to the bottom.
+	 * 
+	 * @param message. This is the message that needs to be displayed on the console.
+	 * @return void.
+	 */
+	public void updatetext(String message) {
+		completeMessage = completeMessage + message + "<br/>" ;
+		messageDisplay = completeMessage + "</html>";
+		consoleMessageLabel.setText(messageDisplay);
+		
+		int ht= consoleMessageLabel.getSize().height;
+		consoleScrollPane.getViewport().setViewPosition(new Point(0, ht));
+	}
 
 }
