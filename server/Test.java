@@ -22,12 +22,16 @@ import javax.swing.border.LineBorder;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import ser516.project2.team1.server.sys.Server;
+/**
+ * This class is used to implement the GUI for server.
+ * 
+ * @author TeamOne
+ * @version 1.0
+ * @since 02-22-2018
+ */
 
 public class Test extends JFrame {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
   private final static Color RED = new Color(220, 20, 60);
   private final static Color GREEN = new Color(0, 128, 0);
