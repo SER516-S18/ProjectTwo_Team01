@@ -117,7 +117,7 @@ public class ClientWindow {
 	}
 	
 	/**
-	 * adds labels to show highest,lowest and average values
+	 * adds labels to show channel, highest, lowest and average values
 	 * to center panel
 	 */
 	private void addComponentsToCenterPanel(JPanel centerPanel) {
