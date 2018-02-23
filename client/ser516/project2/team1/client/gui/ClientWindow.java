@@ -151,5 +151,15 @@ public class ClientWindow {
 		centerPanel.add(actualAverageLabel);
 		actualAverageLabel.setOpaque(true);
 		
+		JLabel numOfChannelsLabel = new JLabel("Channels");
+		numOfChannelsLabel.setBackground(Color.PINK);
+		centerPanel.add(numOfChannelsLabel);
+		numOfChannelsLabel.setOpaque(true);
+		
+		String[] channelDropdownValues = {"1", "2", "3", "4", "5"};
+		JComboBox<String> channelDropdown = new JComboBox<>(channelDropdownValues);
+		channelDropdown.setSelectedIndex(2);
+		centerPanel.add(channelDropdown);
+		
 	}
 	}
