@@ -31,7 +31,14 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javafx.scene.text.Font;
 
 import javax.swing.JRadioButton;
-
+/**
+ * The Server Main Window is the complete User Interface of the server. 
+ * 
+ * @author Chetanya
+ * @version 1.0
+ * @since 2017-02-22
+ *
+ */
 public class ServerMainWindow extends JFrame {
 
 	private JPanel contentPane;
