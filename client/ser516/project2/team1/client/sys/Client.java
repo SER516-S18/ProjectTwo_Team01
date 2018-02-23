@@ -10,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.*;
 
+import javax.swing.SwingUtilities;
+
 /**
  * 
  * @author Shilpa Bhat
@@ -20,7 +22,7 @@ import java.util.*;
  *          Client class used to connect to server, receive numbers on given
  *          number of channels.
  */
-public class Client {
+public class Client implements Runnable {
 	private static Socket socket;
 	private final String ipAddress = "127.0.0.1";
 	private final int port = 8001;
@@ -59,7 +61,7 @@ public class Client {
 			receiveFrequency();
 			sendNumberOfChannels();
 			receiveNumbers();
-			
+
 		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
@@ -82,11 +84,11 @@ public class Client {
 
 	private void sendNumberOfChannels() {
 		try {
-			String channelsMessage = "channels="+channels;
+			String channelsMessage = "channels=" + channels + ";";
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
 			BufferedWriter bw = new BufferedWriter(osw);
-			
+
 			bw.write(channelsMessage);
 			bw.flush();
 		} catch (IOException e) {
@@ -96,8 +98,7 @@ public class Client {
 
 	}
 
-	private void receiveNumbers()
-	{
+	private void receiveNumbers() {
 		while (true) {
 			InputStream inputStream;
 			try {
@@ -105,14 +106,16 @@ public class Client {
 				InputStreamReader reader = new InputStreamReader(inputStream);
 				BufferedReader bufferReader = new BufferedReader(reader);
 				String message = bufferReader.readLine();
-			
+				UpdateClientWindow();
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
+
 	/**
 	 * Terminates the connection with server.
 	 */
@@ -122,5 +125,30 @@ public class Client {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void run() {
+		try {
+			socket = new Socket(ipAddress, port);
+			receiveFrequency();
+			sendNumberOfChannels();
+			receiveNumbers();
+
+		} catch (IOException exception) {
+			exception.printStackTrace();
+		}
+
+	}
+
+	public void UpdateClientWindow() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				NumberStatistics.ComputeNumberStatistics(new ArrayList<Integer>());
+
+			}
+		});
 	}
 }
