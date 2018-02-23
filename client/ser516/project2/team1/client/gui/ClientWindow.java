@@ -121,7 +121,7 @@ public class ClientWindow {
 	 * to center panel
 	 */
 	private void addComponentsToCenterPanel(JPanel centerPanel) {
-		JLabel highestValueLabel = new JLabel("<html>Highest<br>Value</html>");
+		JLabel highestValueLabel = new JLabel("<html>Highest<br>Value:</html>");
 		highestValueLabel.setBackground(SystemColor.activeCaption);
 		highestValueLabel.setOpaque(true);
 		centerPanel.add(highestValueLabel);
@@ -131,7 +131,7 @@ public class ClientWindow {
 		centerPanel.add(actualHighValueLabel);
 		actualHighValueLabel.setOpaque(true);
 		
-		JLabel lowestValueLabel = new JLabel("<html>Lowest<br>Value</html>");
+		JLabel lowestValueLabel = new JLabel("<html>Lowest<br>Value:</html>");
 		lowestValueLabel.setBackground(Color.PINK);
 		centerPanel.add(lowestValueLabel);
 		lowestValueLabel.setOpaque(true);
@@ -141,7 +141,7 @@ public class ClientWindow {
 		centerPanel.add(actualLowestValueLabel);
 		actualLowestValueLabel.setOpaque(true);
 		
-		JLabel averageLabel= new JLabel("Average");
+		JLabel averageLabel= new JLabel("Average:");
 		averageLabel.setBackground(SystemColor.activeCaption);
 		centerPanel.add(averageLabel);
 		averageLabel.setOpaque(true);
