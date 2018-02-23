@@ -49,17 +49,8 @@ public class Test extends JFrame {
    * Launch the application.
    */
   public static void main(String[] args) {
-    arrArgs = args;
-    EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        try {
           Test frame = new Test();
           frame.setVisible(true);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
   }
 
   /**
