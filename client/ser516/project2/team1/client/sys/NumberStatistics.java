@@ -1,7 +1,5 @@
 package ser516.project2.team1.client.sys;
 
-import java.util.*;
-
 public class NumberStatistics {
 	
 	private static int highestValue;
@@ -24,15 +22,14 @@ public class NumberStatistics {
 
 	
 	
-	public static void ComputeNumberStatistics(ArrayList<Integer> numbersList)
+	public static void ComputeNumberStatistics(Channel channelDetails)
 	{
-		for(int number : numbersList)
-		{
-			lowestValue = lowestValue < number?lowestValue:number;
-			highestValue = highestValue > number ? highestValue : number;
+			int channelValue = channelDetails.getChannelValue();
+			lowestValue = lowestValue < channelValue?lowestValue:channelValue;
+			highestValue = highestValue > channelValue ? highestValue : channelValue;
 			count++;
-			sum+=number;
-		}
-		averageValue = sum/count;
+			sum+=channelValue;
+			averageValue = sum/count;
+			//System.out.println("highest: "+highestValue);
 	}
 }

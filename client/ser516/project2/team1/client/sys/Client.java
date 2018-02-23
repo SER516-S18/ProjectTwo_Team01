@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
@@ -24,6 +25,7 @@ import javax.swing.SwingUtilities;
  */
 public class Client implements Runnable {
 	private static Socket socket;
+	private static PrintWriter out;
 	private final String ipAddress = "127.0.0.1";
 	private final int port = 8001;
 	private int channels;
@@ -77,6 +79,8 @@ public class Client implements Runnable {
 			BufferedReader bufferReader = new BufferedReader(reader);
 			String message = bufferReader.readLine();
 			System.out.println(message);
+			frequency = Integer.parseInt(message.split("frequency=")[1].split(";")[0]);
+			System.out.println("frequency is " + frequency);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -85,12 +89,9 @@ public class Client implements Runnable {
 	private void sendNumberOfChannels() {
 		try {
 			String channelsMessage = "channels=" + channels + ";";
-			OutputStream os = socket.getOutputStream();
-			OutputStreamWriter osw = new OutputStreamWriter(os);
-			BufferedWriter bw = new BufferedWriter(osw);
-
-			bw.write(channelsMessage);
-			bw.flush();
+			out = new PrintWriter(socket.getOutputStream());
+			out.println(channelsMessage);
+			out.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,7 +107,11 @@ public class Client implements Runnable {
 				InputStreamReader reader = new InputStreamReader(inputStream);
 				BufferedReader bufferReader = new BufferedReader(reader);
 				String message = bufferReader.readLine();
-				UpdateClientWindow();
+				System.out.println(message);
+				int channelId = Integer.parseInt(message.split("channelID_")[1].split("=")[0]);
+				int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
+				Channel channelDetails = new Channel(channelId, channelValue);
+				UpdateClientWindow(channelDetails);
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -141,12 +146,12 @@ public class Client implements Runnable {
 
 	}
 
-	public void UpdateClientWindow() {
+	public void UpdateClientWindow(Channel channelDetails) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				NumberStatistics.ComputeNumberStatistics(new ArrayList<Integer>());
+				NumberStatistics.ComputeNumberStatistics(channelDetails);
 
 			}
 		});
