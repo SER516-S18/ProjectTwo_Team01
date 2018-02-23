@@ -26,8 +26,4 @@ public class DisplayGraph {
 		dataset.addValue(300, "values", "6");
 		return dataset;
 	}
-
-	public void receive(ReceiveEvent receiveEvent) {
-		// TODO Auto-generated method stub
-	}
 }
