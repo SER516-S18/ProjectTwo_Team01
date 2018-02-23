@@ -24,7 +24,6 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import ser516.project2.team1.server.sys.Server;
 /**
  * This class is used to implement the GUI for server.
- * 
  * @author TeamOne
  * @version 1.0
  * @since 02-22-2018
@@ -49,16 +48,13 @@ public class Test extends JFrame {
 
   private static String strConsole;
 
-  /**
-   * Launch the application.
-   */
   public static void main(String[] args) {
           Test frame = new Test();
           frame.setVisible(true);
   }
 
   /**
-   * Create the frame.
+   * Different GUI components will be added to the frame using the constructor
    */
   public Test() {
     setTitle("Server");
@@ -232,7 +228,13 @@ public class Test extends JFrame {
   public void setConsole (String output) {
     txtConsole.setText("\n" + output);
   }
-
+/**
+ * 
+ * @param isEnabled
+ * When the the server is stopped, isEnabled contains 'true',
+ * then it allows the user to set a highest value, lowest value to be sent to client.
+ * Also allows to set a frequency at which values can be sent.
+ */
   private void setInputFields(boolean isEnabled) {
     this.txtHighest.setEditable(isEnabled);
     this.txtLowest.setEditable(isEnabled);
