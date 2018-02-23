@@ -82,11 +82,12 @@ public class Client {
 
 	private void sendNumberOfChannels() {
 		try {
-
+			String channelsMessage = "channels="+channels;
 			OutputStream os = socket.getOutputStream();
 			OutputStreamWriter osw = new OutputStreamWriter(os);
 			BufferedWriter bw = new BufferedWriter(osw);
-			bw.write("" + channels);
+			
+			bw.write(channelsMessage);
 			bw.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
