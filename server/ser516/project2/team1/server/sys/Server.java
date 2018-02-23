@@ -1,3 +1,4 @@
+
 package ser516.project2.team1.server.sys;
 
 import java.io.IOException;
@@ -15,15 +16,15 @@ import javax.swing.JTextArea;
 import ser516.project2.team1.server.gui.ServerMainWindow;
 
 /**
- * 
- * @author  Zelin Bao
- * @author  Cephas Armstrong-Mensah
- * @author  Group 1 #001 - #013
- * @since   FEB 2018
- * @version 1.0
- * 
  * Server class used to bind, listen and accept
  * connections which are then sent onto a separate thread
+ *
+ * @author  Zelin Bao
+ * @author  Cephas Armstrong-Mensah
+ * @author  Vihar Bhatt
+ * @author  Group 1 #001 - #013
+ * @since   02-23-2018
+ * @version 1.0
  *
  */
 public class Server implements Runnable {
