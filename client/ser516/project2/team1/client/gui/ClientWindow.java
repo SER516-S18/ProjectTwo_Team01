@@ -14,6 +14,29 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+class DisplayGraph{
+	JFreeChart displayGraph;
+	
+	   public DisplayGraph() {
+			 this.displayGraph= ChartFactory.createLineChart(
+			         "Display",
+			         "Number","Value",
+			         createDataset(),
+			         PlotOrientation.VERTICAL,
+			         true,true,false);
+	}
+
+	private DefaultCategoryDataset createDataset( ) {
+		      DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+		      dataset.addValue( 15 , "values" , "1" );
+		      dataset.addValue( 30 , "values" , "2" );
+		      dataset.addValue( 60 , "values" ,  "3" );
+		      dataset.addValue( 120 , "values" , "4" );
+		      dataset.addValue( 240 , "values" , "5" );
+		      dataset.addValue( 300 , "values" , "6" );
+		      return dataset;
+		   }
+}
 
 public class ClientWindow {
 
@@ -70,21 +93,21 @@ public class ClientWindow {
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton, -10, SpringLayout.EAST, frmClient.getContentPane());
 		frmClient.getContentPane().add(btnNewButton);
 		JLabel lblToggle = new JLabel("Start");
-	    lblToggle.addMouseListener(new MouseAdapter() {
-	      @Override
-	      public void mouseClicked(MouseEvent e) {
-	        if (e.getButton() == 1 && lblToggle.getText() == "Stop") {
-	          btnNewButton.setBackground(Color.RED);
-	          lblToggle.setText("Start");
-	          //closeConnection(); 
-	        } 
-	        else if (e.getButton() == 1 && lblToggle.getText() == "Start") {
-	          btnNewButton.setBackground(Color.GREEN);
-	          lblToggle.setText("Stop");
-	          //createSocket();
-	        }
-	      }
-	    });	
+	        lblToggle.addMouseListener(new MouseAdapter() {
+	     		@Override
+	      		public void mouseClicked(MouseEvent e) {
+	        		if (e.getButton() == 1 && lblToggle.getText() == "Stop") {
+	          			btnNewButton.setBackground(Color.RED);
+	          			lblToggle.setText("Start");
+	          			//closeConnection(); 
+	        		} 
+	        		else if (e.getButton() == 1 && lblToggle.getText() == "Start") {
+	          			btnNewButton.setBackground(Color.GREEN);
+	          			lblToggle.setText("Stop");
+	          			//createSocket();
+	        		}
+	      		}
+	    	});	
 		DisplayGraph DG= new DisplayGraph();
 		ChartPanel chartPanel= new ChartPanel(DG.displayGraph);
 		chartPanel.setLocation(12, 26);
