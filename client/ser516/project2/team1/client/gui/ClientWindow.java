@@ -51,12 +51,12 @@ public class ClientWindow {
 	}
 	
 	/**
-	 * Adds start/stop button and two panels to form a layout.
+	 * Adds start/stop button, tow panels for displaying Graph and Console, to form a layout.
 	 * @param springLayout
 	 */
 	private void addComponentsToFrame(SpringLayout springLayout)
 	{
-		JToggleButton btnNewButton = new JToggleButton("Start/Stop");
+		JToggleButton btnNewButton = new JToggleButton("");
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 10, SpringLayout.NORTH, frmClient.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, -231, SpringLayout.EAST, frmClient.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, 56, SpringLayout.NORTH, frmClient.getContentPane());
@@ -150,16 +150,6 @@ public class ClientWindow {
 		actualAverageLabel.setBackground(Color.PINK);
 		centerPanel.add(actualAverageLabel);
 		actualAverageLabel.setOpaque(true);
-		
-		JLabel numOfChannelsLabel = new JLabel("Channels");
-		numOfChannelsLabel.setBackground(Color.PINK);
-		centerPanel.add(numOfChannelsLabel);
-		numOfChannelsLabel.setOpaque(true);
-		
-		String[] channelDropdownValues = {"1", "2", "3", "4", "5"};
-		JComboBox<String> channelDropdown = new JComboBox<>(channelDropdownValues);
-		channelDropdown.setSelectedIndex(2);
-		centerPanel.add(channelDropdown);
 		
 	}
 	}
