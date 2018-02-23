@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Random;
 
+import util.ConsolePanel;
+
 /**
  * Server class used to bind, listen and accept
  * connections which are then sent onto a separate thread
@@ -47,7 +49,7 @@ public class ServerThread implements Runnable {
             out.println(this.channelID + "=" + randomNumber + ";");
             out.flush();
             
-            Server.txtConsole.append("sending to " + channelID + " randomNumber " + randomNumber + "\n");
+            ConsolePanel.updateText("sending to " + channelID + " randomNumber " + randomNumber + "\n");
             Thread.sleep(FREQ_THRESHOLD);
           } catch (InterruptedException e) {
             e.printStackTrace();

@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 import javax.swing.JTextArea;
 
+import ser516.project2.team1.server.gui.ServerMainWindow;
+
 /**
  * 
  * @author  Zelin Bao
@@ -30,8 +32,7 @@ public class Server implements Runnable {
   static int frequency = 5;
   static int max = 1024;
   static int min = 0; 
-  private static boolean isRunning = false;
-  static JTextArea txtConsole;
+  
   private static Socket socket;
   private static ServerSocket sSocket;
   private static String ip = "localhost";
@@ -49,12 +50,10 @@ public class Server implements Runnable {
     }
   }
 
-  public Server (String args [], JTextArea console) {
-    if (args != null && args.length > 1) {
-      this.parseArguments(args);
-    }
-    txtConsole = console;
-    isRunning = true;
+  public Server (int max, int min, int frequency) {
+    Server.max = max;
+    Server.min = min;
+    Server.frequency = frequency;
   }
 
   @Override
@@ -108,7 +107,6 @@ public class Server implements Runnable {
       }
       
       sSocket.close();
-      isRunning = false;
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -126,7 +124,7 @@ public class Server implements Runnable {
 
 
   public void setConsoleInfo(String info) {    
-    txtConsole.append("\nConsole:\t" + info);
+    ServerMainWindow.appendToConsolePanel(info);
   }
 
   /**
@@ -165,7 +163,7 @@ public class Server implements Runnable {
         System.out.println("--port <port> --ip <ip> --frequency <frequency> --max <max> --min <min>\n\tOR");
         System.out.println("-port <port> -ip <ip> -frequency <frequency> -max <max> -min <min>\n\tOR");
         System.out.println("-p <port> -ip <ip> -f <frequency> -max <max> -min <min>");
-        System.exit (0);  // invalid data provided, exiting for a retry
+        System.exit (0);
       }
 
     }

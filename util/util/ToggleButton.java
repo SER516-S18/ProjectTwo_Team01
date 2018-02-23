@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -16,72 +17,65 @@ import javax.swing.border.EtchedBorder;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import ser516.project2.team1.server.gui.ServerMainWindow;
+
 public class ToggleButton extends JPanel implements ActionListener, MouseListener {
 
   private static final long serialVersionUID = 8996294272697598276L;
+  public static JLabel startStopLabel;
+  public static JButton startStopButton;
 
-  private JLabel startStopLabel;
-  private JButton startStopButton;
-  private boolean isStarted;
+  private JFrame callingClass;
 
-  private final static Color RED = new Color(220, 20, 60);
-  private final static Color GREEN = new Color(0, 128, 0);
-  private final static Color BLACK = new Color(0, 0, 0);
-  private final static Color GRAY = new Color(238, 238, 238);
+  private static final Color RED = new Color(220, 20, 60);
+  private static final Color GREEN = new Color(0, 128, 0);
+  private static final Color BLACK = new Color(0, 0, 0);
+  private static final Color GRAY = new Color(238, 238, 238);
 
-  public ToggleButton() {
+  public ToggleButton(JFrame callingClass) {
+    this.callingClass = callingClass;
     setBackground(GRAY);
     setForeground(BLACK);
     setBorder(new EtchedBorder(EtchedBorder.LOWERED, BLACK, null));
-    
+
     setBounds(374, 10, 100, 30);
     setLayout(new GridLayout(1, 2));
 
     startStopLabel = new JLabel("Start");
     startStopButton = new JButton();
+    startStopButton.addActionListener(this);
 
     startStopLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    startStopLabel.addMouseListener(this);
     add(startStopButton);
     add(startStopLabel);
-    
+
     startStopButton.setBackground(RED);
     setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { startStopButton, startStopLabel }));
-    isStarted = false;
   }
 
   @Override
   public void actionPerformed(ActionEvent e) {
     removeComponents(this);
+    System.out.println("Action is being performed: " + e.getID());
     if (e.getID() == 1001 && startStopLabel.getText() == "Stop") {
-      addComponents(this, startStopButton, startStopLabel);
-      startStopButton.setBackground(RED);
-      startStopLabel.setText("Start");
-      isStarted = true;
+      setTogglePanelControl (false);
     } else if (e.getID() == 1001 && startStopLabel.getText() == "Start") {
-      addComponents(this, startStopLabel, startStopButton);
-      startStopButton.setBackground(GREEN);
-      startStopLabel.setText("Stop");
-      isStarted = false;
+      System.out.println("else happened");
+      setTogglePanelControl (true);
     }
-  }
-
-  public boolean getIsStarted () {
-    return isStarted;
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
+    System.out.println("Mouse Action is being performed: " + e.getButton());
     removeComponents(this);
     if (e.getButton() == 1 && startStopLabel.getText() == "Stop") {
       addComponents(this, startStopButton, startStopLabel);
-      startStopButton.setBackground(RED);
-      startStopLabel.setText("Start");
-      isStarted = true;
+      setTogglePanelControl (false);
     } else if (e.getButton() == 1 && startStopLabel.getText() == "Start") {
       addComponents(this, startStopLabel, startStopButton);
-      startStopButton.setBackground(GREEN);
-      startStopLabel.setText("Stop");
-      isStarted = false;
+      setTogglePanelControl (true);
     }
   }
 
@@ -91,30 +85,50 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
     }
   }
 
-  private void addComponents(JPanel panel, Component one, Component two) {
-    panel.add(one);
-    panel.add(two);
+  private void addComponents(JPanel panel, Component left, Component right) {
+    panel.add(left);
+    panel.add(right);
+  }
+
+  private void setStartStopAction (boolean isStarted) {
+    if (callingClass instanceof ServerMainWindow) {
+      ((ServerMainWindow) callingClass).controlStartStopAction (isStarted);
+    } else {
+      //ServerMainWindow.setStartStopAction(isStarted);
+      // Client item can go here
+
+    }
+  }
+  
+  private void setTogglePanelControl(boolean isStarted) {
+    if (isStarted) {
+      addComponents(this, startStopButton, startStopLabel);
+      startStopButton.setBackground(GREEN);
+      startStopLabel.setText("Stop");
+    } else {
+      addComponents(this, startStopLabel, startStopButton);
+      startStopButton.setBackground(RED);
+      startStopLabel.setText("Start");
+    }    
+    
+    System.out.println("Code: " + isStarted);
+    
+    setStartStopAction (isStarted);
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-    // TODO Auto-generated method stub
   }
 }

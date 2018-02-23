@@ -207,7 +207,7 @@ public class Test extends JFrame {
  * Used to start the server.
  */
   private void startServer() {
-    server = new Server(arrArgs, txtConsole);
+    server = new Server(arrArgs);
     serverThread = new Thread(server);
     serverThread.start();
     arrArgs = null;

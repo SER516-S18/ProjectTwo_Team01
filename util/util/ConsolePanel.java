@@ -40,7 +40,6 @@ public class ConsolePanel extends JPanel{
 		consoleScrollPane = new JScrollPane();
 		consoleScrollPane.setHorizontalScrollBarPolicy(horizontalScrollValue);
 		consoleScrollPane.setVerticalScrollBarPolicy(verticalScrollValue);
-		consoleScrollPane.setBounds(0, 0, 464, 111);
 		
 		consoleHeaderLabel = new JLabel("Console :");
 		consoleScrollPane.setColumnHeaderView(consoleHeaderLabel);
@@ -70,7 +69,8 @@ public class ConsolePanel extends JPanel{
 	 * @param message. This is the message that needs to be displayed on the console.
 	 * @return void.
 	 */
-	public static void updatetext(String message) {
+	public static void updateText (String message) {
+	  System.out.println("Message received: " + message);
 		completeMessage = completeMessage + message + "<br/>" ;
 		messageDisplay = completeMessage + "</html>";
 		consoleMessageLabel.setText(messageDisplay);
