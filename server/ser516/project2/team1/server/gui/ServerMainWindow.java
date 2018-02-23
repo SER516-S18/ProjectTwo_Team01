@@ -60,11 +60,6 @@ public class ServerMainWindow extends JFrame {
     startStopButton.setBounds(325, 10, 100, 25);
     contentPane.add(startStopButton);
     
-    
-    
-
-    contentPane.add(startStopButton);
-
     JPanel consolePanel = new JPanel();
     consolePanel.setAlignmentY(Component.TOP_ALIGNMENT);
     consolePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
