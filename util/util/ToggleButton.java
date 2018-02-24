@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Color;
+
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
+import util.Constants;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import ser516.project2.team1.server.gui.ServerMainWindow;
@@ -27,16 +30,11 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
 
   private JFrame callingClass;
 
-  private static final Color RED = new Color(220, 20, 60);
-  private static final Color GREEN = new Color(0, 128, 0);
-  private static final Color BLACK = new Color(0, 0, 0);
-  private static final Color GRAY = new Color(238, 238, 238);
-
   public ToggleButton(JFrame callingClass) {
     this.callingClass = callingClass;
-    setBackground(GRAY);
-    setForeground(BLACK);
-    setBorder(new EtchedBorder(EtchedBorder.LOWERED, BLACK, null));
+    setBackground(Constants.GRAY);
+    setForeground(Constants.BLACK);
+    setBorder(new EtchedBorder(EtchedBorder.LOWERED, Constants.BLACK, null));
 
     setBounds(374, 10, 100, 30);
     setLayout(new GridLayout(1, 2));
@@ -50,7 +48,7 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
     add(startStopButton);
     add(startStopLabel);
 
-    startStopButton.setBackground(RED);
+    startStopButton.setBackground(Constants.RED);
     setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { startStopButton, startStopLabel }));
   }
 
@@ -103,11 +101,11 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
   private void setTogglePanelControl(boolean isStarted) {
     if (isStarted) {
       addComponents(this, startStopButton, startStopLabel);
-      startStopButton.setBackground(GREEN);
+      startStopButton.setBackground(Constants.GREEN);
       startStopLabel.setText("Stop");
     } else {
       addComponents(this, startStopLabel, startStopButton);
-      startStopButton.setBackground(RED);
+      startStopButton.setBackground(Constants.RED);
       startStopLabel.setText("Start");
     }    
     

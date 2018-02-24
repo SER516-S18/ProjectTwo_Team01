@@ -10,6 +10,7 @@ import javax.swing.border.LineBorder;
 import ser516.project2.team1.server.sys.Server;
 import util.ConsolePanel;
 import util.ToggleButton;
+import util.Constants;
 
 import javax.swing.SwingConstants;
 import java.awt.Rectangle;
@@ -21,17 +22,13 @@ import javax.swing.JScrollPane;
 /**
  * The Server Main Window is the complete User Interface of the server. 
  * 
- * @author Chetanya
+ * @author Chetanya Ahuja
+ * @author Debarati Bhattacharyya
  * @version 1.0
- * @since 2017-02-22
+ * @since 2017-02-23
  *
  */
 public class ServerMainWindow extends JFrame {
-
-  private static final Color GREEN = new Color(50, 205, 50);
-  private static final Color RED =  new Color(220, 20, 60);
-  private static final Color PINK = new Color(255, 228, 225);
-  private static final Color LIGHTBLUE = new Color(135, 206, 250);
 
   private static JPanel contentPane;
   private static JTextField highestValueTextBox;
@@ -52,7 +49,9 @@ public class ServerMainWindow extends JFrame {
   }
 
   /**
-   * Create the frame.
+   * Creates the main window frame. It displays the highest value, lowest value 
+   * frequency and the console.
+   * 
    */
   public ServerMainWindow() {
     min = 50;
@@ -69,7 +68,7 @@ public class ServerMainWindow extends JFrame {
     contentPane.setAlignmentX(Component.LEFT_ALIGNMENT);
     contentPane.setBounds(new Rectangle(0, 650, 650, 0));
     contentPane.setForeground(new Color(50, 205, 50));
-    contentPane.setBackground(LIGHTBLUE);
+    contentPane.setBackground(Constants.LIGHTBLUE);
     contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
     setContentPane(contentPane);
     contentPane.setLayout(null);
@@ -79,7 +78,7 @@ public class ServerMainWindow extends JFrame {
     contentPane.add(startStopButton);
 
     JPanel maxMinFrequencyPanel = new JPanel();
-    maxMinFrequencyPanel.setBackground(LIGHTBLUE);
+    maxMinFrequencyPanel.setBackground(Constants.LIGHTBLUE);
     maxMinFrequencyPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     maxMinFrequencyPanel.setBounds(230, 50, 250, 250);
     contentPane.add(maxMinFrequencyPanel);
@@ -111,7 +110,7 @@ public class ServerMainWindow extends JFrame {
     frequencyValueTextBox.setAlignmentY(Component.TOP_ALIGNMENT);
     frequencyValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
     frequencyValueTextBox.setColumns(10);
-    frequencyValueTextBox.setBackground(PINK);
+    frequencyValueTextBox.setBackground(Constants.PINK);
     frequencyValueTextBox.setBounds(140, 155, 100, 55);
     frequencyValueTextBox.setEditable(!isStarted);
     frequencyValueTextBox.setText(frequency + "");
@@ -141,7 +140,7 @@ public class ServerMainWindow extends JFrame {
     JPanel statusIndicatorPanel = new JPanel();
     statusIndicatorPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     statusIndicatorPanel.setBounds(10, 50, 215, 250);
-    statusIndicatorPanel.setBackground(LIGHTBLUE);
+    statusIndicatorPanel.setBackground(Constants. LIGHTBLUE);
     contentPane.add(statusIndicatorPanel);
     statusIndicatorPanel.setLayout(null);
 
@@ -149,7 +148,7 @@ public class ServerMainWindow extends JFrame {
     indicatorLabel.setBounds(10, 20, 200, 200);
     statusIndicatorPanel.add(indicatorLabel);
     indicatorLabel.setHorizontalTextPosition(SwingConstants.CENTER);
-    indicatorLabel.setForeground(isStarted ? GREEN : RED);
+    indicatorLabel.setForeground(isStarted ? Constants.GREEN : Constants.RED);
     indicatorLabel.setFont(indicatorLabel.getFont().deriveFont(300f));
 
     consolePanel = new ConsolePanel();
@@ -159,16 +158,25 @@ public class ServerMainWindow extends JFrame {
     contentPane.add(consolePanel);
   }
 
+/**
+ * Displays the message on the console panel.
+ * 
+ */
   public static void appendToConsolePanel (String input) {
     ConsolePanel.updateText (input);
   }
+  
+  /** 
+   * Implements the functionality for the start/stop button.
+   * 
+   */
 
   public void controlStartStopAction (boolean isStarted) {
     if (isStarted) {
       highestValueTextBox.setEditable(false);
       lowestValueTextBox.setEditable(false);
       frequencyValueTextBox.setEditable(false);
-      indicatorLabel.setForeground (GREEN);
+      indicatorLabel.setForeground (Constants.GREEN);
       consolePanel.updateText("Awesome");
       
       this.startServer();
@@ -177,7 +185,7 @@ public class ServerMainWindow extends JFrame {
       highestValueTextBox.setEditable(true);
       lowestValueTextBox.setEditable(true);
       frequencyValueTextBox.setEditable(true);
-      indicatorLabel.setForeground(RED);
+      indicatorLabel.setForeground(Constants.RED);
       this.stopServer();
     }
   }
