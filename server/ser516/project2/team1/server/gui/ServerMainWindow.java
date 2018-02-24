@@ -25,7 +25,7 @@ import javax.swing.JScrollPane;
  * @author Chetanya Ahuja
  * @author Debarati Bhattacharyya
  * @version 1.0
- * @since 2017-02-23
+ * @since 2018-02-23
  *
  */
 public class ServerMainWindow extends JFrame {
@@ -67,9 +67,9 @@ public class ServerMainWindow extends JFrame {
     contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
     contentPane.setAlignmentX(Component.LEFT_ALIGNMENT);
     contentPane.setBounds(new Rectangle(0, 650, 650, 0));
-    contentPane.setForeground(new Color(50, 205, 50));
+    contentPane.setForeground(Constants.GREEN);
     contentPane.setBackground(Constants.LIGHTBLUE);
-    contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+    contentPane.setBorder(new LineBorder(Constants.BLACK, 1, true));
     setContentPane(contentPane);
     contentPane.setLayout(null);
 
@@ -89,7 +89,7 @@ public class ServerMainWindow extends JFrame {
     highestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
     highestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
     highestValueTextBox.setBounds(140, 15, 100, 55);
-    highestValueTextBox.setBackground(new Color(255, 228, 225));
+    highestValueTextBox.setBackground(Constants.PINK);
     highestValueTextBox.setColumns(10);
     highestValueTextBox.setEditable(!isStarted);
     highestValueTextBox.setText(max + "");
@@ -99,7 +99,7 @@ public class ServerMainWindow extends JFrame {
     lowestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
     lowestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
     lowestValueTextBox.setColumns(10);
-    lowestValueTextBox.setBackground(new Color(135, 206, 250));
+    lowestValueTextBox.setBackground(Constants.LIGHTBLUE);
     lowestValueTextBox.setBounds(140, 85, 100, 55);
     lowestValueTextBox.setEditable(!isStarted);
     lowestValueTextBox.setText(min + "");
@@ -129,7 +129,7 @@ public class ServerMainWindow extends JFrame {
     highestValue.setBounds(15, 15, 100, 55);
     highestValue.setText("<html>Highest<br>value:</html>");
     maxMinFrequencyPanel.add(highestValue);
-    highestValue.setBackground(Color.LIGHT_GRAY);
+    highestValue.setBackground(Constants.GRAY);
 
     JLabel lblFrequency = new JLabel("<html>Frequency<br>(Hz):</html>", SwingConstants.CENTER);
     lblFrequency.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -152,8 +152,8 @@ public class ServerMainWindow extends JFrame {
     indicatorLabel.setFont(indicatorLabel.getFont().deriveFont(300f));
 
     consolePanel = new ConsolePanel();
-    consolePanel.setForeground(Color.BLACK);
-    consolePanel.setBackground(Color.WHITE);
+    consolePanel.setForeground(Constants.BLACK);
+    consolePanel.setBackground(Constants.WHITE);
     consolePanel.setBounds(10, 316, 476, 132);
     contentPane.add(consolePanel);
   }
