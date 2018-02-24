@@ -25,3 +25,5 @@ Once compiled, issue the below command for the Client:
 java -cp "./server/:./client/:./util/:./util/commons:./lib/jcommon-1.0.23.jar:./lib/jfreechart-1.0.19.jar:./lib/jgoodies-forms-1.4.0.jar:./lib/json.jar" client.gui.ClientMainWindow
 
 Once compiled, issue the below command for the Server:
+
+Note: For Windows PC use ";" and for MAC use ":" as separators.
