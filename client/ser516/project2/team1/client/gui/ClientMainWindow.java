@@ -8,6 +8,15 @@ import ser516.project2.team1.client.sys.NumberStatistics;
 import util.ConsolePanel;
 import util.ToggleButton;
 
+/**
+ * The Client Main Window is the complete User Interface of the client. 
+ * 
+ * @author team 1
+ * @version 1.0
+ * @since 2017-02-23
+ *
+**/
+
 public class ClientMainWindow extends JFrame {
 
 	private static JPanel contentPane;
