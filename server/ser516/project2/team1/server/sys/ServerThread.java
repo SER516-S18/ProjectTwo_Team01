@@ -28,16 +28,36 @@ public class ServerThread implements Runnable {
   private int randomNumber;
   private final int FREQ_THRESHOLD = Server.frequency;
   
+  
+  /**
+   * 
+   * @param socket presents current socket
+   * @param id presents current channel ID
+   */
   public ServerThread (Socket socket, int id) {
     this.socket = socket;
     this.channelID = "channelID_" + id;  
     randomGenerator = new Random(System.currentTimeMillis());
   }
   
+  /**
+   * get channel ID
+   * @return channel ID
+   */
   public String getChannelID () {
     return this.channelID;
   }  
-
+  
+/**
+ * run method creates several random numbers and send them to client. The console shows current channel ID
+ * and random numbers .
+ * @param max represents up limitation of random numbers
+ * @param min represents bottom limitation of random numbers
+ * @param socket
+ * @param randomNumber represents random number
+ * @param channelID represents channel ID
+ */
+  
   public void run () {
     try {
       try {
