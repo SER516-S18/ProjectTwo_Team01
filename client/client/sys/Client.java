@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.*;
 import javax.swing.SwingUtilities;
 import client.gui.ClientMainWindow;
+import commons.ConsolePanel;
 
 /**
  * Client class used to connect to server, receive numbers on given number of
@@ -44,7 +45,11 @@ public class Client implements Runnable {
 	public int getFrequency() {
 		return frequency;
 	}
-
+	
+	public void setConsoleInfo(String info) {
+		ClientMainWindow.appendToConsole(info);
+	}
+	
 	/**
 	 * Welcome message from server has frequency in it, split message to get the
 	 * frequency.
@@ -74,7 +79,6 @@ public class Client implements Runnable {
 			out.println(channelsMessage);
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -97,9 +101,7 @@ public class Client implements Runnable {
 				int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
 				Channel channelDetails = new Channel(channelId, channelValue);
 				UpdateClientWindow(channelDetails);
-				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -111,6 +113,7 @@ public class Client implements Runnable {
 	 */
 	public void closeConnection() {
 		try {
+			setConsoleInfo("Client closing connection with server ...");
 			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,6 +127,7 @@ public class Client implements Runnable {
 	public void run() {
 		try {
 			socket = new Socket(ipAddress, port);
+			setConsoleInfo("Client connected to " + socket.getLocalAddress().getHostName());
 			receiveFrequency();
 			sendNumberOfChannels();
 			receiveNumbers();
@@ -134,17 +138,12 @@ public class Client implements Runnable {
 
 	}
 	
-	/**
-	 * 
-	 * @param channelDetails - The channel id and value 
-	 * to update client window.
-	 * 
-	 */
 	public void UpdateClientWindow(Channel channelDetails) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
+				clientWindow.displayGraph.updateGraph(channels, channelDetails);
 				NumberStatistics.ComputeNumberStatistics(channelDetails);
 				clientWindow.refreshWindow();
 			}

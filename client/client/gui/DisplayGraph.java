@@ -1,26 +1,104 @@
 package client.gui;
 
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
 
-public class DisplayGraph {
-	JFreeChart displayGraph;
+import client.sys.Channel;
 
-	public DisplayGraph() {
-		this.displayGraph = ChartFactory.createLineChart("Display", "Number", "Value", createDataset(),
-				PlotOrientation.VERTICAL, true, true, false);
-	}
+/*This panel represents the graph panel
+ * It contains the graph, dataset and other chart related parameters
+ * 
+ */
 
-	private DefaultCategoryDataset createDataset() {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.addValue(15, "values", "1");
-		dataset.addValue(30, "values", "2");
-		dataset.addValue(60, "values", "3");
-		dataset.addValue(120, "values", "4");
-		dataset.addValue(240, "values", "5");
-		dataset.addValue(300, "values", "6");
-		return dataset;
-	}
+public class DisplayGraph extends JPanel {
+  JFreeChart displayGraph;
+  int channel;
+  TimeSeriesCollection dataset ;
+  public TimeSeries series;
+  ArrayList<TimeSeries> seriesCollection;
+
+  ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
+  ChartPanel chartPanel ;
+  ArrayList<Integer> time = new ArrayList<Integer>();
+  client.sys.Channel channelDetails;
+  static DisplayThread c;
+
+
+  public DisplayGraph() {
+    super();
+    dataset= new TimeSeriesCollection();
+    series = new TimeSeries("Channel1",Millisecond.class);
+    dataset.addSeries(series);
+    displayGraph= createChart(dataset);
+
+
+  }
+  /*
+   * This function creates the chart with necessary parameters.
+   */
+  private JFreeChart createChart(final XYDataset dataset) {
+    final JFreeChart result = ChartFactory.createTimeSeriesChart(
+        "Display", 
+        "Time", 
+        "Value",
+        dataset, 
+        true, 
+        true, 
+        false
+        );
+    final XYPlot plot = result.getXYPlot();
+    ValueAxis axis = plot.getDomainAxis();
+    axis.setAutoRange(true);
+    axis.setFixedAutoRange(60000.0);
+    axis = plot.getRangeAxis();
+    axis.setRange(0.0,2500.0); 
+    return result;
+  }
+
+  /*
+   * This method starts the thread each time a value is received
+   */
+
+  public void updateGraph(int channel,Channel channelDetails) {
+
+    this.channel=channel;
+    this.channelDetails=channelDetails;
+    if (c == null) {
+      c = new DisplayThread();
+      new Thread(c).start();
+    }
+
+  }
+
+  /*
+   * This thread adds each value to the graph dynamically.
+   */
+  public class DisplayThread implements Runnable {
+
+    @Override
+    public void run() {
+      while (true) {
+        series.add(new Millisecond(), channelDetails.getChannelValue());
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+
 }
+

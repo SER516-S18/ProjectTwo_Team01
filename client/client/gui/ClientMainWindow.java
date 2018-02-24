@@ -39,8 +39,12 @@ public class ClientMainWindow extends JFrame {
 	private JLabel actualAverageLabel;
 	private JLabel actualFrequencyLabel;
 	private JPanel containerPanel;
+
+
+	public DisplayGraph displayGraph;
+
 	/**
-	 * Launch the application.
+	 * Main method to create client window
 	 */
 	public static void main(String[] args) {		
 		ClientMainWindow window = new ClientMainWindow();
@@ -48,7 +52,7 @@ public class ClientMainWindow extends JFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * Function to set the layout for main client frame
 	 */
 	public ClientMainWindow() {
 		contentPane = new JPanel();
@@ -68,8 +72,7 @@ public class ClientMainWindow extends JFrame {
 	}
 
 	/**
-	 * adds labels to show channel, highest, lowest and average values
-	 * to center panel
+	 * Function to add the different components to the main frame
 	 */
 	private void addGraphPanel()
 	{
@@ -88,7 +91,10 @@ public class ClientMainWindow extends JFrame {
 		containerPanel.add(graphPanel);
 		containerPanel.setOpaque(false);
 
-		DisplayGraph displayGraph= new DisplayGraph();
+		 displayGraph= new DisplayGraph();
+		displayGraph.chartPanel= new ChartPanel(displayGraph.displayGraph);
+		displayGraph.chartPanel.setLocation(12, 26);
+		displayGraph.chartPanel.setSize(new Dimension(478, 567));
 		graphPanel.setLayout(null);
 		ChartPanel chartPanel= new ChartPanel(displayGraph.displayGraph);
 		chartPanel.setBorder(new LineBorder(Constants.BLACK));
@@ -96,7 +102,7 @@ public class ClientMainWindow extends JFrame {
 		chartPanel.setSize(new Dimension(573, 619));
 		chartPanel.setBackground(Constants.LIGHTBLUE);
 
-		graphPanel.add(chartPanel);
+		graphPanel.add(displayGraph.chartPanel);
 
 		JPanel highestPanel = new JPanel();
 		highestPanel.setBorder(new LineBorder(Constants.BLACK));
@@ -236,14 +242,19 @@ public class ClientMainWindow extends JFrame {
 		consolePanel = new ConsolePanel();
 		consolePanel.setBounds(12, 743, 958, 197);
 		contentPane.add(consolePanel);
-		consolePanel.setBorder(new LineBorder(Constants.BLACK));
-		consolePanel.setLayout(null);
+		consolePanel.setBorder(new LineBorder(Constants.BLACK));		
+		consolePanel.setBackground(Constants.GRAY);
 	}
-
+	
 	/**
 	 * 
-	 * @param isStarted used to determine if server is started or not and based on that change properties
+	 * Display the message on the console panel
 	 */
+	public static void appendToConsole(String input) {
+		ConsolePanel.updateText(input);
+	}
+
+	
 	public void controlStartStopAction (boolean isStarted) {
 		if (isStarted) {
 			client = new Client(Integer.parseInt((String)(comboBox.getSelectedItem())),this);
@@ -256,15 +267,13 @@ public class ClientMainWindow extends JFrame {
 		}
 	}
 	
+	/* Function to set the frequency from the server */
 	public void setFrequency(int frequency)
 	{
 		this.actualFrequencyLabel.setText(frequency+"");
 		this.containerPanel.repaint();
 	}
 	
-	/*
-	 * Used to update the view to the client after high, low, averages are optained
-	 */
 	public void refreshWindow()
 	{
 		this.actualHighLabel.setText(NumberStatistics.getHighestValue()+"");

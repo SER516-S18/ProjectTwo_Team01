@@ -18,16 +18,6 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import client.gui.ClientMainWindow;
 import server.gui.ServerMainWindow;
 
-
-/**
- * Used to create a toggle button which is more elegant than the java toggle button
- * 
- * @author Cephas Armstrong-Mensah
- * @author Debarati Bhattacharyya
- * @version 1.0
- * @since 2018-02-23
- *
- */
 public class ToggleButton extends JPanel implements ActionListener, MouseListener {
 
   private static final long serialVersionUID = 8996294272697598276L;
