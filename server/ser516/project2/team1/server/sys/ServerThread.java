@@ -8,9 +8,8 @@ import java.util.Random;
 import util.ConsolePanel;
 
 /**
- * Server class used to bind, listen and accept
- * connections which are then sent onto a separate thread
-
+ * Implements a new server thread when user changes channel.
+ * 
  * @author 	Zelin Bao
  * @author 	Cephas Armstrong-Mensah
  * @author 	Group 1 #001 - #013
