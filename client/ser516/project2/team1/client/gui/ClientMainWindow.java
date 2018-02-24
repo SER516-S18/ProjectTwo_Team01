@@ -216,9 +216,16 @@ public class ClientMainWindow extends JFrame {
 		consolePanel = new ConsolePanel();
 		consolePanel.setBounds(12, 743, 958, 197);
 		contentPane.add(consolePanel);
-		consolePanel.setBorder(new LineBorder(Constants.BLACK));
-		consolePanel.setLayout(null);
+		consolePanel.setBorder(new LineBorder(Constants.BLACK));		
 		consolePanel.setBackground(Constants.GRAY);
+	}
+	
+	/**
+	 * 
+	 * Display the message on the console panel
+	 */
+	public static void appendToConsole(String input) {
+		ConsolePanel.updateText(input);
 	}
 
 	/**
