@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.*;
 import javax.swing.SwingUtilities;
 import ser516.project2.team1.client.gui.ClientMainWindow;
+import util.ConsolePanel;
 
 /**
  * Client class used to connect to server, receive numbers on given number of
@@ -44,7 +45,11 @@ public class Client implements Runnable {
 	public int getFrequency() {
 		return frequency;
 	}
-
+	
+	public void setConsoleInfo(String info) {
+		ClientMainWindow.appendToConsole(info);
+	}
+	
 	/**
 	 * Welcome message from server has frequency in it, split message to get the
 	 * frequency.
@@ -111,6 +116,7 @@ public class Client implements Runnable {
 	 */
 	public void closeConnection() {
 		try {
+			setConsoleInfo("Client closing connection with server ...");
 			socket.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,6 +130,7 @@ public class Client implements Runnable {
 	public void run() {
 		try {
 			socket = new Socket(ipAddress, port);
+			setConsoleInfo("Client connected to " + socket.getLocalAddress().getHostName());
 			receiveFrequency();
 			sendNumberOfChannels();
 			receiveNumbers();
