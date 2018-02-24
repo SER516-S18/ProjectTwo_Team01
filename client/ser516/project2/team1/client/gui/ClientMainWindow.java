@@ -8,6 +8,7 @@ import ser516.project2.team1.client.sys.NumberStatistics;
 import ser516.project2.team1.server.gui.ConsolePanel;
 import ser516.project2.team1.server.gui.ToggleButton;
 import util.ConsolePanel;
+import util.Constants;
 import util.ToggleButton;
 
 public class ClientMainWindow extends JFrame {
@@ -62,13 +63,13 @@ public class ClientMainWindow extends JFrame {
 		containerPanel = new JPanel();
 		containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		containerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		containerPanel.setBorder(new LineBorder(Constants.BLACK));
 		containerPanel.setBounds(12, 72, 958, 645);
 		contentPane.add(containerPanel);
 		containerPanel.setLayout(null);
 
 		JPanel graphPanel = new JPanel();
-		graphPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		graphPanel.setBorder(new LineBorder(Constants.BLACK));
 		graphPanel.setBounds(12, 13, 573, 619);
 		containerPanel.add(graphPanel);
 		containerPanel.setOpaque(false);
@@ -76,20 +77,20 @@ public class ClientMainWindow extends JFrame {
 		DisplayGraph displayGraph= new DisplayGraph();
 		graphPanel.setLayout(null);
 		ChartPanel chartPanel= new ChartPanel(displayGraph.displayGraph);
-		chartPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		chartPanel.setBorder(new LineBorder(Constants.BLACK));
 		chartPanel.setLocation(0, 0);
 		chartPanel.setSize(new Dimension(573, 619));
 
 		graphPanel.add(chartPanel);
 
 		JPanel highestPanel = new JPanel();
-		highestPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		highestPanel.setBorder(new LineBorder(Constants.BLACK));
 		highestPanel.setBounds(623, 57, 100, 55);
 		containerPanel.add(highestPanel);
 		highestPanel.setLayout(null);
 
 		JLabel highestLbl = new JLabel("<html>Highest<br>Value:</html>");
-		highestLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		highestLbl.setBorder(new LineBorder(Constants.BLACK));
 		highestLbl.setBounds(0, 0, 100, 55);
 		highestLbl.setAlignmentY(Component.TOP_ALIGNMENT);
 		highestLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -97,7 +98,7 @@ public class ClientMainWindow extends JFrame {
 		highestLbl.setOpaque(true);
 
 		JPanel highestValuePanel = new JPanel();
-		highestValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		highestValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		highestValuePanel.setBounds(798, 57, 104, 54);
 		containerPanel.add(highestValuePanel);
 		
@@ -105,13 +106,13 @@ public class ClientMainWindow extends JFrame {
 		highestValuePanel.add(actualHighLabel);
 
 		JPanel lowestPanel = new JPanel();
-		lowestPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lowestPanel.setBorder(new LineBorder(Constants.BLACK));
 		lowestPanel.setBounds(623, 160, 100, 55);
 		containerPanel.add(lowestPanel);
 		lowestPanel.setLayout(null);
 
 		JLabel lowestLbl = new JLabel("<html>Lowest<br>Value:</html>");
-		lowestLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lowestLbl.setBorder(new LineBorder(Constants.BLACK));
 		lowestLbl.setAlignmentY(Component.TOP_ALIGNMENT);
 		lowestLbl.setBounds(0, 0, 100, 55);
 		lowestLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -119,7 +120,7 @@ public class ClientMainWindow extends JFrame {
 		lowestLbl.setOpaque(true);
 
 		JPanel lowestValuePanel = new JPanel();
-		lowestValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lowestValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		lowestValuePanel.setBounds(798, 160, 100, 55);
 		containerPanel.add(lowestValuePanel);
 		lowestValuePanel.setLayout(null);
@@ -129,13 +130,13 @@ public class ClientMainWindow extends JFrame {
 		lowestValuePanel.add(actualLowLabel);
 
 		JPanel averagePanel = new JPanel();
-		averagePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		averagePanel.setBorder(new LineBorder(Constants.BLACK));
 		averagePanel.setBounds(623, 268, 100, 55);
 		containerPanel.add(averagePanel);
 		averagePanel.setLayout(null);
 
 		JLabel averageLbl = new JLabel("Average:");
-		averageLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		averageLbl.setBorder(new LineBorder(Constants.BLACK));
 		averageLbl.setAlignmentY(Component.TOP_ALIGNMENT);
 		averageLbl.setBounds(0, 0, 100, 55);
 		averageLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -143,7 +144,7 @@ public class ClientMainWindow extends JFrame {
 		averageLbl.setOpaque(true);
 
 		JPanel averageValuePanel = new JPanel();
-		averageValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		averageValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		averageValuePanel.setBounds(798, 268, 100, 55);
 		containerPanel.add(averageValuePanel);
 		averageValuePanel.setLayout(null);
@@ -153,14 +154,14 @@ public class ClientMainWindow extends JFrame {
 		averageValuePanel.add(actualAverageLabel);
 
 		JPanel numOfChannelsPanel = new JPanel();
-		numOfChannelsPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		numOfChannelsPanel.setBorder(new LineBorder(Constants.BLACK));
 		numOfChannelsPanel.setBounds(623, 361, 100, 55);
 		containerPanel.add(numOfChannelsPanel);
 		numOfChannelsPanel.setLayout(null);
 
 		JLabel numOfChannelsLbl = new JLabel("Channels:");
 		numOfChannelsLbl.setAlignmentY(Component.TOP_ALIGNMENT);
-		numOfChannelsLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		numOfChannelsLbl.setBorder(new LineBorder(Constants.BLACK));
 		numOfChannelsLbl.setBounds(0, 0, 100, 55);
 		numOfChannelsLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		numOfChannelsPanel.add(numOfChannelsLbl);
@@ -172,13 +173,13 @@ public class ClientMainWindow extends JFrame {
 		containerPanel.add(comboBox);
 
 		JPanel frequencyPanel = new JPanel();
-		frequencyPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frequencyPanel.setBorder(new LineBorder(Constants.BLACK));
 		frequencyPanel.setBounds(623, 460, 100, 55);
 		containerPanel.add(frequencyPanel);
 		frequencyPanel.setLayout(null);
 
 		JLabel frequencyLbl = new JLabel("Frequency:");
-		frequencyLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frequencyLbl.setBorder(new LineBorder(Constants.BLACK));
 		frequencyLbl.setBounds(0, 0, 100, 55);
 		frequencyLbl.setAlignmentY(Component.TOP_ALIGNMENT);
 		frequencyLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,7 +187,7 @@ public class ClientMainWindow extends JFrame {
 		frequencyLbl.setOpaque(true);
 
 		JPanel frequencyValuePanel = new JPanel();
-		frequencyValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frequencyValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		frequencyValuePanel.setBounds(798, 460, 100, 55);
 		containerPanel.add(frequencyValuePanel);
 		frequencyValuePanel.setLayout(null);
@@ -198,7 +199,7 @@ public class ClientMainWindow extends JFrame {
 		consolePanel = new ConsolePanel();
 		consolePanel.setBounds(12, 743, 958, 197);
 		contentPane.add(consolePanel);
-		consolePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		consolePanel.setBorder(new LineBorder(Constants.BLACK));
 		consolePanel.setLayout(null);
 	}
 
