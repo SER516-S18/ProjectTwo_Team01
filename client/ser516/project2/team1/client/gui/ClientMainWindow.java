@@ -30,10 +30,12 @@ public class ClientMainWindow extends JFrame {
 	private JLabel actualAverageLabel;
 	private JLabel actualFrequencyLabel;
 	private JPanel containerPanel;
+
+
 	public DisplayGraph displayGraph;
 
 	/**
-	 * Launch the application.
+	 * Main method to create client window
 	 */
 	public static void main(String[] args) {		
 		ClientMainWindow window = new ClientMainWindow();
@@ -41,10 +43,9 @@ public class ClientMainWindow extends JFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * Function to set the layout for main client frame
 	 */
 	public ClientMainWindow() {
-		// clientJFrame = new JFrame();
 		contentPane = new JPanel();
 		setTitle("Client");
 		setBounds(100, 100, 1000, 1000);
@@ -62,14 +63,11 @@ public class ClientMainWindow extends JFrame {
 	}
 
 	/**
-	 * adds labels to show channel, highest, lowest and average values
-	 * to center panel
+	 * Function to add the different components to the main frame
 	 */
-
 	private void addGraphPanel()
 	{
-
-		//This is the other container panel. This holds the graph window and the buttons.
+		//This panel holds the graph window and the buttons.
 		containerPanel = new JPanel();
 		containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -224,10 +222,21 @@ public class ClientMainWindow extends JFrame {
 		consolePanel = new ConsolePanel();
 		consolePanel.setBounds(12, 743, 958, 197);
 		contentPane.add(consolePanel);
-		consolePanel.setBorder(new LineBorder(Constants.BLACK));
-		consolePanel.setLayout(null);
+		consolePanel.setBorder(new LineBorder(Constants.BLACK));		
+		consolePanel.setBackground(Constants.GRAY);
+	}
+	
+	/**
+	 * 
+	 * Display the message on the console panel
+	 */
+	public static void appendToConsole(String input) {
+		ConsolePanel.updateText(input);
 	}
 
+	/**
+	*Function to create the Start/Stop button functionality
+	**/
 	public void controlStartStopAction (boolean isStarted) {
 		if (isStarted) {
 			client = new Client(Integer.parseInt((String)(comboBox.getSelectedItem())),this);
@@ -241,13 +250,14 @@ public class ClientMainWindow extends JFrame {
 		}
 	}
 	
+	/* Function to set the frequency from the server */
 	public void setFrequency(int frequency)
 	{
 		this.actualFrequencyLabel.setText(frequency+"");
 		this.containerPanel.repaint();
 	}
 	
-	
+	/* Function to updatye the highest, lowest and average values for the client */
 	public void refreshWindow()
 	{
 		this.actualHighLabel.setText(NumberStatistics.getHighestValue()+"");
