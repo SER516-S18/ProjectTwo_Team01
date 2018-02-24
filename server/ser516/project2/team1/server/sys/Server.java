@@ -32,7 +32,6 @@ public class Server implements Runnable {
 	 * Represents bottom limitation of random numbers.
 	 * Ip of localhost.
 	 * An Arraylist stores clients
-	 * 
 	 */
 	private static int port = 8001;
 	static int frequency = 5;
