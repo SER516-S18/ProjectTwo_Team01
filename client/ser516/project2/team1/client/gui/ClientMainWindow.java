@@ -1,161 +1,189 @@
 package ser516.project2.team1.client.gui;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+//import java.awt.event.MouseAdapter;
+//import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 import org.jfree.chart.ChartPanel;
 
-public class ClientMainWindow {
+import util.ConsolePanel;
+import util.ToggleButton;
 
-  private JFrame frmClient;
+public class ClientMainWindow extends JFrame {
 
-  /**
-   * Launch the application.
-   */
-  public static void main(String[] args) {		
-    ClientMainWindow window = new ClientMainWindow();
-    window.frmClient.setVisible(true);
-  }
+	private static JPanel contentPane;
+	private ConsolePanel consolePanel;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {		
+		ClientMainWindow window = new ClientMainWindow();
+		window.setVisible(true);
+	}
 
-  /**
-   * Create the application.
-   */
-  public ClientMainWindow() {
-    frmClient = new JFrame();
-    frmClient.setTitle("Client");
-    frmClient.setBounds(100, 100, 1000, 1000);
-    frmClient.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frmClient.setLocationRelativeTo(null);
-    SpringLayout springLayout = new SpringLayout();
-    frmClient.getContentPane().setLayout(springLayout);
+	/**
+	 * Create the application.
+	 */
+	public ClientMainWindow() {
+		// clientJFrame = new JFrame();
+		contentPane = new JPanel();
+		setTitle("Client");
+		setBounds(100, 100, 1000, 1000);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 
-    addComponentsToFrame(springLayout);
-  }
+		ToggleButton btnStartStop = new ToggleButton(this);
+		btnStartStop.setBounds(846, 13, 100, 25);
 
-  /**
-   * Adds start/stop button, tow panels for displaying Graph and Console, to form a layout.
-   * @param springLayout
-   */
-  private void addComponentsToFrame(SpringLayout springLayout)
-  {
-    JToggleButton btnNewButton = new JToggleButton("");
-    springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 10, SpringLayout.NORTH, frmClient.getContentPane());
-    springLayout.putConstraint(SpringLayout.WEST, btnNewButton, -231, SpringLayout.EAST, frmClient.getContentPane());
-    springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, 56, SpringLayout.NORTH, frmClient.getContentPane());
-    springLayout.putConstraint(SpringLayout.EAST, btnNewButton, -10, SpringLayout.EAST, frmClient.getContentPane());
-    frmClient.getContentPane().add(btnNewButton);
-    JLabel lblToggle = new JLabel("Start");
-    lblToggle.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == 1 && lblToggle.getText() == "Stop") {
-          btnNewButton.setBackground(Color.RED);
-          lblToggle.setText("Start");
-          //closeConnection(); 
-        } 
-        else if (e.getButton() == 1 && lblToggle.getText() == "Start") {
-          btnNewButton.setBackground(Color.GREEN);
-          lblToggle.setText("Stop");
-          //createSocket();
-        }
-      }
-    });	
+		contentPane.add(btnStartStop);
+		addGraphPanel();
+	}
 
-    DisplayGraph DG= new DisplayGraph();
-    ChartPanel chartPanel= new ChartPanel(DG.displayGraph);
-    chartPanel.setLocation(12, 26);
-    chartPanel.setSize(new Dimension(478, 567));
-    JPanel graphPanel = new JPanel();
-    graphPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-    springLayout.putConstraint(SpringLayout.NORTH, graphPanel, 17, SpringLayout.SOUTH, btnNewButton);
-    springLayout.putConstraint(SpringLayout.SOUTH, graphPanel, 623, SpringLayout.SOUTH, btnNewButton);
-    frmClient.getContentPane().add(graphPanel);
-    graphPanel.setLayout(null);
+	/**
+	 * adds labels to show channel, highest, lowest and average values
+	 * to center panel
+	 */
 
-    graphPanel.add(chartPanel);
+	private void addGraphPanel()
+	{
 
-    JPanel centerPanel = new JPanel();
-    springLayout.putConstraint(SpringLayout.EAST, graphPanel, -26, SpringLayout.WEST, centerPanel);
-    springLayout.putConstraint(SpringLayout.WEST, centerPanel, 538, SpringLayout.WEST, frmClient.getContentPane());
-    centerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-    springLayout.putConstraint(SpringLayout.NORTH, centerPanel, 17, SpringLayout.SOUTH, btnNewButton);
-    springLayout.putConstraint(SpringLayout.SOUTH, centerPanel, 623, SpringLayout.SOUTH, btnNewButton);
-    springLayout.putConstraint(SpringLayout.EAST, centerPanel, 0, SpringLayout.EAST, btnNewButton);
-    frmClient.getContentPane().add(centerPanel);
-    centerPanel.setLayout(new GridLayout(5, 2, 0, 0));
-    addComponentsToCenterPanel(centerPanel);
+		//This is the other container panel. This holds the graph window and the buttons.
+		JPanel containerPanel = new JPanel();
+		containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		containerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		containerPanel.setBounds(12, 72, 958, 645);
+		contentPane.add(containerPanel);
+		containerPanel.setLayout(null);
 
+		JPanel graphPanel = new JPanel();
+		graphPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		graphPanel.setBounds(12, 13, 573, 619);
+		containerPanel.add(graphPanel);
+		containerPanel.setOpaque(false);
 
+		DisplayGraph displayGraph= new DisplayGraph();
+		graphPanel.setLayout(null);
+		ChartPanel chartPanel= new ChartPanel(displayGraph.displayGraph);
+		chartPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		chartPanel.setLocation(0, 0);
+		chartPanel.setSize(new Dimension(573, 619));
 
-    JPanel consolePanel = new JPanel();
-    springLayout.putConstraint(SpringLayout.WEST, graphPanel, 0, SpringLayout.WEST, consolePanel);
-    consolePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-    springLayout.putConstraint(SpringLayout.NORTH, consolePanel, -257, SpringLayout.SOUTH, frmClient.getContentPane());
-    springLayout.putConstraint(SpringLayout.WEST, consolePanel, 10, SpringLayout.WEST, frmClient.getContentPane());
-    springLayout.putConstraint(SpringLayout.SOUTH, consolePanel, -10, SpringLayout.SOUTH, frmClient.getContentPane());
-    springLayout.putConstraint(SpringLayout.EAST, consolePanel, 0, SpringLayout.EAST, btnNewButton);
-    frmClient.getContentPane().add(consolePanel);
+		graphPanel.add(chartPanel);
 
+		JPanel highestPanel = new JPanel();
+		highestPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		highestPanel.setBounds(623, 57, 100, 55);
+		containerPanel.add(highestPanel);
+		highestPanel.setLayout(null);
 
-  }
+		JLabel highestLbl = new JLabel("<html>Highest<br>Value:</html>");
+		highestLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		highestLbl.setBounds(0, 0, 100, 55);
+		highestLbl.setAlignmentY(Component.TOP_ALIGNMENT);
+		highestLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		highestPanel.add(highestLbl);
+		highestLbl.setOpaque(true);
 
-  /**
-   * adds labels to show channel, highest, lowest and average values
-   * to center panel
-   */
-  private void addComponentsToCenterPanel(JPanel centerPanel) {
-    JLabel highestValueLabel = new JLabel("<html>Highest<br>Value:</html>");
-    highestValueLabel.setBackground(SystemColor.activeCaption);
-    highestValueLabel.setOpaque(true);
-    centerPanel.add(highestValueLabel);
+		JPanel highestValuePanel = new JPanel();
+		highestValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		highestValuePanel.setBounds(798, 57, 104, 54);
+		containerPanel.add(highestValuePanel);
 
-    JLabel actualHighValueLabel = new JLabel("");
-    actualHighValueLabel.setBackground(Color.PINK);
-    centerPanel.add(actualHighValueLabel);
-    actualHighValueLabel.setOpaque(true);
+		JPanel lowestPanel = new JPanel();
+		lowestPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lowestPanel.setBounds(623, 160, 100, 55);
+		containerPanel.add(lowestPanel);
+		lowestPanel.setLayout(null);
 
-    JLabel lowestValueLabel = new JLabel("<html>Lowest<br>Value:</html>");
-    lowestValueLabel.setBackground(Color.PINK);
-    centerPanel.add(lowestValueLabel);
-    lowestValueLabel.setOpaque(true);
+		JLabel lowestLbl = new JLabel("<html>Lowest<br>Value:</html>");
+		lowestLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lowestLbl.setAlignmentY(Component.TOP_ALIGNMENT);
+		lowestLbl.setBounds(0, 0, 100, 55);
+		lowestLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		lowestPanel.add(lowestLbl);
+		lowestLbl.setOpaque(true);
 
-    JLabel actualLowestValueLabel = new JLabel("");
-    actualLowestValueLabel.setBackground(SystemColor.activeCaption);
-    centerPanel.add(actualLowestValueLabel);
-    actualLowestValueLabel.setOpaque(true);
+		JPanel lowestValuePanel = new JPanel();
+		lowestValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lowestValuePanel.setBounds(798, 160, 100, 55);
+		containerPanel.add(lowestValuePanel);
+		lowestValuePanel.setLayout(null);
 
-    JLabel averageLabel= new JLabel("Average:");
-    averageLabel.setBackground(SystemColor.activeCaption);
-    centerPanel.add(averageLabel);
-    averageLabel.setOpaque(true);
+		JPanel averagePanel = new JPanel();
+		averagePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		averagePanel.setBounds(623, 268, 100, 55);
+		containerPanel.add(averagePanel);
+		averagePanel.setLayout(null);
 
-    JLabel actualAverageLabel = new JLabel("");
-    actualAverageLabel.setBackground(Color.PINK);
-    centerPanel.add(actualAverageLabel);
-    actualAverageLabel.setOpaque(true);
+		JLabel averageLbl = new JLabel("Average:");
+		averageLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		averageLbl.setAlignmentY(Component.TOP_ALIGNMENT);
+		averageLbl.setBounds(0, 0, 100, 55);
+		averageLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		averagePanel.add(averageLbl);
+		averageLbl.setOpaque(true);
 
-    JLabel numOfChannelsLabel = new JLabel("Channels:");
-    numOfChannelsLabel.setBackground(Color.PINK);
-    centerPanel.add(numOfChannelsLabel);
-    numOfChannelsLabel.setOpaque(true);
+		JPanel averageValuePanel = new JPanel();
+		averageValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		averageValuePanel.setBounds(798, 268, 100, 55);
+		containerPanel.add(averageValuePanel);
+		averageValuePanel.setLayout(null);
 
-    String[] channelDropdownValues = {"1", "2", "3", "4", "5"};
-    JComboBox<String> channelDropdown = new JComboBox<>(channelDropdownValues);
-    channelDropdown.setSelectedIndex(2);
-    centerPanel.add(channelDropdown);
+		JPanel numOfChannelsPanel = new JPanel();
+		numOfChannelsPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		numOfChannelsPanel.setBounds(623, 361, 100, 55);
+		containerPanel.add(numOfChannelsPanel);
+		numOfChannelsPanel.setLayout(null);
 
-    JLabel frequencyLabel= new JLabel("Frequency(Hz):");
-    frequencyLabel.setBackground(SystemColor.activeCaption);
-    centerPanel.add(frequencyLabel);
-    frequencyLabel.setOpaque(true);
+		JLabel numOfChannelsLbl = new JLabel("Channels:");
+		numOfChannelsLbl.setAlignmentY(Component.TOP_ALIGNMENT);
+		numOfChannelsLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		numOfChannelsLbl.setBounds(0, 0, 100, 55);
+		numOfChannelsLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		numOfChannelsPanel.add(numOfChannelsLbl);
+		numOfChannelsLbl.setOpaque(true);
 
-    JLabel actualFrequencyLabel = new JLabel("");
-    actualFrequencyLabel.setBackground(Color.PINK);
-    centerPanel.add(actualFrequencyLabel);
-    actualFrequencyLabel.setOpaque(true);
+		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setBounds(798, 361, 104, 22);
+		containerPanel.add(comboBox);
 
-  }
+		JPanel frequencyPanel = new JPanel();
+		frequencyPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frequencyPanel.setBounds(623, 460, 100, 55);
+		containerPanel.add(frequencyPanel);
+		frequencyPanel.setLayout(null);
+
+		JLabel frequencyLbl = new JLabel("Frequency:");
+		frequencyLbl.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frequencyLbl.setBounds(0, 0, 100, 55);
+		frequencyLbl.setAlignmentY(Component.TOP_ALIGNMENT);
+		frequencyLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		frequencyPanel.add(frequencyLbl);
+		frequencyLbl.setOpaque(true);
+
+		JPanel frequencyValuePanel = new JPanel();
+		frequencyValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		frequencyValuePanel.setBounds(798, 460, 100, 55);
+		containerPanel.add(frequencyValuePanel);
+		frequencyValuePanel.setLayout(null);
+
+		consolePanel = new ConsolePanel();
+		consolePanel.setBounds(12, 743, 958, 197);
+		contentPane.add(consolePanel);
+		consolePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		consolePanel.setLayout(null);
+	}
+
+	public void controlStartStopAction (boolean isStarted) {
+		if (isStarted) {
+			ConsolePanel.updateText ("Client is started");
+			// start the client here
+		} else {
+			//stop the client here
+			ConsolePanel.updateText("Client is stopped");
+		}
+	}
 }
