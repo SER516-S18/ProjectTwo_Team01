@@ -20,17 +20,21 @@ import util.ConsolePanel;
  */
 
 public class ServerThread implements Runnable {
-  private Socket socket;
-  private PrintWriter out;
-  
-  private String channelID;
-  private Random randomGenerator;
-  private int randomNumber;
-  private final int FREQ_THRESHOLD = Server.frequency;
+	
+/**
+ * Channel ID.
+ * Random number which are sent to client
+ */
+ private Socket socket;
+ private PrintWriter out;
+ private String channelID;
+ private Random randomGenerator;
+ private int randomNumber;
+ private final int FREQ_THRESHOLD = Server.frequency;
   
   
   /**
-   * 
+   * Create a new ServerThread with given socket and id.
    * @param socket presents current socket
    * @param id presents current channel ID
    */
@@ -41,15 +45,15 @@ public class ServerThread implements Runnable {
   }
   
   /**
-   * get channel ID
-   * @return channel ID
+   * Get channel ID
+   * @return Channel ID
    */
   public String getChannelID () {
     return this.channelID;
   }  
   
 /**
- * run method creates several random numbers and send them to client. The console shows current channel ID
+ * Run method creates several random numbers and send them to client. The console shows current channel ID
  * and random numbers .
  * @param max represents up limitation of random numbers
  * @param min represents bottom limitation of random numbers
