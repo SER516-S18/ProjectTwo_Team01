@@ -1,11 +1,12 @@
 package ser516.project2.team1.client.gui;
 import javax.swing.*;
 import java.awt.*;
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 import org.jfree.chart.ChartPanel;
-
+import ser516.project2.team1.client.sys.Client;
+import ser516.project2.team1.client.sys.NumberStatistics;
+import ser516.project2.team1.server.gui.ConsolePanel;
+import ser516.project2.team1.server.gui.ToggleButton;
 import util.ConsolePanel;
 import util.ToggleButton;
 
@@ -13,6 +14,14 @@ public class ClientMainWindow extends JFrame {
 
 	private static JPanel contentPane;
 	private ConsolePanel consolePanel;
+	private Thread clientThread;
+	private Client client;
+	JComboBox<String> comboBox;
+	private JLabel actualLowLabel;
+	private JLabel actualHighLabel;
+	private JLabel actualAverageLabel;
+	private JLabel actualFrequencyLabel;
+	private JPanel containerPanel;
 	/**
 	 * Launch the application.
 	 */
@@ -50,7 +59,7 @@ public class ClientMainWindow extends JFrame {
 	{
 
 		//This is the other container panel. This holds the graph window and the buttons.
-		JPanel containerPanel = new JPanel();
+		containerPanel = new JPanel();
 		containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		containerPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -91,6 +100,9 @@ public class ClientMainWindow extends JFrame {
 		highestValuePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		highestValuePanel.setBounds(798, 57, 104, 54);
 		containerPanel.add(highestValuePanel);
+		
+		actualHighLabel = new JLabel("");
+		highestValuePanel.add(actualHighLabel);
 
 		JPanel lowestPanel = new JPanel();
 		lowestPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -111,6 +123,10 @@ public class ClientMainWindow extends JFrame {
 		lowestValuePanel.setBounds(798, 160, 100, 55);
 		containerPanel.add(lowestValuePanel);
 		lowestValuePanel.setLayout(null);
+		
+		actualLowLabel = new JLabel("");
+		actualLowLabel.setBounds(0, 0, 85, 55);
+		lowestValuePanel.add(actualLowLabel);
 
 		JPanel averagePanel = new JPanel();
 		averagePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -131,6 +147,10 @@ public class ClientMainWindow extends JFrame {
 		averageValuePanel.setBounds(798, 268, 100, 55);
 		containerPanel.add(averageValuePanel);
 		averageValuePanel.setLayout(null);
+		
+		actualAverageLabel = new JLabel("");
+		actualAverageLabel.setBounds(0, 0, 100, 55);
+		averageValuePanel.add(actualAverageLabel);
 
 		JPanel numOfChannelsPanel = new JPanel();
 		numOfChannelsPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -145,8 +165,9 @@ public class ClientMainWindow extends JFrame {
 		numOfChannelsLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		numOfChannelsPanel.add(numOfChannelsLbl);
 		numOfChannelsLbl.setOpaque(true);
-
-		JComboBox<String> comboBox = new JComboBox<String>();
+		
+		String[] values = {"1","2","3","4"};
+		comboBox = new JComboBox<String>(values);
 		comboBox.setBounds(798, 361, 104, 22);
 		containerPanel.add(comboBox);
 
@@ -169,6 +190,10 @@ public class ClientMainWindow extends JFrame {
 		frequencyValuePanel.setBounds(798, 460, 100, 55);
 		containerPanel.add(frequencyValuePanel);
 		frequencyValuePanel.setLayout(null);
+		
+		actualFrequencyLabel = new JLabel("");
+		actualFrequencyLabel.setBounds(15, 16, 69, 20);
+		frequencyValuePanel.add(actualFrequencyLabel);
 
 		consolePanel = new ConsolePanel();
 		consolePanel.setBounds(12, 743, 958, 197);
@@ -179,11 +204,29 @@ public class ClientMainWindow extends JFrame {
 
 	public void controlStartStopAction (boolean isStarted) {
 		if (isStarted) {
+			client = new Client(Integer.parseInt((String)(comboBox.getSelectedItem())),this);
+			clientThread = new Thread(client);
+			clientThread.start();
 			ConsolePanel.updateText ("Client is started");
 			// start the client here
 		} else {
 			//stop the client here
 			ConsolePanel.updateText("Client is stopped");
 		}
+	}
+	
+	public void setFrequency(int frequency)
+	{
+		this.actualFrequencyLabel.setText(frequency+"");
+		this.containerPanel.repaint();
+	}
+	
+	
+	public void refreshWindow()
+	{
+		this.actualHighLabel.setText(NumberStatistics.getHighestValue()+"");
+		this.actualLowLabel.setText(NumberStatistics.getLowestValue()+"");
+		this.actualAverageLabel.setText(NumberStatistics.getAverageValue()+"");
+		this.containerPanel.repaint();
 	}
 }

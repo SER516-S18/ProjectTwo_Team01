@@ -1,27 +1,23 @@
 package ser516.project2.team1.client.sys;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
-
 import javax.swing.SwingUtilities;
+import ser516.project2.team1.client.gui.ClientMainWindow;
 
 /**
+ * Client class used to connect to server, receive numbers on given number of
+ * channels.
  * 
  * @author Shilpa Bhat
  * @author Group 1 #001 - #013
  * @since FEB 2018
  * @version 1.0
- * 
- *          Client class used to connect to server, receive numbers on given
- *          number of channels.
  */
 public class Client implements Runnable {
 	private static Socket socket;
@@ -30,23 +26,19 @@ public class Client implements Runnable {
 	private final int port = 8001;
 	private int channels;
 	private int frequency;
+	public ClientMainWindow clientWindow;
 	public static ArrayList<ArrayList<String>> numberList = new ArrayList<ArrayList<String>>();
 
 	/**
 	 * Constructor accepts the number of channels through which data has to be
 	 * received from the server.
 	 * 
-	 * Create lists to store number for each channel.
-	 * 
 	 * @param numChannels
 	 *            - number of channels to receive numbers from server
 	 */
-	public Client(int numChannels) {
+	public Client(int numChannels, ClientMainWindow clientWindow) {
 		channels = numChannels;
-		for (int channel = 0; channel < channels; channel++) {
-			ArrayList<String> channelNumbers = new ArrayList<String>();
-			numberList.add(channelNumbers);
-		}
+		this.clientWindow = clientWindow;
 	}
 
 	public int getFrequency() {
@@ -54,23 +46,8 @@ public class Client implements Runnable {
 	}
 
 	/**
-	 * Creates socket and opens connection with the server at ip 'ipAddress' and
-	 * port number 'port'.
-	 */
-	public void createSocket() {
-		try {
-			socket = new Socket(ipAddress, port);
-			receiveFrequency();
-			sendNumberOfChannels();
-			receiveNumbers();
-
-		} catch (IOException exception) {
-			exception.printStackTrace();
-		}
-	}
-
-	/**
-	 * 
+	 * Welcome message from server has frequency in it, split message to get the
+	 * frequency.
 	 */
 	private void receiveFrequency() {
 		try {
@@ -80,12 +57,16 @@ public class Client implements Runnable {
 			String message = bufferReader.readLine();
 			System.out.println(message);
 			frequency = Integer.parseInt(message.split("frequency=")[1].split(";")[0]);
+			clientWindow.setFrequency(frequency);
 			System.out.println("frequency is " + frequency);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
 	}
 
+	/**
+	 * Channels is required by server to send the appropriate numbers.
+	 */
 	private void sendNumberOfChannels() {
 		try {
 			String channelsMessage = "channels=" + channels + ";";
@@ -98,7 +79,11 @@ public class Client implements Runnable {
 		}
 
 	}
-
+	
+	/**
+	 * The number received in the form channelID_id=value; is 
+	 * split and added to channeletails.
+	 */
 	private void receiveNumbers() {
 		while (true) {
 			InputStream inputStream;
@@ -112,7 +97,7 @@ public class Client implements Runnable {
 				int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
 				Channel channelDetails = new Channel(channelId, channelValue);
 				UpdateClientWindow(channelDetails);
-
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,6 +117,9 @@ public class Client implements Runnable {
 		}
 	}
 
+	/**
+	 * Has calls to receive frequency,send channels and receive numbers.
+	 */
 	@Override
 	public void run() {
 		try {
@@ -145,14 +133,20 @@ public class Client implements Runnable {
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * @param channelDetails - The channel id and value 
+	 * to update client window.
+	 * 
+	 */
 	public void UpdateClientWindow(Channel channelDetails) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
 				NumberStatistics.ComputeNumberStatistics(channelDetails);
-
+				clientWindow.refreshWindow();
 			}
 		});
 	}
