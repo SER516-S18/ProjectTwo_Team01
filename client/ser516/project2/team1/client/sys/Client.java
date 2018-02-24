@@ -140,11 +140,17 @@ public class Client implements Runnable {
 	 * to update client window.
 	 * 
 	 */
+	/*public void UpdateClientWindow(Channel channelDetails)
+	{
+		clientWindow.displayGraph.updateGraph(channels, channelDetails);
+	}*/
+	
 	public void UpdateClientWindow(Channel channelDetails) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
+				clientWindow.displayGraph.updateGraph(channels, channelDetails);
 				NumberStatistics.ComputeNumberStatistics(channelDetails);
 				clientWindow.refreshWindow();
 			}
