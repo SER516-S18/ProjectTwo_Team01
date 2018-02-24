@@ -1,6 +1,7 @@
 package ser516.project2.team1.server.gui;
 
 import javax.swing.JFrame;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -61,7 +62,7 @@ public class ServerMainWindow extends JFrame {
     setBounds(new Rectangle(0, 700, 700, 0));
     setTitle("SERVER");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setBounds(100, 100, 500, 500);
+    setBounds(100, 100, 502, 500);
 
     contentPane = new JPanel();
     contentPane.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -79,13 +80,14 @@ public class ServerMainWindow extends JFrame {
 
     JPanel maxMinFrequencyPanel = new JPanel();
     maxMinFrequencyPanel.setBackground(Constants.LIGHTBLUE);
-    maxMinFrequencyPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+    maxMinFrequencyPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, Constants.BLACK, null));
     maxMinFrequencyPanel.setBounds(230, 50, 250, 250);
     contentPane.add(maxMinFrequencyPanel);
     maxMinFrequencyPanel.setLayout(null);
 
     highestValueTextBox = new JTextField();
     highestValueTextBox.setEditable(false);
+    highestValueTextBox.setBorder(new LineBorder(Constants.BLACK));
     highestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
     highestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
     highestValueTextBox.setBounds(140, 15, 100, 55);
@@ -97,6 +99,7 @@ public class ServerMainWindow extends JFrame {
 
     lowestValueTextBox = new JTextField();
     lowestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+    lowestValueTextBox.setBorder(new LineBorder(Constants.BLACK));
     lowestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
     lowestValueTextBox.setColumns(10);
     lowestValueTextBox.setBackground(Constants.LIGHTBLUE);
@@ -107,6 +110,7 @@ public class ServerMainWindow extends JFrame {
 
     frequencyValueTextBox = new JTextField();
     frequencyValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
+    frequencyValueTextBox.setBorder(new LineBorder(Constants.BLACK));
     frequencyValueTextBox.setAlignmentY(Component.TOP_ALIGNMENT);
     frequencyValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
     frequencyValueTextBox.setColumns(10);
@@ -118,12 +122,16 @@ public class ServerMainWindow extends JFrame {
 
     JLabel lowestValue = new JLabel("<html>Lowest<br>Value:</html>",JLabel.CENTER);
     lowestValue.setFont(new Font("Dialog", Font.BOLD, 16));
+    lowestValue.setBorder(new LineBorder(Constants.BLACK));
+    lowestValue.setBackground(Constants.PINK);
     lowestValue.setHorizontalTextPosition(SwingConstants.CENTER);
     lowestValue.setBounds(15, 85, 100, 55);
     maxMinFrequencyPanel.add(lowestValue);
+    lowestValue.setOpaque(true);
 
     JLabel highestValue = new JLabel("<html>Highest<br>Value:</html>");
     highestValue.setFont(new Font("Dialog", Font.BOLD, 16));
+    highestValue.setBorder(new LineBorder(Constants.BLACK));
     highestValue.setHorizontalTextPosition(SwingConstants.CENTER);
     highestValue.setHorizontalAlignment(SwingConstants.CENTER);
     highestValue.setBounds(15, 15, 100, 55);
@@ -133,6 +141,7 @@ public class ServerMainWindow extends JFrame {
 
     JLabel lblFrequency = new JLabel("<html>Frequency<br>(Hz):</html>", SwingConstants.CENTER);
     lblFrequency.setFont(new Font("Dialog", Font.BOLD, 16));
+    lblFrequency.setBorder(new LineBorder(Constants.BLACK));
     lblFrequency.setHorizontalTextPosition(SwingConstants.CENTER);
     lblFrequency.setBounds(15, 155, 100, 55);
     maxMinFrequencyPanel.add(lblFrequency);
@@ -140,6 +149,7 @@ public class ServerMainWindow extends JFrame {
     JPanel statusIndicatorPanel = new JPanel();
     statusIndicatorPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     statusIndicatorPanel.setBounds(10, 50, 215, 250);
+    statusIndicatorPanel.setBorder(new LineBorder(Constants.BLACK));
     statusIndicatorPanel.setBackground(Constants. LIGHTBLUE);
     contentPane.add(statusIndicatorPanel);
     statusIndicatorPanel.setLayout(null);
@@ -154,7 +164,7 @@ public class ServerMainWindow extends JFrame {
     consolePanel = new ConsolePanel();
     consolePanel.setForeground(Constants.BLACK);
     consolePanel.setBackground(Constants.WHITE);
-    consolePanel.setBounds(10, 316, 476, 132);
+    consolePanel.setBounds(10, 316, 470, 132);
     contentPane.add(consolePanel);
   }
 
