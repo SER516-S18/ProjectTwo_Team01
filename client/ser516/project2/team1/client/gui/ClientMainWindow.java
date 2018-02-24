@@ -1,5 +1,6 @@
 package ser516.project2.team1.client.gui;
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.*;
 import java.awt.*;
