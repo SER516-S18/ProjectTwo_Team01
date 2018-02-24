@@ -26,4 +26,6 @@ java -cp "./server/:./client/:./util/:./util/commons:./lib/jcommon-1.0.23.jar:./
 
 Once compiled, issue the below command for the Server:
 
+java -cp “./server/:./client/:./util/:./util/commons:./lib/jcommon-1.0.23.jar:./lib/jfreechart-1.0.19.jar:./lib/jgoodies-forms-1.4.0.jar:./lib/json.jar” server.gui.ServerMainWindow
+
 Note: For Windows PC use ";" and for MAC use ":" as separators.
