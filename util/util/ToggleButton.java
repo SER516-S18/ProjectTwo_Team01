@@ -20,6 +20,7 @@ import util.Constants;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import ser516.project2.team1.client.gui.ClientMainWindow;
 import ser516.project2.team1.server.gui.ServerMainWindow;
 
 public class ToggleButton extends JPanel implements ActionListener, MouseListener {
@@ -94,7 +95,7 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
     } else {
       //ServerMainWindow.setStartStopAction(isStarted);
       // Client item can go here
-
+    	((ClientMainWindow) callingClass).controlStartStopAction(isStarted);
     }
   }
   
