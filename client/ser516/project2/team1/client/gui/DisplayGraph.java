@@ -36,7 +36,7 @@ public class DisplayGraph extends JPanel {
 	public DisplayGraph() {
 		super();
 		dataset= new TimeSeriesCollection();
-		series = new TimeSeries("series",Millisecond.class);
+		series = new TimeSeries("Channel1",Millisecond.class);
 		dataset.addSeries(series);
 		displayGraph= createChart(dataset);
 
