@@ -30,7 +30,10 @@ public class ClientMainWindow extends JFrame {
 	private JLabel actualAverageLabel;
 	private JLabel actualFrequencyLabel;
 	private JPanel containerPanel;
-	
+
+
+	public DisplayGraph displayGraph;
+
 	/**
 	 * Main method to create client window
 	 */
@@ -80,7 +83,10 @@ public class ClientMainWindow extends JFrame {
 		containerPanel.add(graphPanel);
 		containerPanel.setOpaque(false);
 
-		DisplayGraph displayGraph= new DisplayGraph();
+		 displayGraph= new DisplayGraph();
+		displayGraph.chartPanel= new ChartPanel(displayGraph.displayGraph);
+		displayGraph.chartPanel.setLocation(12, 26);
+		displayGraph.chartPanel.setSize(new Dimension(478, 567));
 		graphPanel.setLayout(null);
 		ChartPanel chartPanel= new ChartPanel(displayGraph.displayGraph);
 		chartPanel.setBorder(new LineBorder(Constants.BLACK));
@@ -88,7 +94,7 @@ public class ClientMainWindow extends JFrame {
 		chartPanel.setSize(new Dimension(573, 619));
 		chartPanel.setBackground(Constants.LIGHTBLUE);
 
-		graphPanel.add(chartPanel);
+		graphPanel.add(displayGraph.chartPanel);
 
 		JPanel highestPanel = new JPanel();
 		highestPanel.setBorder(new LineBorder(Constants.BLACK));
