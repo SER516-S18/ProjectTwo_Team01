@@ -50,6 +50,7 @@ public class ClientMainWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		contentPane.setBackground(Constants.LIGHTBLUE);
 
 		ToggleButton btnStartStop = new ToggleButton(this);
 		btnStartStop.setBounds(846, 13, 100, 25);
