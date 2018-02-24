@@ -1,7 +1,4 @@
-package util;
-
-import java.awt.Color;
-
+package commons;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,13 +13,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-import util.Constants;
-
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
-import ser516.project2.team1.client.gui.ClientMainWindow;
-import ser516.project2.team1.server.gui.ServerMainWindow;
+import client.gui.ClientMainWindow;
+import server.gui.ServerMainWindow;
 
+
+/**
+ * Used to create a toggle button which is more elegant than the java toggle button
+ * 
+ * @author Cephas Armstrong-Mensah
+ * @author Debarati Bhattacharyya
+ * @version 1.0
+ * @since 2018-02-23
+ *
+ */
 public class ToggleButton extends JPanel implements ActionListener, MouseListener {
 
   private static final long serialVersionUID = 8996294272697598276L;
@@ -56,18 +61,15 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
   @Override
   public void actionPerformed(ActionEvent e) {
     removeComponents(this);
-    System.out.println("Action is being performed: " + e.getID());
     if (e.getID() == 1001 && startStopLabel.getText() == "Stop") {
       setTogglePanelControl (false);
     } else if (e.getID() == 1001 && startStopLabel.getText() == "Start") {
-      System.out.println("else happened");
       setTogglePanelControl (true);
     }
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    System.out.println("Mouse Action is being performed: " + e.getButton());
     removeComponents(this);
     if (e.getButton() == 1 && startStopLabel.getText() == "Stop") {
       addComponents(this, startStopButton, startStopLabel);
@@ -93,9 +95,7 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
     if (callingClass instanceof ServerMainWindow) {
       ((ServerMainWindow) callingClass).controlStartStopAction (isStarted);
     } else {
-      //ServerMainWindow.setStartStopAction(isStarted);
-      // Client item can go here
-    	((ClientMainWindow) callingClass).controlStartStopAction(isStarted);
+      	((ClientMainWindow) callingClass).controlStartStopAction(isStarted);
     }
   }
   
@@ -108,13 +108,15 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
       addComponents(this, startStopLabel, startStopButton);
       startStopButton.setBackground(Constants.RED);
       startStopLabel.setText("Start");
-    }    
-    
-    System.out.println("Code: " + isStarted);
+    } 
     
     setStartStopAction (isStarted);
   }
 
+  /*
+   * Methods below were left blank since we didn't need to implement these,
+   * but since we implemented the MouseListeners, we had to add them even if empty 
+   */
   @Override
   public void mousePressed(MouseEvent e) {
   }

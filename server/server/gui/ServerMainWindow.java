@@ -1,23 +1,22 @@
-package ser516.project2.team1.server.gui;
+package server.gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import java.awt.Color;
 import javax.swing.border.LineBorder;
 
-import ser516.project2.team1.server.sys.Server;
-import util.ConsolePanel;
-import util.ToggleButton;
-import util.Constants;
+import server.sys.Server;
+import commons.ConsolePanel;
+import commons.ToggleButton;
+import commons.Constants;
 
 import javax.swing.SwingConstants;
 import java.awt.Rectangle;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.border.EtchedBorder;
-import javax.swing.JScrollPane;
+import java.awt.Color;
 
 /**
  * The Server Main Window is the complete User Interface of the server. 
@@ -30,14 +29,7 @@ import javax.swing.JScrollPane;
  */
 public class ServerMainWindow extends JFrame {
   
-   /**
-    * panel shows all information.
-	* panel shows highest value.
-	* panel shows lowest value.
-	* panel shows frequency.
-	* status of server.
-	*/
-	private static JPanel contentPane;
+  private static JPanel contentPane;
 	private static JTextField highestValueTextBox;
 	private static JTextField lowestValueTextBox;
 	private static JTextField frequencyValueTextBox;
@@ -53,11 +45,6 @@ public class ServerMainWindow extends JFrame {
 		frame.setVisible(true);
 	}
 
-	/**
-	 * Creates the main window frame. It displays the highest value, lowest value 
-	 * frequency and the console.
-	 * 
-	 */
 	public ServerMainWindow() {
 		min = 50;
 		max = 2500;
@@ -90,6 +77,7 @@ public class ServerMainWindow extends JFrame {
 		maxMinFrequencyPanel.setLayout(null);
 
 		highestValueTextBox = new JTextField();
+		highestValueTextBox.setBorder(new LineBorder(new Color(0, 0, 0)));
 		highestValueTextBox.setEditable(false);
 		highestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
 		highestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -101,6 +89,7 @@ public class ServerMainWindow extends JFrame {
 		maxMinFrequencyPanel.add(highestValueTextBox);
 
 		lowestValueTextBox = new JTextField();
+		lowestValueTextBox.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lowestValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
 		lowestValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
 		lowestValueTextBox.setColumns(10);
@@ -111,6 +100,7 @@ public class ServerMainWindow extends JFrame {
 		maxMinFrequencyPanel.add(lowestValueTextBox);
 
 		frequencyValueTextBox = new JTextField();
+		frequencyValueTextBox.setBorder(new LineBorder(new Color(0, 0, 0)));
 		frequencyValueTextBox.setHorizontalAlignment(SwingConstants.CENTER);
 		frequencyValueTextBox.setAlignmentY(Component.TOP_ALIGNMENT);
 		frequencyValueTextBox.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -122,12 +112,14 @@ public class ServerMainWindow extends JFrame {
 		maxMinFrequencyPanel.add(frequencyValueTextBox);
 
 		JLabel lowestValue = new JLabel("<html>Lowest<br>Value:</html>",JLabel.CENTER);
+		lowestValue.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lowestValue.setFont(new Font("Dialog", Font.BOLD, 16));
 		lowestValue.setHorizontalTextPosition(SwingConstants.CENTER);
 		lowestValue.setBounds(15, 85, 100, 55);
 		maxMinFrequencyPanel.add(lowestValue);
 
 		JLabel highestValue = new JLabel("<html>Highest<br>Value:</html>");
+		highestValue.setBorder(new LineBorder(new Color(0, 0, 0)));
 		highestValue.setFont(new Font("Dialog", Font.BOLD, 16));
 		highestValue.setHorizontalTextPosition(SwingConstants.CENTER);
 		highestValue.setHorizontalAlignment(SwingConstants.CENTER);
@@ -137,6 +129,7 @@ public class ServerMainWindow extends JFrame {
 		highestValue.setBackground(Constants.GRAY);
 		
 		JLabel lblFrequency = new JLabel("<html>Frequency<br>(Hz):</html>", SwingConstants.CENTER);
+		lblFrequency.setBorder(new LineBorder(new Color(0, 0, 0)));
 		lblFrequency.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblFrequency.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblFrequency.setBounds(15, 155, 100, 55);
@@ -181,10 +174,8 @@ public class ServerMainWindow extends JFrame {
 			lowestValueTextBox.setEditable(false);
 			frequencyValueTextBox.setEditable(false);
 			indicatorLabel.setForeground (Constants.GREEN);
-			consolePanel.updateText("Awesome"); 
 			this.startServer();
 		} else {
-			consolePanel.updateText("Hello");
 			highestValueTextBox.setEditable(true);
 			lowestValueTextBox.setEditable(true);
 			frequencyValueTextBox.setEditable(true);
@@ -193,9 +184,6 @@ public class ServerMainWindow extends JFrame {
 		}
 	}	
   
-	/**
-	 * Start server and wait clients.
-	 */
 	private void startServer() {
 		int max = Integer.parseInt(highestValueTextBox.getText());
 		int min = Integer.parseInt(lowestValueTextBox.getText());
@@ -205,9 +193,6 @@ public class ServerMainWindow extends JFrame {
 		new Thread(server).start();
 	}
   
-	/**
-	 * Close server.
-	 */
 	private void stopServer() {
 		server.closeConnection();
 	}

@@ -1,8 +1,8 @@
-package ser516.project2.team1.client.sys;
+package client.sys;
 
 /**
  * Receives the channel id and channel value,
- * computes the max , min and average number received so far.
+ * computes the max, min and average number received so far.
  * @author Shilpa Bhat
  * @author Group 1 #001 - #013
  * @since FEB 2018
@@ -31,7 +31,7 @@ public class NumberStatistics {
 	/**
 	 * 
 	 * @param channelDetails - Has the channel number and channel value
-	 * to compute max,min and average values.
+	 * to compute max, min and average values.
 	 */
 	public static void ComputeNumberStatistics(Channel channelDetails)
 	{

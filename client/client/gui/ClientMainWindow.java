@@ -1,13 +1,24 @@
-package ser516.project2.team1.client.gui;
-import javax.swing.*;
-import java.awt.*;
+package client.gui;
+
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
 import org.jfree.chart.ChartPanel;
-import ser516.project2.team1.client.sys.Client;
-import ser516.project2.team1.client.sys.NumberStatistics;
-import util.ConsolePanel;
-import util.Constants;
-import util.ToggleButton;
+
+import client.sys.Client;
+import client.sys.NumberStatistics;
+
+import commons.ConsolePanel;
+import commons.Constants;
+import commons.ToggleButton;
 
 /**
  * The Client Main Window is the complete User Interface of the client. 
@@ -17,9 +28,7 @@ import util.ToggleButton;
  * @since 2017-02-23
  *
 **/
-
 public class ClientMainWindow extends JFrame {
-
 	private static JPanel contentPane;
 	private ConsolePanel consolePanel;
 	private Thread clientThread;
@@ -42,7 +51,6 @@ public class ClientMainWindow extends JFrame {
 	 * Create the application.
 	 */
 	public ClientMainWindow() {
-		// clientJFrame = new JFrame();
 		contentPane = new JPanel();
 		setTitle("Client");
 		setBounds(100, 100, 1000, 1000);
@@ -63,11 +71,8 @@ public class ClientMainWindow extends JFrame {
 	 * adds labels to show channel, highest, lowest and average values
 	 * to center panel
 	 */
-
 	private void addGraphPanel()
 	{
-
-		//This is the other container panel. This holds the graph window and the buttons.
 		containerPanel = new JPanel();
 		containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -110,11 +115,16 @@ public class ClientMainWindow extends JFrame {
 
 		JPanel highestValuePanel = new JPanel();
 		highestValuePanel.setBorder(new LineBorder(Constants.BLACK));
-		highestValuePanel.setBounds(798, 57, 104, 54);
+		highestValuePanel.setBounds(798, 57, 100, 55);
 		highestValuePanel.setBackground(Constants.PINK);
 		containerPanel.add(highestValuePanel);
+		highestValuePanel.setLayout(null);
 		
 		actualHighLabel = new JLabel("");
+		actualHighLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		actualHighLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		actualHighLabel.setFont(new Font("Lucida Grande", Font.BOLD, 24));
+		actualHighLabel.setBounds(0, 0, 100, 55);
 		highestValuePanel.add(actualHighLabel);
 
 		JPanel lowestPanel = new JPanel();
@@ -140,10 +150,16 @@ public class ClientMainWindow extends JFrame {
 		lowestValuePanel.setBackground(Constants.LIGHTBLUE);
 		
 		actualLowLabel = new JLabel("");
-		actualLowLabel.setBounds(0, 0, 85, 55);
+		actualLowLabel.setFont(new Font("Lucida Grande", Font.BOLD, 24));
+		actualLowLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		actualLowLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		actualLowLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+		actualLowLabel.setBounds(0, 0, 100, 55);
 		lowestValuePanel.add(actualLowLabel);
 
 		JPanel averagePanel = new JPanel();
+		averagePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		averagePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		averagePanel.setBorder(new LineBorder(Constants.BLACK));
 		averagePanel.setBounds(623, 268, 100, 55);
 		containerPanel.add(averagePanel);
@@ -167,6 +183,8 @@ public class ClientMainWindow extends JFrame {
 		averageValuePanel.setBackground(Constants.PINK);
 		
 		actualAverageLabel = new JLabel("");
+		actualAverageLabel.setFont(new Font("Lucida Grande", Font.BOLD, 24));
+		actualAverageLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 		actualAverageLabel.setBounds(0, 0, 100, 55);
 		averageValuePanel.add(actualAverageLabel);
 
@@ -184,11 +202,6 @@ public class ClientMainWindow extends JFrame {
 		numOfChannelsPanel.add(numOfChannelsLbl);
 		numOfChannelsLbl.setOpaque(true);
 		numOfChannelsLbl.setBackground(Constants.PINK);
-		
-		String[] values = {"1","2","3","4"};
-		comboBox = new JComboBox<String>(values);
-		comboBox.setBounds(798, 361, 104, 22);
-		containerPanel.add(comboBox);
 
 		JPanel frequencyPanel = new JPanel();
 		frequencyPanel.setBorder(new LineBorder(Constants.BLACK));
@@ -213,7 +226,11 @@ public class ClientMainWindow extends JFrame {
 		frequencyValuePanel.setBackground(Constants.PINK);
 		
 		actualFrequencyLabel = new JLabel("");
-		actualFrequencyLabel.setBounds(15, 16, 69, 20);
+		actualFrequencyLabel.setFont(new Font("Lucida Grande", Font.BOLD, 22));
+		actualFrequencyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		actualFrequencyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		actualFrequencyLabel.setAlignmentY(Component.TOP_ALIGNMENT);
+		actualFrequencyLabel.setBounds(0, 0, 100, 55);
 		frequencyValuePanel.add(actualFrequencyLabel);
 
 		consolePanel = new ConsolePanel();
@@ -223,15 +240,18 @@ public class ClientMainWindow extends JFrame {
 		consolePanel.setLayout(null);
 	}
 
+	/**
+	 * 
+	 * @param isStarted used to determine if server is started or not and based on that change properties
+	 */
 	public void controlStartStopAction (boolean isStarted) {
 		if (isStarted) {
 			client = new Client(Integer.parseInt((String)(comboBox.getSelectedItem())),this);
 			clientThread = new Thread(client);
 			clientThread.start();
 			ConsolePanel.updateText ("Client is started");
-			// start the client here
 		} else {
-			//stop the client here
+			client.closeConnection();
 			ConsolePanel.updateText("Client is stopped");
 		}
 	}
@@ -242,7 +262,9 @@ public class ClientMainWindow extends JFrame {
 		this.containerPanel.repaint();
 	}
 	
-	
+	/*
+	 * Used to update the view to the client after high, low, averages are optained
+	 */
 	public void refreshWindow()
 	{
 		this.actualHighLabel.setText(NumberStatistics.getHighestValue()+"");

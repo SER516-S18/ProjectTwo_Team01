@@ -1,7 +1,4 @@
-package ser516.project2.team1.client.gui;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+package client.gui;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;

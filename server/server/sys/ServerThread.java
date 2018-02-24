@@ -1,9 +1,11 @@
-package ser516.project2.team1.server.sys;
+package server.sys;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Random;
-import util.ConsolePanel;
+
+import commons.ConsolePanel;
 
 /**
  * Implements a new server thread when user changes channel.

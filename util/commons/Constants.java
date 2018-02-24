@@ -1,4 +1,6 @@
-package util;
+package commons;
+
+import java.awt.Color;
 
 /**
  * This class contains the common constants used by the Client 
@@ -9,10 +11,7 @@ package util;
  * @since 2018-02-23
  *
  */
-import java.awt.Color;
-
 public class Constants {
-
 	public static final Color GREEN = new Color(50, 205, 50);
 	public static final Color RED =  new Color(220, 20, 60);
 	public static final Color PINK = new Color(255, 228, 225);

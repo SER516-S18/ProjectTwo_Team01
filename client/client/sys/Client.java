@@ -1,4 +1,4 @@
-package ser516.project2.team1.client.sys;
+package client.sys;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 import javax.swing.SwingUtilities;
-import ser516.project2.team1.client.gui.ClientMainWindow;
+import client.gui.ClientMainWindow;
 
 /**
  * Client class used to connect to server, receive numbers on given number of
@@ -22,7 +22,7 @@ import ser516.project2.team1.client.gui.ClientMainWindow;
 public class Client implements Runnable {
 	private static Socket socket;
 	private static PrintWriter out;
-	private final String ipAddress = "127.0.0.1";
+	private final String ipAddress = "10.140.202.158";
 	private final int port = 8001;
 	private int channels;
 	private int frequency;

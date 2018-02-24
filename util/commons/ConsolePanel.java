@@ -1,4 +1,4 @@
-package util;
+package commons;
 
 import java.awt.GridLayout;
 import java.awt.Point;

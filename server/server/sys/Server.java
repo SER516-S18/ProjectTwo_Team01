@@ -1,15 +1,14 @@
-package ser516.project2.team1.server.sys;
+package server.sys;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
-import javax.swing.JTextArea;
-import ser516.project2.team1.server.gui.ServerMainWindow;
+
+import server.gui.ServerMainWindow;
 
 /**
  * Implements a server which can accept several clients connection, and send random
@@ -33,15 +32,15 @@ public class Server implements Runnable {
 	 * Ip of localhost.
 	 * An Arraylist stores clients
 	 */
-	private static int port = 8001;
 	static int frequency = 5;
 	static int max = 1024;
 	static int min = 0; 
-    private static Socket socket;
+  
+	private static int port = 8001;
+	private static Socket socket;
 	private static ServerSocket sSocket;
-	private static String ip = "localhost";
-	private static int random = 0;
 	private static Scanner in;
+	private static String ip;
 	private static PrintWriter out;  
 	public static ArrayList<Socket> clientsArray = new ArrayList<Socket>();
 	private ServerThread serverThread;
@@ -185,13 +184,6 @@ public class Server implements Runnable {
 				min = Integer.parseInt(args[++i].trim());
 				break;
 			default:
-				System.out.println("Unknown argument switch detected - valid switches below");
-				System.out.println("--port <port> --ip <ip> --frequency <frequency> --max <max> "
-						+ "--min <min>\n\tOR");
-				System.out.println("-port <port> -ip <ip> -frequency <frequency> -max <max> -min "
-						+ "<min>\n\tOR");
-				System.out.println("-p <port> -ip <ip> -f <frequency> -max <max> -min <min>");
-				System.exit (0);
 			}
 		}
 	}
