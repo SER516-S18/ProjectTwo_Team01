@@ -5,11 +5,18 @@ import javax.swing.border.LineBorder;
 import org.jfree.chart.ChartPanel;
 import ser516.project2.team1.client.sys.Client;
 import ser516.project2.team1.client.sys.NumberStatistics;
-import ser516.project2.team1.server.gui.ConsolePanel;
-import ser516.project2.team1.server.gui.ToggleButton;
 import util.ConsolePanel;
 import util.Constants;
 import util.ToggleButton;
+
+/**
+ * The Client Main Window is the complete User Interface of the client. 
+ * 
+ * @author team 1
+ * @version 1.0
+ * @since 2017-02-23
+ *
+**/
 
 public class ClientMainWindow extends JFrame {
 
