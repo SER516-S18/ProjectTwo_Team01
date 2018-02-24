@@ -19,8 +19,8 @@ import ser516.project2.team1.server.gui.ServerMainWindow;
  * @author  Cephas Armstrong-Mensah
  * @author  Vihar Bhatt
  * @author  Group 1 #001 - #013
- * @since   02-23-2018
  * @version 1.0
+ * @since   2018-02-23
  *
  */
 public class Server implements Runnable {

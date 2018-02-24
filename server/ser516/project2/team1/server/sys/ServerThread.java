@@ -11,8 +11,8 @@ import util.ConsolePanel;
  * @author 	Zelin Bao
  * @author 	Cephas Armstrong-Mensah
  * @author 	Group 1 #001 - #013
- * @since 	02-22-2018
  * @version	1.0
+ * @since 	2018-02-23
  * 
  */
 public class ServerThread implements Runnable {

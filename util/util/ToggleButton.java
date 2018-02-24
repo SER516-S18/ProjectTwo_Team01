@@ -23,6 +23,14 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import ser516.project2.team1.client.gui.ClientMainWindow;
 import ser516.project2.team1.server.gui.ServerMainWindow;
 
+/**
+ * 
+ * @author Team 01
+ * @version 1.0
+ * @since 2018-02-23
+ *
+ */
+
 public class ToggleButton extends JPanel implements ActionListener, MouseListener {
 
   private static final long serialVersionUID = 8996294272697598276L;
