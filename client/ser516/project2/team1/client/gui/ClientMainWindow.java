@@ -30,8 +30,9 @@ public class ClientMainWindow extends JFrame {
 	private JLabel actualAverageLabel;
 	private JLabel actualFrequencyLabel;
 	private JPanel containerPanel;
+	
 	/**
-	 * Launch the application.
+	 * Main method to create client window
 	 */
 	public static void main(String[] args) {		
 		ClientMainWindow window = new ClientMainWindow();
@@ -39,10 +40,9 @@ public class ClientMainWindow extends JFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * Function to set the layout for main client frame
 	 */
 	public ClientMainWindow() {
-		// clientJFrame = new JFrame();
 		contentPane = new JPanel();
 		setTitle("Client");
 		setBounds(100, 100, 1000, 1000);
@@ -50,6 +50,7 @@ public class ClientMainWindow extends JFrame {
 		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		contentPane.setBackground(Constants.LIGHTBLUE);
 
 		ToggleButton btnStartStop = new ToggleButton(this);
 		btnStartStop.setBounds(846, 13, 100, 25);
@@ -59,18 +60,16 @@ public class ClientMainWindow extends JFrame {
 	}
 
 	/**
-	 * adds labels to show channel, highest, lowest and average values
-	 * to center panel
+	 * Function to add the different components to the main frame
 	 */
-
 	private void addGraphPanel()
 	{
-
-		//This is the other container panel. This holds the graph window and the buttons.
+		//This panel holds the graph window and the buttons.
 		containerPanel = new JPanel();
 		containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		containerPanel.setBorder(new LineBorder(Constants.BLACK));
+		containerPanel.setBackground(Constants.LIGHTBLUE);
 		containerPanel.setBounds(12, 72, 958, 645);
 		contentPane.add(containerPanel);
 		containerPanel.setLayout(null);
@@ -87,6 +86,7 @@ public class ClientMainWindow extends JFrame {
 		chartPanel.setBorder(new LineBorder(Constants.BLACK));
 		chartPanel.setLocation(0, 0);
 		chartPanel.setSize(new Dimension(573, 619));
+		chartPanel.setBackground(Constants.LIGHTBLUE);
 
 		graphPanel.add(chartPanel);
 
@@ -103,10 +103,12 @@ public class ClientMainWindow extends JFrame {
 		highestLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		highestPanel.add(highestLbl);
 		highestLbl.setOpaque(true);
+		highestLbl.setBackground(Constants.LIGHTBLUE);
 
 		JPanel highestValuePanel = new JPanel();
 		highestValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		highestValuePanel.setBounds(798, 57, 104, 54);
+		highestValuePanel.setBackground(Constants.PINK);
 		containerPanel.add(highestValuePanel);
 		
 		actualHighLabel = new JLabel("");
@@ -125,12 +127,14 @@ public class ClientMainWindow extends JFrame {
 		lowestLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lowestPanel.add(lowestLbl);
 		lowestLbl.setOpaque(true);
+		lowestLbl.setBackground(Constants.PINK);
 
 		JPanel lowestValuePanel = new JPanel();
 		lowestValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		lowestValuePanel.setBounds(798, 160, 100, 55);
 		containerPanel.add(lowestValuePanel);
 		lowestValuePanel.setLayout(null);
+		lowestValuePanel.setBackground(Constants.LIGHTBLUE);
 		
 		actualLowLabel = new JLabel("");
 		actualLowLabel.setBounds(0, 0, 85, 55);
@@ -141,6 +145,7 @@ public class ClientMainWindow extends JFrame {
 		averagePanel.setBounds(623, 268, 100, 55);
 		containerPanel.add(averagePanel);
 		averagePanel.setLayout(null);
+		averagePanel.setBackground(Constants.PINK);
 
 		JLabel averageLbl = new JLabel("Average:");
 		averageLbl.setBorder(new LineBorder(Constants.BLACK));
@@ -149,12 +154,14 @@ public class ClientMainWindow extends JFrame {
 		averageLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		averagePanel.add(averageLbl);
 		averageLbl.setOpaque(true);
+		averageLbl.setBackground(Constants.LIGHTBLUE);
 
 		JPanel averageValuePanel = new JPanel();
 		averageValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		averageValuePanel.setBounds(798, 268, 100, 55);
 		containerPanel.add(averageValuePanel);
 		averageValuePanel.setLayout(null);
+		averageValuePanel.setBackground(Constants.PINK);
 		
 		actualAverageLabel = new JLabel("");
 		actualAverageLabel.setBounds(0, 0, 100, 55);
@@ -173,6 +180,7 @@ public class ClientMainWindow extends JFrame {
 		numOfChannelsLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		numOfChannelsPanel.add(numOfChannelsLbl);
 		numOfChannelsLbl.setOpaque(true);
+		numOfChannelsLbl.setBackground(Constants.PINK);
 		
 		String[] values = {"1","2","3","4"};
 		comboBox = new JComboBox<String>(values);
@@ -192,12 +200,14 @@ public class ClientMainWindow extends JFrame {
 		frequencyLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		frequencyPanel.add(frequencyLbl);
 		frequencyLbl.setOpaque(true);
+		frequencyLbl.setBackground(Constants.LIGHTBLUE);
 
 		JPanel frequencyValuePanel = new JPanel();
 		frequencyValuePanel.setBorder(new LineBorder(Constants.BLACK));
 		frequencyValuePanel.setBounds(798, 460, 100, 55);
 		containerPanel.add(frequencyValuePanel);
 		frequencyValuePanel.setLayout(null);
+		frequencyValuePanel.setBackground(Constants.PINK);
 		
 		actualFrequencyLabel = new JLabel("");
 		actualFrequencyLabel.setBounds(15, 16, 69, 20);
@@ -206,10 +216,21 @@ public class ClientMainWindow extends JFrame {
 		consolePanel = new ConsolePanel();
 		consolePanel.setBounds(12, 743, 958, 197);
 		contentPane.add(consolePanel);
-		consolePanel.setBorder(new LineBorder(Constants.BLACK));
-		consolePanel.setLayout(null);
+		consolePanel.setBorder(new LineBorder(Constants.BLACK));		
+		consolePanel.setBackground(Constants.GRAY);
+	}
+	
+	/**
+	 * 
+	 * Display the message on the console panel
+	 */
+	public static void appendToConsole(String input) {
+		ConsolePanel.updateText(input);
 	}
 
+	/**
+	*Function to create the Start/Stop button functionality
+	**/
 	public void controlStartStopAction (boolean isStarted) {
 		if (isStarted) {
 			client = new Client(Integer.parseInt((String)(comboBox.getSelectedItem())),this);
@@ -223,13 +244,14 @@ public class ClientMainWindow extends JFrame {
 		}
 	}
 	
+	/* Function to set the frequency from the server */
 	public void setFrequency(int frequency)
 	{
 		this.actualFrequencyLabel.setText(frequency+"");
 		this.containerPanel.repaint();
 	}
 	
-	
+	/* Function to updatye the highest, lowest and average values for the client */
 	public void refreshWindow()
 	{
 		this.actualHighLabel.setText(NumberStatistics.getHighestValue()+"");
