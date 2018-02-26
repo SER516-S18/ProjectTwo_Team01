@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.util.*;
 import javax.swing.SwingUtilities;
 import client.gui.ClientMainWindow;
-import commons.ConsolePanel;
 
 /**
  * Client class used to connect to server, receive numbers on given number of
@@ -23,7 +22,7 @@ import commons.ConsolePanel;
 public class Client implements Runnable {
 	private static Socket socket;
 	private static PrintWriter out;
-	private final String ipAddress = "10.140.202.158";
+	private final String ipAddress = "localhost";
 	private final int port = 8001;
 	private int channels;
 	private int frequency;
@@ -60,10 +59,10 @@ public class Client implements Runnable {
 			InputStreamReader reader = new InputStreamReader(inputStream);
 			BufferedReader bufferReader = new BufferedReader(reader);
 			String message = bufferReader.readLine();
-			System.out.println(message);
+			setConsoleInfo(message);
 			frequency = Integer.parseInt(message.split("frequency=")[1].split(";")[0]);
 			clientWindow.setFrequency(frequency);
-			System.out.println("frequency is " + frequency);
+			setConsoleInfo("frequency is " + frequency);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -96,7 +95,7 @@ public class Client implements Runnable {
 				InputStreamReader reader = new InputStreamReader(inputStream);
 				BufferedReader bufferReader = new BufferedReader(reader);
 				String message = bufferReader.readLine();
-				System.out.println(message);
+				setConsoleInfo(message);
 				int channelId = Integer.parseInt(message.split("channelID_")[1].split("=")[0]);
 				int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
 				Channel channelDetails = new Channel(channelId, channelValue);
@@ -131,11 +130,9 @@ public class Client implements Runnable {
 			receiveFrequency();
 			sendNumberOfChannels();
 			receiveNumbers();
-
 		} catch (IOException exception) {
-			exception.printStackTrace();
+		  setConsoleInfo("Unable to connect to server, ensure server is started first");
 		}
-
 	}
 	
 	public void UpdateClientWindow(Channel channelDetails) {

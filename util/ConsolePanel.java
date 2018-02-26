@@ -1,4 +1,4 @@
-package commons;
+package util;
 
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -12,7 +12,8 @@ import javax.swing.SwingConstants;
  * The ConsolePanel implements a JPanel to create a console. The console will
  * be able to display any message passed to it.
  * 
- * @author bhangal
+ * @author Karansher Bhangal
+ * @author Group 1 #001 - #013
  * @version 1.0
  * @since 2018-02-17
  *

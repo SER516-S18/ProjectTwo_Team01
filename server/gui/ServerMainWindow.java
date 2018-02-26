@@ -8,9 +8,9 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import server.sys.Server;
-import commons.ConsolePanel;
-import commons.ToggleButton;
-import commons.Constants;
+import util.ConsolePanel;
+import util.ToggleButton;
+import util.Constants;
 
 import javax.swing.SwingConstants;
 import java.awt.Rectangle;
@@ -59,8 +59,8 @@ public class ServerMainWindow extends JFrame {
    * 
    */
   public ServerMainWindow() {
-    min = 50;
-    max = 2500;
+    min = 0;
+    max = 1024;
     frequency = 5;
     isStarted = false;
     setBounds(new Rectangle(0, 700, 700, 0));

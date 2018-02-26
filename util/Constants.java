@@ -1,4 +1,4 @@
-package commons;
+package util;
 
 import java.awt.Color;
 
@@ -7,6 +7,7 @@ import java.awt.Color;
  * and the Server.
  * 
  * @author Debarati Bhattacharyya
+ * @author Group 1 #001 - #013
  * @version 1.0
  * @since 2018-02-23
  *
