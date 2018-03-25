@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 import javax.swing.SwingUtilities;
-import ser516.project2.team1.client.gui.ClientMainWindow;
+import client.gui.*;
 import util.ConsolePanel;
 
 /**

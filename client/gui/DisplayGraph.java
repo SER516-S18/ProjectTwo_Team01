@@ -15,7 +15,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 
-import ser516.project2.team1.client.sys.Channel;
+import client.sys.*;
 
 /*This panel represents the graph panel
  * It contains the graph, dataset and other chart related parameters
