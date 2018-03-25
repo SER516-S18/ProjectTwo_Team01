@@ -23,6 +23,7 @@ import client.sys.Channel;
  */
 
 public class DisplayGraph extends JPanel {
+  static final int TIMING = 1000;
   JFreeChart displayGraph;
   int channel;
   TimeSeriesCollection dataset;
@@ -79,7 +80,7 @@ public class DisplayGraph extends JPanel {
       while (true) {
         series.add(new Millisecond(), channelDetails.getChannelValue());
         try {
-          Thread.sleep(1000);
+          Thread.sleep(TIMING);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }

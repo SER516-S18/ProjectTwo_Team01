@@ -295,6 +295,7 @@ public class ClientMainWindow extends JFrame {
   /* Function to set the frequency from the server */
   public void setFrequency(int frequency) {
     this.actualFrequencyLabel.setText(frequency + "");
+
     this.containerPanel.repaint();
   }
 
