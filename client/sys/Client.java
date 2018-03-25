@@ -8,7 +8,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 import javax.swing.SwingUtilities;
-import client.gui.ClientMainWindow;
+import ser516.project2.team1.client.gui.ClientMainWindow;
+import util.ConsolePanel;
 
 /**
  * Client class used to connect to server, receive numbers on given number of
@@ -22,9 +23,9 @@ import client.gui.ClientMainWindow;
 public class Client implements Runnable {
 	private static Socket socket;
 	private static PrintWriter out;
-	private final String ipAddress = "localhost";
+	private final String ipAddress = "127.0.0.1";
 	private final int port = 8001;
-	private int channels;
+	private  int channels;
 	private int frequency;
 	public ClientMainWindow clientWindow;
 	public static ArrayList<ArrayList<String>> numberList = new ArrayList<ArrayList<String>>();
@@ -41,9 +42,15 @@ public class Client implements Runnable {
 		this.clientWindow = clientWindow;
 	}
 
+
 	public int getFrequency() {
 		return frequency;
 	}
+	
+	public int getChannels() {
+		return channels;
+	}
+
 	
 	public void setConsoleInfo(String info) {
 		ClientMainWindow.appendToConsole(info);
@@ -59,10 +66,10 @@ public class Client implements Runnable {
 			InputStreamReader reader = new InputStreamReader(inputStream);
 			BufferedReader bufferReader = new BufferedReader(reader);
 			String message = bufferReader.readLine();
-			setConsoleInfo(message);
+			System.out.println(message);
 			frequency = Integer.parseInt(message.split("frequency=")[1].split(";")[0]);
 			clientWindow.setFrequency(frequency);
-			setConsoleInfo("frequency is " + frequency);
+			System.out.println("frequency is " + frequency);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
@@ -78,6 +85,7 @@ public class Client implements Runnable {
 			out.println(channelsMessage);
 			out.flush();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -95,12 +103,14 @@ public class Client implements Runnable {
 				InputStreamReader reader = new InputStreamReader(inputStream);
 				BufferedReader bufferReader = new BufferedReader(reader);
 				String message = bufferReader.readLine();
-				setConsoleInfo(message);
+				System.out.println(message);
 				int channelId = Integer.parseInt(message.split("channelID_")[1].split("=")[0]);
 				int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
 				Channel channelDetails = new Channel(channelId, channelValue);
 				UpdateClientWindow(channelDetails);
+				
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -130,13 +140,27 @@ public class Client implements Runnable {
 			receiveFrequency();
 			sendNumberOfChannels();
 			receiveNumbers();
+
 		} catch (IOException exception) {
-		  setConsoleInfo("Unable to connect to server, ensure server is started first");
+			exception.printStackTrace();
 		}
+
 	}
+	
+	/**
+	 * 
+	 * @param channelDetails - The channel id and value 
+	 * to update client window.
+	 * 
+	 */
+	/*public void UpdateClientWindow(Channel channelDetails)
+	{
+		clientWindow.displayGraph.updateGraph(channels, channelDetails);
+	}*/
 	
 	public void UpdateClientWindow(Channel channelDetails) {
 		SwingUtilities.invokeLater(new Runnable() {
+			
 
 			@Override
 			public void run() {
