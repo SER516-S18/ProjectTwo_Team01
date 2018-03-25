@@ -15,13 +15,12 @@ import org.jfree.chart.ChartPanel;
 
 import client.sys.Client;
 import client.sys.NumberStatistics;
-
 import util.ConsolePanel;
 import util.Constants;
 import util.ToggleButton;
 
 /**
- * The Client Main Window is the complete User Interface of the client. 
+ * The Client Main Window is the complete User Interface of the client.
  * 
  * @author Shilpa Bhat
  * @author Group 1 #001 - #013
@@ -38,7 +37,7 @@ public class ClientMainWindow extends JFrame {
   private JLabel actualAverageLabel;
   private JLabel actualFrequencyLabel;
   private JPanel containerPanel;
-  
+
   JComboBox<String> numberOfChannelsComboBox;
   static ConsolePanel consolePanel;
 
@@ -47,7 +46,7 @@ public class ClientMainWindow extends JFrame {
   /**
    * Main method to create client window
    */
-  public static void main(String[] args) {		
+  public static void main(String[] args) {
     ClientMainWindow window = new ClientMainWindow();
     window.setVisible(true);
   }
@@ -75,7 +74,7 @@ public class ClientMainWindow extends JFrame {
   /**
    * Function to add the different components to the main frame
    */
-  private void addGraphPanel()  {
+  private void addGraphPanel() {
     containerPanel = new JPanel();
     containerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
     containerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -91,12 +90,12 @@ public class ClientMainWindow extends JFrame {
     containerPanel.add(graphPanel);
     containerPanel.setOpaque(false);
 
-    displayGraph= new DisplayGraph();
-    displayGraph.chartPanel= new ChartPanel(displayGraph.displayGraph);
+    displayGraph = new DisplayGraph();
+    displayGraph.chartPanel = new ChartPanel(displayGraph.displayGraph);
     displayGraph.chartPanel.setLocation(12, 26);
     displayGraph.chartPanel.setSize(new Dimension(478, 567));
     graphPanel.setLayout(null);
-    ChartPanel chartPanel= new ChartPanel(displayGraph.displayGraph);
+    ChartPanel chartPanel = new ChartPanel(displayGraph.displayGraph);
     chartPanel.setBorder(new LineBorder(Constants.BLACK));
     chartPanel.setLocation(0, 0);
     chartPanel.setSize(new Dimension(573, 619));
@@ -220,7 +219,7 @@ public class ClientMainWindow extends JFrame {
     numOfChannelsLbl.setOpaque(true);
     numOfChannelsLbl.setBackground(Constants.PINK);
 
-    String[] values = {"1","2","3","4"};
+    String[] values = { "1", "2", "3", "4" };
     numberOfChannelsComboBox = new JComboBox<String>(values);
     numberOfChannelsComboBox.setAlignmentY(Component.TOP_ALIGNMENT);
     numberOfChannelsComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -266,7 +265,7 @@ public class ClientMainWindow extends JFrame {
     consolePanel.setAlignmentY(Component.TOP_ALIGNMENT);
     consolePanel.setBounds(15, 743, 958, 200);
     contentPane.add(consolePanel);
-    consolePanel.setBorder(new LineBorder(Constants.BLACK));		
+    consolePanel.setBorder(new LineBorder(Constants.BLACK));
     consolePanel.setBackground(Constants.GRAY);
   }
 
@@ -278,29 +277,31 @@ public class ClientMainWindow extends JFrame {
     ConsolePanel.updateText(input);
   }
 
-
-  public void controlStartStopAction (boolean isStarted) {
+  public void controlStartStopAction(boolean isStarted) {
     if (isStarted) {
-      client = new Client(Integer.parseInt((String)(numberOfChannelsComboBox.getSelectedItem())),this);
+      client = new Client(Integer.parseInt((String) (numberOfChannelsComboBox.getSelectedItem())), this);
       clientThread = new Thread(client);
       clientThread.start();
     } else {
-      client.closeConnection();
+      try {
+        client.closeConnection();
+        clientThread.join();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 
   /* Function to set the frequency from the server */
-  public void setFrequency(int frequency)
-  {
-    this.actualFrequencyLabel.setText(frequency+"");
+  public void setFrequency(int frequency) {
+    this.actualFrequencyLabel.setText(frequency + "");
     this.containerPanel.repaint();
   }
 
-  public void refreshWindow()
-  {
-    this.actualHighLabel.setText(NumberStatistics.getHighestValue()+"");
-    this.actualLowLabel.setText(NumberStatistics.getLowestValue()+"");
-    this.actualAverageLabel.setText(NumberStatistics.getAverageValue()+"");
+  public void refreshWindow() {
+    this.actualHighLabel.setText(NumberStatistics.getHighestValue() + "");
+    this.actualLowLabel.setText(NumberStatistics.getLowestValue() + "");
+    this.actualAverageLabel.setText(NumberStatistics.getAverageValue() + "");
     this.containerPanel.repaint();
   }
 }

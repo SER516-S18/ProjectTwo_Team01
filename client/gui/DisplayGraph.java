@@ -25,68 +25,55 @@ import client.sys.Channel;
 public class DisplayGraph extends JPanel {
   JFreeChart displayGraph;
   int channel;
-  TimeSeriesCollection dataset ;
+  TimeSeriesCollection dataset;
   public TimeSeries series;
   ArrayList<TimeSeries> seriesCollection;
 
   ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
-  ChartPanel chartPanel ;
+  ChartPanel chartPanel;
   ArrayList<Integer> time = new ArrayList<Integer>();
   client.sys.Channel channelDetails;
   static DisplayThread c;
 
-
   public DisplayGraph() {
     super();
-    dataset= new TimeSeriesCollection();
-    series = new TimeSeries("Channel1",Millisecond.class);
+    dataset = new TimeSeriesCollection();
+    series = new TimeSeries("Channel1", Millisecond.class);
     dataset.addSeries(series);
-    displayGraph= createChart(dataset);
-
-
+    displayGraph = createChart(dataset);
   }
+
   /*
    * This function creates the chart with necessary parameters.
    */
   private JFreeChart createChart(final XYDataset dataset) {
-    final JFreeChart result = ChartFactory.createTimeSeriesChart(
-        "Display", 
-        "Time", 
-        "Value",
-        dataset, 
-        true, 
-        true, 
-        false
-        );
+    final JFreeChart result = ChartFactory.createTimeSeriesChart("Display", "Time", "Value", dataset,
+        true, true, false);
     final XYPlot plot = result.getXYPlot();
     ValueAxis axis = plot.getDomainAxis();
     axis.setAutoRange(true);
     axis.setFixedAutoRange(60000.0);
     axis = plot.getRangeAxis();
-    axis.setRange(0.0,2500.0); 
+    axis.setRange(0.0, 2500.0);
     return result;
   }
 
-  /*
+  /**
    * This method starts the thread each time a value is received
    */
-
-  public void updateGraph(int channel,Channel channelDetails) {
-
-    this.channel=channel;
-    this.channelDetails=channelDetails;
+  public void updateGraph(int channel, Channel channelDetails) {
+    this.channel = channel;
+    this.channelDetails = channelDetails;
     if (c == null) {
       c = new DisplayThread();
       new Thread(c).start();
     }
-
   }
 
-  /*
+  /**
    * This thread adds each value to the graph dynamically.
    */
   public class DisplayThread implements Runnable {
-
     @Override
     public void run() {
       while (true) {
@@ -97,8 +84,7 @@ public class DisplayGraph extends JPanel {
           e.printStackTrace();
         }
       }
+      // System.out.println("Stopped plotting...");
     }
   }
-
 }
-

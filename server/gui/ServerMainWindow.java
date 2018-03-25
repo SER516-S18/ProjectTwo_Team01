@@ -1,25 +1,24 @@
 package server.gui;
 
-import javax.swing.JFrame;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Rectangle;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import server.sys.Server;
 import util.ConsolePanel;
-import util.ToggleButton;
 import util.Constants;
-
-import javax.swing.SwingConstants;
-import java.awt.Rectangle;
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.border.EtchedBorder;
+import util.ToggleButton;
 
 /**
- * The Server Main Window is the complete User Interface of the server. 
+ * The Server Main Window is the complete User Interface of the server.
  * 
  * @author Chetanya Ahuja
  * @author Debarati Bhattacharyya
@@ -30,11 +29,8 @@ import javax.swing.border.EtchedBorder;
 public class ServerMainWindow extends JFrame {
 
   /**
-   * panel shows all information.
-   * panel shows highest value.
-   * panel shows lowest value.
-   * panel shows frequency.
-   * status of server.
+   * panel shows all information. panel shows highest value. panel shows lowest
+   * value. panel shows frequency. status of server.
    * 
    */
   private static JPanel contentPane;
@@ -47,6 +43,7 @@ public class ServerMainWindow extends JFrame {
   private Server server;
   private JLabel indicatorLabel;
   private ConsolePanel consolePanel;
+  private Thread sThread;
 
   public static void main(String[] args) {
     ServerMainWindow frame = new ServerMainWindow();
@@ -54,7 +51,7 @@ public class ServerMainWindow extends JFrame {
   }
 
   /**
-   * Creates the main window frame. It displays the highest value, lowest value 
+   * Creates the main window frame. It displays the highest value, lowest value
    * frequency and the console.
    * 
    */
@@ -78,7 +75,7 @@ public class ServerMainWindow extends JFrame {
     setContentPane(contentPane);
     contentPane.setLayout(null);
 
-    startStopButton = new ToggleButton (this);
+    startStopButton = new ToggleButton(this);
     startStopButton.setBounds(380, 12, 100, 25);
     contentPane.add(startStopButton);
 
@@ -124,7 +121,7 @@ public class ServerMainWindow extends JFrame {
     frequencyValueTextBox.setText(frequency + "");
     maxMinFrequencyPanel.add(frequencyValueTextBox);
 
-    JLabel lowestValue = new JLabel("<html>Lowest<br>Value:</html>",JLabel.CENTER);
+    JLabel lowestValue = new JLabel("<html>Lowest<br>Value:</html>", JLabel.CENTER);
     lowestValue.setFont(new Font("Dialog", Font.BOLD, 16));
     lowestValue.setBorder(new LineBorder(Constants.BLACK));
     lowestValue.setBackground(Constants.PINK);
@@ -154,7 +151,7 @@ public class ServerMainWindow extends JFrame {
     statusIndicatorPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
     statusIndicatorPanel.setBounds(10, 50, 215, 250);
     statusIndicatorPanel.setBorder(new LineBorder(Constants.BLACK));
-    statusIndicatorPanel.setBackground(Constants. LIGHTBLUE);
+    statusIndicatorPanel.setBackground(Constants.LIGHTBLUE);
     contentPane.add(statusIndicatorPanel);
     statusIndicatorPanel.setLayout(null);
 
@@ -176,20 +173,22 @@ public class ServerMainWindow extends JFrame {
    * Displays the message on the console panel.
    * 
    */
-  public static void appendToConsolePanel (String input) {
-    ConsolePanel.updateText (input);
+  public static void appendToConsolePanel(String input) {
+    ConsolePanel.updateText(input);
   }
-  
-  /** 
+
+  /**
    * Implements the functionality for the start/stop button.
-   * @param status of server, start or close.
+   * 
+   * @param status
+   *          of server, start or close.
    */
-  public void controlStartStopAction (boolean isStarted) {
+  public void controlStartStopAction(boolean isStarted) {
     if (isStarted) {
       highestValueTextBox.setEditable(false);
       lowestValueTextBox.setEditable(false);
       frequencyValueTextBox.setEditable(false);
-      indicatorLabel.setForeground (Constants.GREEN);
+      indicatorLabel.setForeground(Constants.GREEN);
       this.startServer();
     } else {
       highestValueTextBox.setEditable(true);
@@ -198,7 +197,7 @@ public class ServerMainWindow extends JFrame {
       indicatorLabel.setForeground(Constants.RED);
       this.stopServer();
     }
-  }	
+  }
 
   private void startServer() {
     int max = Integer.parseInt(highestValueTextBox.getText());
@@ -206,10 +205,18 @@ public class ServerMainWindow extends JFrame {
     int frequency = Integer.parseInt(frequencyValueTextBox.getText());
 
     server = new Server(max, min, frequency);
-    new Thread(server).start();
+    sThread = new Thread(server);
+    sThread.start();
   }
 
   private void stopServer() {
+    System.out.println("TRYING TO STOP THE DANG THING");
     server.closeConnection();
+    try {
+      sThread.join();
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }
