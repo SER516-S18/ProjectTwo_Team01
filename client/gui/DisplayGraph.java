@@ -15,7 +15,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 
-import client.sys.Channel;
+import ser516.project2.team1.client.sys.Channel;
 
 /*This panel represents the graph panel
  * It contains the graph, dataset and other chart related parameters
@@ -23,25 +23,30 @@ import client.sys.Channel;
  */
 
 public class DisplayGraph extends JPanel {
-  JFreeChart displayGraph;
+  JFreeChart graph;
   int channel;
   TimeSeriesCollection dataset ;
   public TimeSeries series;
-  ArrayList<TimeSeries> seriesCollection;
-
-  ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
+  public TimeSeries graphSeries[];
   ChartPanel chartPanel ;
   ArrayList<Integer> time = new ArrayList<Integer>();
-  client.sys.Channel channelDetails;
-  static DisplayThread c;
+  Channel channelDetails;
+  static DisplayThread c ;
 
 
-  public DisplayGraph() {
+  public DisplayGraph(int channels) {
     super();
+    channel=channels;
+    graphSeries= new TimeSeries[channel];
+    System.out.println("The no of channels is"+channels);
     dataset= new TimeSeriesCollection();
-    series = new TimeSeries("Channel1",Millisecond.class);
-    dataset.addSeries(series);
-    displayGraph= createChart(dataset);
+    for(int i=0;i<channel;i++)
+    {
+    	int channelno=i+1;
+    graphSeries[i] = new TimeSeries("Channel"+channelno,Millisecond.class);
+    dataset.addSeries(graphSeries[i]);
+    }
+    graph= createChart(dataset);
 
 
   }
@@ -86,11 +91,25 @@ public class DisplayGraph extends JPanel {
    * This thread adds each value to the graph dynamically.
    */
   public class DisplayThread implements Runnable {
-
+	  private volatile boolean exit=false;
     @Override
     public void run() {
-      while (true) {
-        series.add(new Millisecond(), channelDetails.getChannelValue());
+      while (!exit) {
+    	  int channelId= channelDetails.getChannelId();
+    	  int value= channelDetails.getChannelValue();
+ 
+				for(int i=0;i<channel;i++)
+				{
+
+					if(i==channelId-1)
+					{
+					
+						graphSeries[i].add(new Millisecond(),value);
+						dataset.getSeries(i).addOrUpdate(new Millisecond(),value);
+					}
+					
+					
+    	        }
         try {
           Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -98,7 +117,10 @@ public class DisplayGraph extends JPanel {
         }
       }
     }
+    public void stop()
+    {
+    	exit=true;
+    }
   }
 
 }
-
