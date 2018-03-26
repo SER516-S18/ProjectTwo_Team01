@@ -196,7 +196,8 @@ public class ServerMainWindow extends JFrame {
       lowestValueTextBox.setEditable(true);
       frequencyValueTextBox.setEditable(true);
       indicatorLabel.setForeground(Constants.RED);
-      this.stopServer();
+      if (server != null)
+        this.stopServer();
     }
   }
 
@@ -211,8 +212,8 @@ public class ServerMainWindow extends JFrame {
   }
 
   private void stopServer() {
-    server.closeServerConnection();
     try {
+      server.closeServerConnection();
       sThread.join();
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block

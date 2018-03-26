@@ -115,16 +115,9 @@ public class Server implements Runnable {
    */
   public void closeServerConnection() {
     try {
-      for (int i = 0; i < clientsArray.size(); i++) {
-        clientsArray.get(i).close();
-        clientsArray.remove(i);
-      }
-
       for (int i = 0; i < serverThreadList.size(); i++) {
-        serverThreadList.get(i).isConnected = false;
-        serverThreadList.remove(i);
+        closeConnectedSocket(serverThreadList.get(i).socket);
       }
-
       isStarted = false;
       sSocket.close();
       setConsoleInfo("Socket is closed...");
@@ -137,13 +130,18 @@ public class Server implements Runnable {
     int index = Server.clientsArray.indexOf(s);
     try {
       if (index > -1) {
-        System.out.println("Closing connection...");
+        out = new PrintWriter(s.getOutputStream());
+        out.println("closing");
+        out.flush();
+
         for (int i = 0; i < serverThreadList.size(); i++) {
           if (serverThreadList.get(i).socket == s) {
+            setConsoleInfo("Closing channel: " + serverThreadList.get(i).channelID.split("_")[1]);
             serverThreadList.get(i).isConnected = false;
             serverThreadList.remove(s);
           }
         }
+        setConsoleInfo("Closing client socket: " + clientsArray.get(index).getInetAddress().getHostAddress());
         clientsArray.get(index).close();
         clientsArray.remove(index);
       }

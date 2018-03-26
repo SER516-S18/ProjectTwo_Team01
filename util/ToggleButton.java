@@ -53,9 +53,9 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
   public void actionPerformed(ActionEvent e) {
     removeComponents(this);
     if (e.getID() == 1001 && startStopLabel.getText() == "Stop") {
-      setTogglePanelControl (false);
+      setTogglePanelControl(false, false);
     } else if (e.getID() == 1001 && startStopLabel.getText() == "Start") {
-      setTogglePanelControl (true);
+      setTogglePanelControl(true, false);
     }
   }
 
@@ -64,10 +64,10 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
     removeComponents(this);
     if (e.getButton() == 1 && startStopLabel.getText() == "Stop") {
       addComponents(this, startStopButton, startStopLabel);
-      setTogglePanelControl (false);
+      setTogglePanelControl(false, false);
     } else if (e.getButton() == 1 && startStopLabel.getText() == "Start") {
       addComponents(this, startStopLabel, startStopButton);
-      setTogglePanelControl (true);
+      setTogglePanelControl(true, false);
     }
   }
 
@@ -82,15 +82,15 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
     panel.add(right);
   }
 
-  private void setStartStopAction (boolean isStarted) {
+  private void setStartStopAction(boolean isStarted) {
     if (callingClass instanceof ServerMainWindow) {
-      ((ServerMainWindow) callingClass).controlStartStopAction (isStarted);
+      ((ServerMainWindow) callingClass).controlStartStopAction(isStarted);
     } else {
-      	((ClientMainWindow) callingClass).controlStartStopAction(isStarted);
+      ((ClientMainWindow) callingClass).controlStartStopAction(isStarted);
     }
   }
-  
-  private void setTogglePanelControl(boolean isStarted) {
+
+  public void setTogglePanelControl(boolean isStarted, boolean externalCall) {
     if (isStarted) {
       addComponents(this, startStopButton, startStopLabel);
       startStopButton.setBackground(Constants.GREEN);
@@ -99,14 +99,16 @@ public class ToggleButton extends JPanel implements ActionListener, MouseListene
       addComponents(this, startStopLabel, startStopButton);
       startStopButton.setBackground(Constants.RED);
       startStopLabel.setText("Start");
-    } 
-    
-    setStartStopAction (isStarted);
+    }
+
+    if (externalCall)
+      return;
+    setStartStopAction(isStarted);
   }
 
   /*
-   * Methods below were left blank since we didn't need to implement these,
-   * but since we implemented the MouseListeners, we had to add them even if empty 
+   * Methods below were left blank since we didn't need to implement these, but
+   * since we implemented the MouseListeners, we had to add them even if empty
    */
   @Override
   public void mousePressed(MouseEvent e) {

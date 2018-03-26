@@ -41,6 +41,7 @@ public class ClientMainWindow extends JFrame {
   private JLabel actualFrequencyLabel;
   private JPanel containerPanel;
   private JPanel graphPanel;
+  private ToggleButton btnStartStop;
 
   public DisplayGraph displayGraph;
 
@@ -65,7 +66,7 @@ public class ClientMainWindow extends JFrame {
     contentPane.setLayout(null);
     contentPane.setBackground(Constants.LIGHTBLUE);
 
-    ToggleButton btnStartStop = new ToggleButton(this);
+    btnStartStop = new ToggleButton(this);
     btnStartStop.setBounds(846, 13, 100, 25);
 
     contentPane.add(btnStartStop);
@@ -277,11 +278,19 @@ public class ClientMainWindow extends JFrame {
       createGraph();
     } else {
       try {
-        client.closeConnection();
-        clientThread.join();
-        displayGraph.dt.join();
+        if (client != null) {
+          client.closeConnection();
+          client = null;
+          clientThread.join();
+          clientThread = null;
+          displayGraph.dt.join();
+        } else {
+          btnStartStop.setTogglePanelControl(false, true);
+        }
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        Client.isConnected = false;
+      } catch (NullPointerException e) {
+        Client.isConnected = false;
       }
     }
   }
@@ -308,7 +317,18 @@ public class ClientMainWindow extends JFrame {
     graphPanel.repaint();
   }
 
-  /* Function to set the frequency from the server */
+  /**
+   * Controlling toggle button with client object
+   * 
+   * @return client
+   */
+  public Client getClient() {
+    return this.client;
+  }
+
+  /**
+   * Function to set the frequency from the server
+   */
   public void setFrequency(int frequency) {
     this.actualFrequencyLabel.setText(frequency + "");
     this.containerPanel.repaint();

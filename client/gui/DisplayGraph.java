@@ -15,7 +15,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
 import client.sys.Channel;
-import client.sys.Client;
+import client.sys.DisplayThread;
 
 /*This panel represents the graph panel
  * It contains the graph, dataset and other chart related parameters
@@ -23,21 +23,21 @@ import client.sys.Client;
  */
 
 public class DisplayGraph extends JPanel {
-  JFreeChart graph;
-  int channel;
-  TimeSeriesCollection dataset;
+  public JFreeChart graph;
+  public int channel;
+  public TimeSeriesCollection dataset;
   public TimeSeries series;
   public TimeSeries graphSeries[];
-  ChartPanel chartPanel;
+  public ChartPanel chartPanel;
   ArrayList<Integer> time = new ArrayList<Integer>();
-  Channel channelDetails;
+  public Channel channelDetails;
   Thread dt;
 
   public DisplayGraph(int channels) {
     super();
     channel = channels;
     graphSeries = new TimeSeries[channel];
-    System.out.println("The no of channels is" + channels);
+    System.out.println("The no of channels is: " + channels);
     dataset = new TimeSeriesCollection();
     for (int i = 0; i < channel; i++) {
       int channelno = i + 1;
@@ -52,8 +52,8 @@ public class DisplayGraph extends JPanel {
    * This function creates the chart with necessary parameters.
    */
   private JFreeChart createChart(final XYDataset dataset) {
-    final JFreeChart result = ChartFactory.createTimeSeriesChart("Display", "Time", "Value", dataset,
-        true, true, false);
+    final JFreeChart result = ChartFactory.createTimeSeriesChart("Display", "Time", "Value", dataset, true, true,
+        false);
     final XYPlot plot = result.getXYPlot();
     ValueAxis axis = plot.getDomainAxis();
     axis.setAutoRange(true);
@@ -68,44 +68,12 @@ public class DisplayGraph extends JPanel {
    */
 
   public void updateGraph(int channel, Channel channelDetails) {
-
     this.channel = channel;
     this.channelDetails = channelDetails;
     if (dt == null) {
-      dt = new Thread(new DisplayThread());
+      dt = new Thread(new DisplayThread(this));
       dt.start();
     }
 
   }
-
-  /*
-   * This thread adds each value to the graph dynamically.
-   */
-  public class DisplayThread implements Runnable {
-    private static final int TIMING = 1000;
-
-    @Override
-    public void run() {
-      while (Client.isConnected) {
-        int channelId = channelDetails.getChannelId();
-        int value = channelDetails.getChannelValue();
-
-        for (int i = 0; i < channel; i++) {
-
-          if (i == channelId - 1) {
-
-            graphSeries[i].add(new Millisecond(), value);
-            dataset.getSeries(i).addOrUpdate(new Millisecond(), value);
-          }
-
-        }
-        try {
-          Thread.sleep(TIMING);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
-    }
-  }
-
 }

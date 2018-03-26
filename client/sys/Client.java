@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -52,9 +53,10 @@ public class Client implements Runnable {
     try {
       socket = new Socket(ipAddress, port);
     } catch (UnknownHostException e) {
-      e.printStackTrace();
+      isConnected = false;
     } catch (IOException e) {
-      e.printStackTrace();
+      isConnected = false;
+      clientWindow.controlStartStopAction(isConnected);
     }
   }
 
@@ -75,17 +77,22 @@ public class Client implements Runnable {
    * frequency.
    */
   private void receiveFrequency() {
+    InputStream inputStream;
+    InputStreamReader reader;
+    BufferedReader bufferReader;
+    String message;
+
     try {
-      InputStream inputStream = socket.getInputStream();
-      InputStreamReader reader = new InputStreamReader(inputStream);
-      BufferedReader bufferReader = new BufferedReader(reader);
-      String message = bufferReader.readLine();
-      System.out.println(message);
+      inputStream = socket.getInputStream();
+      reader = new InputStreamReader(inputStream);
+      bufferReader = new BufferedReader(reader);
+      message = bufferReader.readLine();
+
       frequency = Integer.parseInt(message.split("frequency=")[1].split(";")[0]);
       clientWindow.setFrequency(frequency);
       System.out.println("frequency is " + frequency);
     } catch (Exception exception) {
-      exception.printStackTrace();
+      isConnected = false;
     }
   }
 
@@ -99,10 +106,8 @@ public class Client implements Runnable {
       out.println(channelsMessage);
       out.flush();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      isConnected = false;
     }
-
   }
 
   /**
@@ -112,21 +117,31 @@ public class Client implements Runnable {
   private void receiveNumbers() {
     while (isConnected) {
       InputStream inputStream;
+      InputStreamReader reader;
+      BufferedReader bufferReader;
+      String message;
+      int channelId, channelValue;
       try {
         inputStream = socket.getInputStream();
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        BufferedReader bufferReader = new BufferedReader(reader);
-        String message = bufferReader.readLine();
-        int channelId = Integer.parseInt(message.split("channelID_")[1].split("=")[0]);
-        int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
+        reader = new InputStreamReader(inputStream);
+        bufferReader = new BufferedReader(reader);
+        message = bufferReader.readLine();
+
+        channelId = Integer.parseInt(message.split("channelID_")[1].split("=")[0]);
+        channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
         setConsoleInfo("Channel (" + channelId + ") received value: " + channelValue + "&emsp;&emsp;&lt;"
             + LocalTime.now() + "&gt;");
         Channel channelDetails = new Channel(channelId, channelValue);
         UpdateClientWindow(channelDetails);
       } catch (IOException e) {
         isConnected = false;
+      } catch (NullPointerException e) {
+        setConsoleInfo("Server is no longer connected, check connection...");
+        isConnected = false;
+        clientWindow.controlStartStopAction(isConnected);
+      } catch (Exception e) {
+        isConnected = false;
       }
-
     }
   }
 
@@ -139,13 +154,17 @@ public class Client implements Runnable {
       out = new PrintWriter(socket.getOutputStream());
       out.println("closing");
       out.flush();
+    } catch (NullPointerException e) {
+      isConnected = false;
+    } catch (SocketException e) {
+      Client.isConnected = false;
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
       try {
         socket.close();
       } catch (IOException e) {
-        e.printStackTrace();
+        isConnected = false;
       }
     }
   }
@@ -170,7 +189,6 @@ public class Client implements Runnable {
    *          - The channel id and value to update client window.
    * 
    */
-
   public void UpdateClientWindow(Channel channelDetails) {
     SwingUtilities.invokeLater(new Runnable() {
       @Override
