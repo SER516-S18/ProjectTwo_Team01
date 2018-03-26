@@ -189,6 +189,7 @@ public class ServerMainWindow extends JFrame {
       lowestValueTextBox.setEditable(false);
       frequencyValueTextBox.setEditable(false);
       indicatorLabel.setForeground(Constants.GREEN);
+
       this.startServer();
     } else {
       highestValueTextBox.setEditable(true);
@@ -210,8 +211,7 @@ public class ServerMainWindow extends JFrame {
   }
 
   private void stopServer() {
-    System.out.println("TRYING TO STOP THE DANG THING");
-    server.closeConnection();
+    server.closeServerConnection();
     try {
       sThread.join();
     } catch (InterruptedException e) {

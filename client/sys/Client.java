@@ -25,9 +25,9 @@ import client.gui.ClientMainWindow;
  */
 public class Client implements Runnable {
   private static Socket socket;
-  private static volatile boolean isConnected = false;
+  public static volatile boolean isConnected;
   private static PrintWriter out;
-  private final String ipAddress = "localhost";
+  private final String ipAddress = "127.0.0.1";
   private final int port = 8001;
   private int channels;
   private int frequency;
@@ -43,8 +43,8 @@ public class Client implements Runnable {
    */
   public Client(int numChannels, ClientMainWindow clientWindow) {
     channels = numChannels;
-    this.clientWindow = clientWindow;
     isConnected = true;
+    this.clientWindow = clientWindow;
     connectSocket();
   }
 
@@ -52,16 +52,18 @@ public class Client implements Runnable {
     try {
       socket = new Socket(ipAddress, port);
     } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
 
   public int getFrequency() {
     return frequency;
+  }
+
+  public int getChannels() {
+    return channels;
   }
 
   public void setConsoleInfo(String info) {
@@ -78,10 +80,10 @@ public class Client implements Runnable {
       InputStreamReader reader = new InputStreamReader(inputStream);
       BufferedReader bufferReader = new BufferedReader(reader);
       String message = bufferReader.readLine();
-      setConsoleInfo(message);
+      System.out.println(message);
       frequency = Integer.parseInt(message.split("frequency=")[1].split(";")[0]);
       clientWindow.setFrequency(frequency);
-      setConsoleInfo("frequency is " + frequency);
+      System.out.println("frequency is " + frequency);
     } catch (Exception exception) {
       exception.printStackTrace();
     }
@@ -97,8 +99,10 @@ public class Client implements Runnable {
       out.println(channelsMessage);
       out.flush();
     } catch (IOException e) {
+      // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
   }
 
   /**
@@ -106,24 +110,24 @@ public class Client implements Runnable {
    * channeletails.
    */
   private void receiveNumbers() {
-    InputStreamReader reader;
     while (isConnected) {
+      InputStream inputStream;
       try {
-        reader = new InputStreamReader(socket.getInputStream());
+        inputStream = socket.getInputStream();
+        InputStreamReader reader = new InputStreamReader(inputStream);
         BufferedReader bufferReader = new BufferedReader(reader);
         String message = bufferReader.readLine();
         int channelId = Integer.parseInt(message.split("channelID_")[1].split("=")[0]);
         int channelValue = Integer.parseInt(message.split("channelID_")[1].split("=")[1].split(";")[0]);
-        setConsoleInfo("Channel (" + channelId + ") received value: " + channelValue + "&emsp;&emsp&lt;"
+        setConsoleInfo("Channel (" + channelId + ") received value: " + channelValue + "&emsp;&emsp;&lt;"
             + LocalTime.now() + "&gt;");
         Channel channelDetails = new Channel(channelId, channelValue);
         UpdateClientWindow(channelDetails);
       } catch (IOException e) {
-        System.out.println("Server closed connection...");
         isConnected = false;
       }
+
     }
-    setConsoleInfo("Not receiving numbers from server, connection closed by client...");
   }
 
   /**
@@ -135,7 +139,6 @@ public class Client implements Runnable {
       out = new PrintWriter(socket.getOutputStream());
       out.println("closing");
       out.flush();
-      socket.shutdownInput();
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -160,6 +163,13 @@ public class Client implements Runnable {
     }
     setConsoleInfo("Client closing connection...");
   }
+
+  /**
+   * 
+   * @param channelDetails
+   *          - The channel id and value to update client window.
+   * 
+   */
 
   public void UpdateClientWindow(Channel channelDetails) {
     SwingUtilities.invokeLater(new Runnable() {

@@ -13,17 +13,18 @@ class InputThread implements Runnable {
   public InputThread(ServerThread parent) {
     this.parent = parent;
     this.socket = parent.socket;
-    try {
-      in = new Scanner(this.parent.socket.getInputStream());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 
   @Override
   public void run() {
-    if (in.hasNext()) {
-      Server.closeClients(this.socket);
+    try {
+      in = new Scanner(this.parent.socket.getInputStream());
+      if (in.hasNext()) {
+        System.out.println("Sending to server handler to close this socket");
+        Server.closeConnectedSocket(this.socket);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }

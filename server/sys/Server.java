@@ -23,15 +23,12 @@ import server.gui.ServerMainWindow;
  *
  */
 public class Server implements Runnable {
-
-  /**
-   * Value of port server uses. Value of frequency. Represents up limitation of
-   * random numbers. Represents bottom limitation of random numbers. ip of
-   * localhost. An Arraylist stores clients
-   */
+  private static volatile boolean isStarted;
   static int frequency = 5;
   static int max = 1024;
   static int min = 0;
+  static ArrayList<Socket> clientsArray;
+  static ArrayList<ServerThread> serverThreadList;
 
   private static int port = 8001;
   private static Socket socket;
@@ -39,10 +36,8 @@ public class Server implements Runnable {
   private static Scanner in;
   private static String ip;
   private static PrintWriter out;
+
   private int numberOfChannels;
-  private static volatile boolean isStarted;
-  static ArrayList<Socket> clientsArray;
-  static ArrayList<ServerThread> serverThread;
 
   /**
    * Create a new server with a string input.
@@ -67,11 +62,11 @@ public class Server implements Runnable {
    *          server frequency
    */
   public Server(int max, int min, int frequency) {
-    max = max;
-    min = min;
-    frequency = frequency;
+    Server.max = max;
+    Server.min = min;
+    Server.frequency = frequency;
     isStarted = true;
-    serverThread = new ArrayList<ServerThread>();
+    serverThreadList = new ArrayList<ServerThread>();
     clientsArray = new ArrayList<Socket>();
   }
 
@@ -104,8 +99,8 @@ public class Server implements Runnable {
         setConsoleInfo("Number of channels: " + numberOfChannels);
 
         for (int x = 0; x < numberOfChannels; x++) {
-          serverThread.add(new ServerThread(socket, x + 1));
-          new Thread(serverThread.get(serverThread.size() - 1)).start();
+          serverThreadList.add(new ServerThread(socket, x + 1));
+          new Thread(serverThreadList.get(serverThreadList.size() - 1)).start();
         }
       }
     } catch (SocketException e1) {
@@ -116,45 +111,41 @@ public class Server implements Runnable {
   }
 
   /**
-   * Close the connection between client with
+   * Close the connection between client with server
    */
-  public void closeConnection() {
-    System.out.println("GETTING CLOSER");
+  public void closeServerConnection() {
     try {
       for (int i = 0; i < clientsArray.size(); i++) {
-        System.out.println("Closing connection from: <" + clientsArray.get(i).getInetAddress()
-            + ", on port: " + clientsArray.get(i).getPort() + ">");
         clientsArray.get(i).close();
         clientsArray.remove(i);
       }
 
-      for (int i = 0; i < serverThread.size(); i++) {
-        serverThread.get(i).isConnected = false;
-        serverThread.remove(i);
+      for (int i = 0; i < serverThreadList.size(); i++) {
+        serverThreadList.get(i).isConnected = false;
+        serverThreadList.remove(i);
       }
 
-      sSocket.close();
       isStarted = false;
+      sSocket.close();
       setConsoleInfo("Socket is closed...");
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public static void closeClients(Socket s) {
-    System.out.println("Are you there?");
+  public static void closeConnectedSocket(Socket s) {
     int index = Server.clientsArray.indexOf(s);
     try {
       if (index > -1) {
-        clientsArray.get(index).close();
-        System.out.println(Server.clientsArray.indexOf(s));
-        clientsArray.remove(index);
-        for (int i = 0; i < serverThread.size(); i++) {
-          if (serverThread.get(i).socket == s) {
-            serverThread.get(i).isConnected = false;
-            serverThread.remove(s);
+        System.out.println("Closing connection...");
+        for (int i = 0; i < serverThreadList.size(); i++) {
+          if (serverThreadList.get(i).socket == s) {
+            serverThreadList.get(i).isConnected = false;
+            serverThreadList.remove(s);
           }
         }
+        clientsArray.get(index).close();
+        clientsArray.remove(index);
       }
     } catch (IOException e) {
       // TODO Auto-generated catch block

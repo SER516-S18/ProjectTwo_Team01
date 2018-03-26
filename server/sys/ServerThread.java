@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.time.LocalTime;
 import java.util.Random;
-import java.util.Scanner;
 
 import util.ConsolePanel;
 
@@ -26,7 +25,6 @@ public class ServerThread implements Runnable {
    */
   protected Socket socket;
   private PrintWriter out;
-  private Scanner in;
   protected String channelID;
   private Random randomGenerator;
   private int randomNumber;
@@ -59,7 +57,7 @@ public class ServerThread implements Runnable {
    */
   public void closeConnection() {
     int me = -1;
-    Server.serverThread.remove(Server.serverThread.indexOf(this));
+    Server.serverThreadList.remove(Server.serverThreadList.indexOf(this));
     System.out.println(socket.getLocalAddress().getHostName() + " disconnected");
   }
 
@@ -79,7 +77,6 @@ public class ServerThread implements Runnable {
     try {
       try {
         out = new PrintWriter(socket.getOutputStream());
-        in = new Scanner(socket.getInputStream());
         while (isConnected) {
           try {
             randomNumber = randomGenerator.nextInt(Server.max - Server.min) + Server.min;

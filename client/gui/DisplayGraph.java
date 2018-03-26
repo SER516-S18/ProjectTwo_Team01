@@ -13,9 +13,9 @@ import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
 
 import client.sys.Channel;
+import client.sys.Client;
 
 /*This panel represents the graph panel
  * It contains the graph, dataset and other chart related parameters
@@ -23,25 +23,29 @@ import client.sys.Channel;
  */
 
 public class DisplayGraph extends JPanel {
-  static final int TIMING = 1000;
-  JFreeChart displayGraph;
+  JFreeChart graph;
   int channel;
   TimeSeriesCollection dataset;
   public TimeSeries series;
-  ArrayList<TimeSeries> seriesCollection;
-
-  ArrayList<XYSeries> seriesList = new ArrayList<XYSeries>();
+  public TimeSeries graphSeries[];
   ChartPanel chartPanel;
   ArrayList<Integer> time = new ArrayList<Integer>();
-  client.sys.Channel channelDetails;
-  static DisplayThread c;
+  Channel channelDetails;
+  Thread dt;
 
-  public DisplayGraph() {
+  public DisplayGraph(int channels) {
     super();
+    channel = channels;
+    graphSeries = new TimeSeries[channel];
+    System.out.println("The no of channels is" + channels);
     dataset = new TimeSeriesCollection();
-    series = new TimeSeries("Channel1", Millisecond.class);
-    dataset.addSeries(series);
-    displayGraph = createChart(dataset);
+    for (int i = 0; i < channel; i++) {
+      int channelno = i + 1;
+      graphSeries[i] = new TimeSeries("Channel" + channelno, Millisecond.class);
+      dataset.addSeries(graphSeries[i]);
+    }
+    graph = createChart(dataset);
+
   }
 
   /*
@@ -59,33 +63,49 @@ public class DisplayGraph extends JPanel {
     return result;
   }
 
-  /**
+  /*
    * This method starts the thread each time a value is received
    */
+
   public void updateGraph(int channel, Channel channelDetails) {
+
     this.channel = channel;
     this.channelDetails = channelDetails;
-    if (c == null) {
-      c = new DisplayThread();
-      new Thread(c).start();
+    if (dt == null) {
+      dt = new Thread(new DisplayThread());
+      dt.start();
     }
+
   }
 
-  /**
+  /*
    * This thread adds each value to the graph dynamically.
    */
   public class DisplayThread implements Runnable {
+    private static final int TIMING = 1000;
+
     @Override
     public void run() {
-      while (true) {
-        series.add(new Millisecond(), channelDetails.getChannelValue());
+      while (Client.isConnected) {
+        int channelId = channelDetails.getChannelId();
+        int value = channelDetails.getChannelValue();
+
+        for (int i = 0; i < channel; i++) {
+
+          if (i == channelId - 1) {
+
+            graphSeries[i].add(new Millisecond(), value);
+            dataset.getSeries(i).addOrUpdate(new Millisecond(), value);
+          }
+
+        }
         try {
           Thread.sleep(TIMING);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
       }
-      // System.out.println("Stopped plotting...");
     }
   }
+
 }

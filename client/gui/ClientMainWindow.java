@@ -22,24 +22,25 @@ import util.ToggleButton;
 /**
  * The Client Main Window is the complete User Interface of the client.
  * 
- * @author Shilpa Bhat
- * @author Group 1 #001 - #013
+ * @author team 1
  * @version 1.0
  * @since 2017-02-23
  *
  **/
+
 public class ClientMainWindow extends JFrame {
+
   private static JPanel contentPane;
+  private ConsolePanel consolePanel;
   private Thread clientThread;
   private Client client;
+  JComboBox<String> comboBox;
   private JLabel actualLowLabel;
   private JLabel actualHighLabel;
   private JLabel actualAverageLabel;
   private JLabel actualFrequencyLabel;
   private JPanel containerPanel;
-
-  JComboBox<String> numberOfChannelsComboBox;
-  static ConsolePanel consolePanel;
+  private JPanel graphPanel;
 
   public DisplayGraph displayGraph;
 
@@ -65,7 +66,7 @@ public class ClientMainWindow extends JFrame {
     contentPane.setBackground(Constants.LIGHTBLUE);
 
     ToggleButton btnStartStop = new ToggleButton(this);
-    btnStartStop.setBounds(850, 30, 100, 25);
+    btnStartStop.setBounds(846, 13, 100, 25);
 
     contentPane.add(btnStartStop);
     addGraphPanel();
@@ -84,24 +85,11 @@ public class ClientMainWindow extends JFrame {
     contentPane.add(containerPanel);
     containerPanel.setLayout(null);
 
-    JPanel graphPanel = new JPanel();
+    graphPanel = new JPanel();
     graphPanel.setBorder(new LineBorder(Constants.BLACK));
     graphPanel.setBounds(12, 13, 573, 619);
     containerPanel.add(graphPanel);
     containerPanel.setOpaque(false);
-
-    displayGraph = new DisplayGraph();
-    displayGraph.chartPanel = new ChartPanel(displayGraph.displayGraph);
-    displayGraph.chartPanel.setLocation(12, 26);
-    displayGraph.chartPanel.setSize(new Dimension(478, 567));
-    graphPanel.setLayout(null);
-    ChartPanel chartPanel = new ChartPanel(displayGraph.displayGraph);
-    chartPanel.setBorder(new LineBorder(Constants.BLACK));
-    chartPanel.setLocation(0, 0);
-    chartPanel.setSize(new Dimension(573, 619));
-    chartPanel.setBackground(Constants.LIGHTBLUE);
-
-    graphPanel.add(displayGraph.chartPanel);
 
     JPanel highestPanel = new JPanel();
     highestPanel.setBorder(new LineBorder(Constants.BLACK));
@@ -127,7 +115,7 @@ public class ClientMainWindow extends JFrame {
     containerPanel.add(highestValuePanel);
     highestValuePanel.setLayout(null);
 
-    actualHighLabel = new JLabel("");
+    actualHighLabel = new JLabel("0");
     actualHighLabel.setAlignmentY(Component.TOP_ALIGNMENT);
     actualHighLabel.setHorizontalTextPosition(SwingConstants.CENTER);
     actualHighLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,8 +130,6 @@ public class ClientMainWindow extends JFrame {
     lowestPanel.setLayout(null);
 
     JLabel lowestLbl = new JLabel("<html>Lowest<br>Value:</html>");
-    lowestLbl.setFont(new Font("Dialog", Font.BOLD, 14));
-    lowestLbl.setHorizontalTextPosition(SwingConstants.CENTER);
     lowestLbl.setBorder(new LineBorder(Constants.BLACK));
     lowestLbl.setAlignmentY(Component.TOP_ALIGNMENT);
     lowestLbl.setBounds(0, 0, 100, 55);
@@ -159,7 +145,7 @@ public class ClientMainWindow extends JFrame {
     lowestValuePanel.setLayout(null);
     lowestValuePanel.setBackground(Constants.LIGHTBLUE);
 
-    actualLowLabel = new JLabel("");
+    actualLowLabel = new JLabel("0");
     actualLowLabel.setFont(new Font("Lucida Grande", Font.BOLD, 24));
     actualLowLabel.setHorizontalTextPosition(SwingConstants.CENTER);
     actualLowLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -194,7 +180,7 @@ public class ClientMainWindow extends JFrame {
     averageValuePanel.setLayout(null);
     averageValuePanel.setBackground(Constants.PINK);
 
-    actualAverageLabel = new JLabel("");
+    actualAverageLabel = new JLabel("0");
     actualAverageLabel.setHorizontalTextPosition(SwingConstants.CENTER);
     actualAverageLabel.setHorizontalAlignment(SwingConstants.CENTER);
     actualAverageLabel.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -220,13 +206,13 @@ public class ClientMainWindow extends JFrame {
     numOfChannelsLbl.setBackground(Constants.PINK);
 
     String[] values = { "1", "2", "3", "4" };
-    numberOfChannelsComboBox = new JComboBox<String>(values);
-    numberOfChannelsComboBox.setAlignmentY(Component.TOP_ALIGNMENT);
-    numberOfChannelsComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-    numberOfChannelsComboBox.setFont(new Font("Dialog", Font.BOLD, 24));
-    numberOfChannelsComboBox.setBounds(798, 361, 100, 35);
-    numberOfChannelsComboBox.setBackground(Constants.LIGHTBLUE);
-    containerPanel.add(numberOfChannelsComboBox);
+    comboBox = new JComboBox<String>(values);
+    comboBox.setAlignmentY(Component.TOP_ALIGNMENT);
+    comboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+    comboBox.setFont(new Font("Dialog", Font.BOLD, 24));
+    comboBox.setBounds(798, 361, 100, 35);
+    comboBox.setBackground(Constants.LIGHTBLUE);
+    containerPanel.add(comboBox);
 
     JPanel frequencyPanel = new JPanel();
     frequencyPanel.setBorder(new LineBorder(Constants.BLACK));
@@ -252,7 +238,7 @@ public class ClientMainWindow extends JFrame {
     frequencyValuePanel.setLayout(null);
     frequencyValuePanel.setBackground(Constants.PINK);
 
-    actualFrequencyLabel = new JLabel("");
+    actualFrequencyLabel = new JLabel("0");
     actualFrequencyLabel.setFont(new Font("Dialog", Font.BOLD, 24));
     actualFrequencyLabel.setHorizontalTextPosition(SwingConstants.CENTER);
     actualFrequencyLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -277,28 +263,65 @@ public class ClientMainWindow extends JFrame {
     ConsolePanel.updateText(input);
   }
 
+  /**
+   * Function to create the Start/Stop button functionality
+   **/
   public void controlStartStopAction(boolean isStarted) {
     if (isStarted) {
-      client = new Client(Integer.parseInt((String) (numberOfChannelsComboBox.getSelectedItem())), this);
+      client = new Client(Integer.parseInt((String) (comboBox.getSelectedItem())), this);
       clientThread = new Thread(client);
       clientThread.start();
+
+      resetValues();
+      ConsolePanel.updateText("Client is started");
+      createGraph();
     } else {
       try {
         client.closeConnection();
         clientThread.join();
+        displayGraph.dt.join();
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
     }
   }
 
+  public void createGraph() {
+    graphPanel.removeAll();
+
+    int channels = 0;
+    if (client != null)
+      channels = client.getChannels();
+    displayGraph = new DisplayGraph(channels);
+    displayGraph.chartPanel = new ChartPanel(displayGraph.graph);
+    displayGraph.chartPanel.setLocation(12, 26);
+    displayGraph.chartPanel.setSize(new Dimension(478, 567));
+    graphPanel.setLayout(null);
+
+    ChartPanel chartPanel = new ChartPanel(displayGraph.graph);
+    chartPanel.setBorder(new LineBorder(Constants.BLACK));
+    chartPanel.setLocation(0, 0);
+    chartPanel.setSize(new Dimension(573, 619));
+    chartPanel.setBackground(Constants.LIGHTBLUE);
+
+    graphPanel.add(displayGraph.chartPanel);
+    graphPanel.repaint();
+  }
+
   /* Function to set the frequency from the server */
   public void setFrequency(int frequency) {
     this.actualFrequencyLabel.setText(frequency + "");
-
     this.containerPanel.repaint();
   }
 
+  private void resetValues() {
+    this.actualHighLabel.setText("0");
+    this.actualFrequencyLabel.setText("0");
+    this.actualLowLabel.setText("0");
+    this.actualAverageLabel.setText("0");
+  }
+
+  /* Function to updatye the highest, lowest and average values for the client */
   public void refreshWindow() {
     this.actualHighLabel.setText(NumberStatistics.getHighestValue() + "");
     this.actualLowLabel.setText(NumberStatistics.getLowestValue() + "");
